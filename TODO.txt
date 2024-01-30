@@ -1,0 +1,1 @@
+- Refactor motion object commands to inherit from motion object abstract class;
