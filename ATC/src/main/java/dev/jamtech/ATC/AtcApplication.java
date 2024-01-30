@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AtcApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AtcApplication.class, args);
+		//SpringApplication.run(AtcApplication.class, args);
 	}
         
         @GetMapping("/root")

@@ -4,51 +4,13 @@
  */
 package dev.jamtech.ATC;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
 public abstract class MotionObjectAbstract extends MapObject implements MotionObject {
-
-    public double getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(double speed) {
-        this.speed = speed;
-    }
-
-    public double getAcceleration() {
-        return acceleration;
-    }
-
-    public void setAcceleration(double acceleration) {
-        this.acceleration = acceleration;
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public double getvSpeed() {
-        return vSpeed;
-    }
-
-    public void setvSpeed(double vSpeed) {
-        this.vSpeed = vSpeed;
-    }
-
-    public double getId() {
-        return id;
-    }
-
-    public void setId(double id) {
-        this.id = id;
-    }
     
     public MapObject createObject()
     {
@@ -72,12 +34,54 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
     {
         
     }
+
+    public Double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Double speed) {
+        this.speed = speed;
+    }
+
+    public Double getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(Double acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public Double getHeight() {
+        return height;
+    }
+
+    public void setHeight(Double height) {
+        this.height = height;
+    }
+
+    public Double getvSpeed() {
+        return vSpeed;
+    }
+
+    public void setvSpeed(Double vSpeed) {
+        this.vSpeed = vSpeed;
+    }
+
+    public Double getId() {
+        return id;
+    }
+
+    public void setId(Double id) {
+        this.id = id;
+    }
     
-    private double speed;
-    private double acceleration;
-    private double height;
-    private double vSpeed;
-    private double id;
+    private Double speed;
+    private Double acceleration;
+    private Double height;
+    private Double vSpeed;
+    private Double id;
+
+    
 
     public Angle getAngle() {
         return angle;

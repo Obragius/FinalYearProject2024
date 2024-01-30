@@ -4,19 +4,14 @@
  */
 package dev.jamtech.ATC;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
 public class Angle {
 
-    public double getValue() {
-        return value;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
-    }
     
     public void clockwise(double value)
     {
@@ -27,8 +22,16 @@ public class Angle {
     {
         
     }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
     
-    private double value;
+    private Double value;
     
     
 }
