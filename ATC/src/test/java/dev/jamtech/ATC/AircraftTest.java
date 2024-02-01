@@ -21,6 +21,8 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 public class AircraftTest {
     
+    Queue q1 = Queue.getInstance();
+    
     public boolean WithinErrorThreshold(List<Double> expected, List<Double> actual, double Threshold)
     {
         for (int i = 0; i < expected.size(); i++)
@@ -78,7 +80,6 @@ public class AircraftTest {
         double t1 = 0.99999;
         MotionObjectMove c1 = new MotionObjectMove();
         c1.setMotionObject(a1);
-        Queue q1 = Queue.getInstance();
         q1.register(c1);
         q1.setSpeed(ticks);
         q1.notifyObservers();
@@ -93,7 +94,6 @@ public class AircraftTest {
         double t1 = 0.99999;
         MotionObjectSpeed c1 = new MotionObjectSpeed(value, direction);
         c1.setMotionObject(a1);
-        Queue q1 = Queue.getInstance();
         q1.register(c1);
         q1.notifyObservers();
         assertEquals(expected, a1.getSpeed());
