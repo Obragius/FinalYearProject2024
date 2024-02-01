@@ -81,7 +81,7 @@ public class AircraftTest {
     {
         // Set threshold 
         double t1 = 0.99999;
-        MotionObjectMove c1 = new MotionObjectMove();
+        MotionObjectMove c1 = new MotionObjectMove(0,0);
         c1.setMotionObject(a1);
         q1.register(c1);
         q1.setSpeed(ticks);
@@ -120,6 +120,27 @@ public class AircraftTest {
         q1.register(c1);
         q1.notifyObservers();
         assertEquals(expected, a1.getAcceleration());
+    }
+    
+    @ParameterizedTest(name = "{index} => expected={0}, Aircraft={1}, commandList={2}")
+    @MethodSource("dataProviderAircraftPath")
+    public void TestPathExecution(double expected, Aircraft a1,List<CommandObjectAbstract> commands )
+    {
+        for (CommandObjectAbstract o1 : commands)
+        {
+            o1.setMotionObject(a1);
+            q1.register(o1);
+        }
+        q1.notifyObservers();
+        assertEquals(expected, a1.getAcceleration());
+    }
+    
+    private static Stream<Arguments> dataProviderAircraftPath() {
+        return Stream.of(
+                Arguments.of(120,new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(new MotionObjectTurn(20.0,0)) ),
+                Arguments.of(80,new Aircraft(17.5,67.9,100,new Angle(38.8)) , 20, 1),
+                Arguments.of(200,new Aircraft(17.5,67.9,150,new Angle(38.8)) , 50, 0)
+        );
     }
     
     private static Stream<Arguments> dataProviderSpeedAircraft() {

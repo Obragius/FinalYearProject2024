@@ -8,18 +8,13 @@ package dev.jamtech.ATC;
  *
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
-public class MotionObjectMove implements Command, Observer {
+public class MotionObjectMove extends CommandObjectAbstract {
 
-    public MotionObject getMotionObject() {
-        return motionObject;
-    }
-
-    public void setMotionObject(MotionObject motionObject) {
-        this.motionObject = motionObject;
+    public MotionObjectMove(double value, int direction)
+    {
+        super(value,direction);
     }
     
-    private MotionObject motionObject;
-
     @Override
     public void tick() 
     {
