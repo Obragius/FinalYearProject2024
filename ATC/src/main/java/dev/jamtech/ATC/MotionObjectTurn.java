@@ -15,7 +15,7 @@ public class MotionObjectTurn implements Command, Observer{
     private int direction;
 
     @Override
-    public void tick(int tickNum) {
+    public void tick() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

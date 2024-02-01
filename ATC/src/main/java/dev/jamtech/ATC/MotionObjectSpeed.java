@@ -30,7 +30,7 @@ public class MotionObjectSpeed implements Command, Observer {
     
 
     @Override
-    public void tick(int tickNum) {
+    public void tick() {
         this.motionObject.changeSpeed(value, direction);
     }
 

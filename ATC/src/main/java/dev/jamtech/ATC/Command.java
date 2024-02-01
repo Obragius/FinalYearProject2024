@@ -11,6 +11,6 @@ package dev.jamtech.ATC;
  */
 public interface Command {
     
-    public void tick(int tickNum);
+    public void tick();
     
 }

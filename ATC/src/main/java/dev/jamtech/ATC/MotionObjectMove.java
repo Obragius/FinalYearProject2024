@@ -21,11 +21,9 @@ public class MotionObjectMove implements Command, Observer {
     private MotionObject motionObject;
 
     @Override
-    public void tick(int tickNum) {
-        for(int i = 0; i < tickNum; i++)
-        {
+    public void tick() 
+    {
             this.motionObject.move();
-        }
     }
 
     @Override
