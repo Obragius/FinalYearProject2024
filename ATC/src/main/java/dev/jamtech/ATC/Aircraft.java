@@ -34,6 +34,19 @@ public class Aircraft extends MotionObjectAbstract {
         this.path = path;
     }
     
+    public Aircraft(double xPos, double yPos, double speed, Angle angle)
+    {
+        this.setxPos(xPos);
+        this.setyPos(yPos);
+        this.setSpeed(speed);
+        this.setAngle(angle);
+    }
+    
+    public Aircraft()
+    {
+        
+    }
+    
     private String callsign;
     private FlightPlan plan;
     private AircraftPath path;

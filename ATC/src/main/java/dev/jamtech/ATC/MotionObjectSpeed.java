@@ -9,14 +9,29 @@ package dev.jamtech.ATC;
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
 public class MotionObjectSpeed implements Command, Observer {
+
+    public MotionObject getMotionObject() {
+        return motionObject;
+    }
+
+    public void setMotionObject(MotionObject motionObject) {
+        this.motionObject = motionObject;
+    }
     
     private MotionObject motionObject;
+    
+    public MotionObjectSpeed(double value, int direction)
+    {
+        this.direction = direction;
+        this.value = value;
+    }
     private double value;
     private int direction;
+    
 
     @Override
     public void tick(int tickNum) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.motionObject.changeSpeed(value, direction);
     }
 
     @Override

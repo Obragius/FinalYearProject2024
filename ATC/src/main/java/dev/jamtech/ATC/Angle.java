@@ -31,6 +31,16 @@ public class Angle {
         this.value = value;
     }
     
+    public Angle(double value)
+    {
+        this.setValue(value);
+    }
+    
+    public Angle()
+    {
+        
+    }
+    
     private Double value;
     
     

@@ -5,6 +5,7 @@
 package dev.jamtech.ATC;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  *
@@ -20,7 +21,9 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
     @Override
     public void move()
     {
-        
+        List<Double> newCoord = GeographicalCalculator.coordCalc(this.getxPos(), this.getyPos(), this.getSpeed(), this.getAngle().getValue());
+        this.setxPos(newCoord.get(0));
+        this.setyPos(newCoord.get(1));
     }
     
     @Override
@@ -32,7 +35,11 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
     @Override
     public void changeSpeed(double value, int direction)
     {
-        
+        switch(direction)
+        {
+            case 0 -> this.setSpeed(value+this.getSpeed());
+            case 1 -> this.setSpeed(this.getSpeed()-value);
+        }
     }
 
     public Double getSpeed() {

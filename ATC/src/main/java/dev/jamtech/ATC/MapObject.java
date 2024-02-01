@@ -5,6 +5,8 @@
 package dev.jamtech.ATC;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -26,6 +28,11 @@ public abstract class MapObject {
 
     public void setyPos(Double yPos) {
         this.yPos = yPos;
+    }
+    
+    public List<Double> getPos()
+    {
+       return Arrays.asList(this.getxPos(),this.getyPos()) ;
     }
 
 
