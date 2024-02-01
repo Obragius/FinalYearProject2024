@@ -19,6 +19,8 @@ public class Puzzle {
     private PuzzleState puzzleHintAvailable;
     private PuzzleState puzzleFailed;
     private PuzzleState puzzleFinished;
+    private Hint hint;
+    private Goals goal;
     
     public void setPuzzleState(PuzzleState state)
     {

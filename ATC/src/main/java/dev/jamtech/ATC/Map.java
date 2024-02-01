@@ -20,6 +20,16 @@ public class Map {
         this.allObjects = allObjects;
     }
     
+    public void addObjects(MapObject object)
+    {
+        this.allObjects.add(object);
+    }
+    
+    public void removeObject(MapObject object)
+    {
+        this.allObjects.remove(object);
+    }
+    
     private List<MapObject> allObjects;
     
 }

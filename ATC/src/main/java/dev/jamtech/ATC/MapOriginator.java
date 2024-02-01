@@ -8,7 +8,7 @@ package dev.jamtech.ATC;
  *
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
-public class MapOriginator {
+public class MapOriginator implements Observer {
 
     public Map getMap() {
         return map;
@@ -19,26 +19,21 @@ public class MapOriginator {
     }
     
     private Map map;
-    private MapOriginator instance;
+    private static MapOriginator instance;
     
     public MapMemento storeInMapMemento()
     {
-        return null;
+        return new MapMemento(this.getMap());
     }
     
     public void restoreFromMapMemento(MapMemento memento)
     {
-        
+        this.setMap(memento.getMap());
     }
     
     public void addToMap(MapObject mapObject)
     {
-        
-    }
-    
-    public MapOriginator getInstance()
-    {
-        return null;
+        this.map.addObjects(mapObject);
     }
     
     private MapOriginator()
@@ -48,9 +43,21 @@ public class MapOriginator {
     
     public void removeFromMap(MapObject mapObject)
     {
-        
+        this.map.removeObject(mapObject);
     }
     
-    
+    public static MapOriginator getInstance()
+    {
+        if (MapOriginator.instance == null)
+        {
+            MapOriginator.instance = new MapOriginator();
+        }
+        return MapOriginator.instance;
+    }
+
+    @Override
+    public void update(double time) {
+        this.storeInMapMemento();
+    }
     
 }

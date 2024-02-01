@@ -6,20 +6,19 @@ package dev.jamtech.ATC;
 
 /**
  *
- * @author Daniels Zazerskis k1801606 <dev.jamtech>
+ * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
-public class MapMemento {
+public class Goals {
 
-    public Map getMap() {
-        return map;
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
     
-    private Map map;
-    
-    public MapMemento(Map map)
-    {
-        this.map = map;
-    }
+    private String text;
     
     
     

@@ -4,6 +4,7 @@
  */
 package dev.jamtech.ATC;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,15 +14,27 @@ import java.util.List;
 public class MapCareTaker {
     
     private List<MapMemento> mapsList;
+    // Sets the number of maps saved in the object
+    private int storage;
+    
+    public MapCareTaker(int storage)
+    {
+        this.mapsList = new ArrayList();
+        this.storage = storage;
+    }
     
     public void addMapMemento(MapMemento memento)
     {
-        
+        if (this.mapsList.size() >= this.storage)
+        {
+            this.mapsList.remove(0);
+        }
+        this.mapsList.add(memento);
     }
     
     public MapMemento getMemento(int index)
     {
-        return null;
+        return this.mapsList.get(index);
     }
     
 }
