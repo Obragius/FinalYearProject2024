@@ -1,1 +1,3 @@
 - Refactor motion object commands to inherit from motion object abstract class;
+- Resolve issue where if direction or speed is changed multiple ticks per cycle,
+the distance will be incorrect.

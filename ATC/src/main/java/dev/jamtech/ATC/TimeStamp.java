@@ -14,7 +14,7 @@ public class TimeStamp {
     
     public double getCurrentTime()
     {
-        return 0;
+        return 0.0;
     }
     
 }

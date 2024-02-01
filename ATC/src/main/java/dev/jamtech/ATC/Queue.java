@@ -4,6 +4,7 @@
  */
 package dev.jamtech.ATC;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,32 +14,53 @@ import java.util.List;
 public class Queue {
     
     private List<Observer> observerList;
-    private Queue instance;
+    private static Queue instance;
     private TimeStamp time;
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+    private int speed;
     
     public void register(Observer observer)
     {
-        
+        this.observerList.add(observer);
     }
     
     public void unregister(Observer observer)
     {
-        
+        this.observerList.remove(observer);
     }
     
     public void notifyObservers()
     {
-        
+        for (int i = 0; i < this.speed; i++)
+        {
+            for (Observer observer : this.observerList)
+            {
+                observer.update(this.time.getCurrentTime());
+            }
+        }
     }
     
     private Queue()
     {
-        
+        this.observerList = new ArrayList();
+        this.speed = 1;
+        this.time = new TimeStamp();
     }
     
-    public Queue getInstance()
+    public static Queue getInstance()
     {
-        return null;
+        if (Queue.instance == null)
+        {
+            Queue.instance = new Queue();
+        }
+        return Queue.instance;
     }
     
     

@@ -78,7 +78,10 @@ public class AircraftTest {
         double t1 = 0.99999;
         MotionObjectMove c1 = new MotionObjectMove();
         c1.setMotionObject(a1);
-        c1.tick(ticks);
+        Queue q1 = Queue.getInstance();
+        q1.register(c1);
+        q1.setSpeed(ticks);
+        q1.notifyObservers();
         assertEquals(true,this.WithinErrorThreshold(expected, a1.getPos(), t1));
     }
     
@@ -90,7 +93,9 @@ public class AircraftTest {
         double t1 = 0.99999;
         MotionObjectSpeed c1 = new MotionObjectSpeed(value, direction);
         c1.setMotionObject(a1);
-        c1.tick(1);
+        Queue q1 = Queue.getInstance();
+        q1.register(c1);
+        q1.notifyObservers();
         assertEquals(expected, a1.getSpeed());
     }
     
