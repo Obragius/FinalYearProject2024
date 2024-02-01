@@ -23,11 +23,11 @@ public class Angle {
         this.value = (this.getValue() - value) % 360;
     }
 
-    public Double getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(Double value) {
+    public void setValue(double value) {
         this.value = value;
     }
     
@@ -41,7 +41,7 @@ public class Angle {
         
     }
     
-    private Double value;
+    private double value;
     
     
 }

@@ -4,6 +4,8 @@
  */
 package dev.jamtech.ATC;
 
+import java.util.HashSet;
+
 /**
  *
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
@@ -40,6 +42,16 @@ public class Aircraft extends MotionObjectAbstract {
         this.setyPos(yPos);
         this.setSpeed(speed);
         this.setAngle(angle);
+    }
+    
+    public Aircraft(double xPos, double yPos, double speed, Angle angle,double acceleration)
+    {
+        this.setxPos(xPos);
+        this.setyPos(yPos);
+        this.setSpeed(speed);
+        this.setAngle(angle);
+        this.setAcceleration(acceleration);
+        
     }
     
     public Aircraft()

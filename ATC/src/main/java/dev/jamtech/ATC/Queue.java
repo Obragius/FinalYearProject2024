@@ -47,6 +47,11 @@ public class Queue {
         }
     }
     
+    public void reset()
+    {
+        this.observerList = new ArrayList();
+    }
+    
     private Queue()
     {
         this.observerList = new ArrayList();

@@ -53,6 +53,9 @@ public class AircraftTest {
     @BeforeEach
     public void setUp() {
         
+        q1.setSpeed(1);
+        q1.reset();
+        
     }
     
     @ParameterizedTest(name = "{index} => expected={0}, given={1}")
@@ -90,8 +93,6 @@ public class AircraftTest {
     @MethodSource("dataProviderSpeedAircraft")
     public void TestSpeedCommand(double expected, Aircraft a1, double value, int direction )
     {
-        // Set threshold 
-        double t1 = 0.99999;
         MotionObjectSpeed c1 = new MotionObjectSpeed(value, direction);
         c1.setMotionObject(a1);
         q1.register(c1);
@@ -99,11 +100,49 @@ public class AircraftTest {
         assertEquals(expected, a1.getSpeed());
     }
     
+    @ParameterizedTest(name = "{index} => expected={0}, Aircraft={1}, value={2}, direction={3}")
+    @MethodSource("dataProviderAngleAircraft")
+    public void TestAngleCommand(double expected, Aircraft a1, double value, int direction )
+    {
+        MotionObjectTurn c1 = new MotionObjectTurn(value, direction);
+        c1.setMotionObject(a1);
+        q1.register(c1);
+        q1.notifyObservers();
+        assertEquals(expected, a1.getAngle().getValue());
+    }
+    
+    @ParameterizedTest(name = "{index} => expected={0}, Aircraft={1}, value={2}, direction={3}")
+    @MethodSource("dataProviderAccelerationAircraft")
+    public void TestAccelerationCommand(double expected, Aircraft a1, double value, int direction )
+    {
+        MotionObjectAcceleration c1 = new MotionObjectAcceleration(value, direction);
+        c1.setMotionObject(a1);
+        q1.register(c1);
+        q1.notifyObservers();
+        assertEquals(expected, a1.getAcceleration());
+    }
+    
     private static Stream<Arguments> dataProviderSpeedAircraft() {
         return Stream.of(
                 Arguments.of(120,new Aircraft(17.5,67.9,100,new Angle(38.8)) , 20, 0 ),
                 Arguments.of(80,new Aircraft(17.5,67.9,100,new Angle(38.8)) , 20, 1),
                 Arguments.of(200,new Aircraft(17.5,67.9,150,new Angle(38.8)) , 50, 0)
+        );
+    }
+    
+    private static Stream<Arguments> dataProviderAngleAircraft() {
+        return Stream.of(
+                Arguments.of(34.3,new Aircraft(17.5,67.9,100,new Angle(23.8)) , 10.5, 0 ),
+                Arguments.of(145.6,new Aircraft(17.5,67.9,100,new Angle(313.2)) , 167.6, 1),
+                Arguments.of(119.9,new Aircraft(17.5,67.9,150,new Angle(359.2)) , 120.7, 0)
+        );
+    }
+    
+    private static Stream<Arguments> dataProviderAccelerationAircraft() {
+        return Stream.of(
+                Arguments.of(14.5,new Aircraft(17.5,67.9,100,new Angle(23.8),14.2) , 0.3, 0 ),
+                Arguments.of(7.3,new Aircraft(17.5,67.9,100,new Angle(313.2),10.0) , 2.7, 1),
+                Arguments.of(11.9,new Aircraft(17.5,67.9,150,new Angle(359.2),6.9) , 5, 0)
         );
     }
     

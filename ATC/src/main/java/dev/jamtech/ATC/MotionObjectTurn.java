@@ -21,6 +21,12 @@ public class MotionObjectTurn implements Command, Observer{
     private MotionObject motionObject;
     private double value;
     private int direction;
+    
+    public MotionObjectTurn(double value, int direction)
+    {
+        this.direction = direction;
+        this.value = value;
+    }
 
     @Override
     public void tick() {
