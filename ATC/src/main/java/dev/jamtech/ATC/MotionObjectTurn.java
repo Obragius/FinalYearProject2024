@@ -9,6 +9,14 @@ package dev.jamtech.ATC;
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
 public class MotionObjectTurn implements Command, Observer{
+
+    public MotionObject getMotionObject() {
+        return motionObject;
+    }
+
+    public void setMotionObject(MotionObject motionObject) {
+        this.motionObject = motionObject;
+    }
     
     private MotionObject motionObject;
     private double value;
@@ -16,12 +24,12 @@ public class MotionObjectTurn implements Command, Observer{
 
     @Override
     public void tick() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.motionObject.changeDirection(value, direction);
     }
 
     @Override
     public void update(double time) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.tick();
     }
     
     

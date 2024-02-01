@@ -13,5 +13,6 @@ public interface MotionObject {
     public void move();
     public void changeDirection(double value,int direction);
     public void changeSpeed(double value, int direction);
+    public void changeAcceleration(double value, int direction);
     
 }

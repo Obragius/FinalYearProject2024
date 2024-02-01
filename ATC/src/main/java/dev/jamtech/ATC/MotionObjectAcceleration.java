@@ -16,12 +16,12 @@ public class MotionObjectAcceleration implements Command, Observer {
 
     @Override
     public void tick() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.motionObject.changeAcceleration(value, direction);
     }
 
     @Override
     public void update(double time) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        tick();
     }
     
 }

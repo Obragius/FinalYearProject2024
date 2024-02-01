@@ -29,7 +29,11 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
     @Override
     public void changeDirection(double value, int direction)
     {
-        
+        switch(direction)
+        {
+            case 0 -> this.angle.clockwise(value);
+            case 1 -> this.angle.antiClockwise(value);
+        }
     }
     
     @Override
@@ -39,6 +43,16 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
         {
             case 0 -> this.setSpeed(value+this.getSpeed());
             case 1 -> this.setSpeed(this.getSpeed()-value);
+        }
+    }
+    
+    @Override
+    public void changeAcceleration(double value, int direction)
+    {
+        switch(direction)
+        {
+            case 0 -> this.setAcceleration(value+this.getAcceleration());
+            case 1 -> this.setAcceleration(this.getAcceleration()-value);
         }
     }
 
