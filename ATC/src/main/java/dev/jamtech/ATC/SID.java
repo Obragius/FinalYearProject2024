@@ -9,5 +9,11 @@ package dev.jamtech.ATC;
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
 public class SID extends StationObjectAbstract {
+
+    public SID() {
+        
+    }
+    
+    
     
 }

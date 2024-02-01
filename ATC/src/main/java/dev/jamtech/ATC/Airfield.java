@@ -11,5 +11,13 @@ package dev.jamtech.ATC;
 public class Airfield extends StationObjectAbstract {
     
     private ILS ils;
+    private Runway runway;
+    
+    public Airfield()
+    {
+        this.ils = new ILS();
+        this.runway = new Runway();
+    }
+            
     
 }

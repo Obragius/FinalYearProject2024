@@ -12,7 +12,13 @@ public class MotionObjectSpawn implements Observer {
     
     public void addToMap(String type)
     {
-        
+        switch(type)
+        {
+            case "aircraft" -> MapOriginator.getInstance().addToMap(new Aircraft());
+            case "SID" -> MapOriginator.getInstance().addToMap(new SID());
+            case "STAR" -> MapOriginator.getInstance().addToMap(new STAR());
+            case "Airfield" -> MapOriginator.getInstance().addToMap(new Airfield());
+        }
     }
 
     @Override
