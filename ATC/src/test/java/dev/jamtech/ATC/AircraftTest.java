@@ -124,7 +124,7 @@ public class AircraftTest {
     
     @ParameterizedTest(name = "{index} => expected={0}, Aircraft={1}, commandList={2}")
     @MethodSource("dataProviderAircraftPath")
-    public void TestPathExecution(double expected, Aircraft a1,List<CommandObjectAbstract> commands )
+    public void TestPathExecution(List<Double> expected, Aircraft a1,List<CommandObjectAbstract> commands )
     {
         for (CommandObjectAbstract o1 : commands)
         {
@@ -132,14 +132,14 @@ public class AircraftTest {
             q1.register(o1);
         }
         q1.notifyObservers();
-        assertEquals(expected, a1.getAcceleration());
+        assertEquals(true, this.WithinErrorThreshold(expected, a1.getPos(), 0.99999));
     }
     
     private static Stream<Arguments> dataProviderAircraftPath() {
         return Stream.of(
-                Arguments.of(120,new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(new MotionObjectTurn(20.0,0)) ),
-                Arguments.of(80,new Aircraft(17.5,67.9,100,new Angle(38.8)) , 20, 1),
-                Arguments.of(200,new Aircraft(17.5,67.9,150,new Angle(38.8)) , 50, 0)
+                Arguments.of(Arrays.asList(17.50700669,67.90590722),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0))),
+                Arguments.of(Arrays.asList(17.50070068,67.9005907),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(new MotionObjectMove(20.0,0))),
+                Arguments.of(Arrays.asList(17.50070068,67.9005907),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(new MotionObjectMove(20.0,0)))
         );
     }
     

@@ -4,6 +4,9 @@
  */
 package dev.jamtech.ATC;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
@@ -21,6 +24,22 @@ public abstract class CommandObjectAbstract implements Observer, Command {
     protected MotionObject motionObject;
     protected double value;
     protected int direction;
+    
+    public static List<CommandObjectAbstract> commandFactory(String type, int numberOfObjects, double value, int direction)
+    {
+        List result = new ArrayList();
+        for (int i = 0; i < numberOfObjects; i++)
+        {
+            switch (type)
+            {
+                case "Move" -> result.add(new MotionObjectMove(value,direction));
+                case "Turn" -> result.add(new MotionObjectTurn(value,direction));
+                case "Speed" -> result.add(new MotionObjectSpeed(value,direction));
+                case "Acceleration" -> result.add(new MotionObjectAcceleration(value,direction));
+            }
+        }
+        return result;
+    }
     
     public CommandObjectAbstract(double value, int direction)
     {
