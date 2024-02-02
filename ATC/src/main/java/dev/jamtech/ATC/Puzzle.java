@@ -24,7 +24,7 @@ public class Puzzle {
     
     public void setPuzzleState(PuzzleState state)
     {
-        
+        this.puzzleState = state;
     }
     
     public void loadPuzzle(int id)

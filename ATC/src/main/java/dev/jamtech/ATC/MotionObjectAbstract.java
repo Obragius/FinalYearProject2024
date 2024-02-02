@@ -37,6 +37,27 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
     }
     
     @Override
+    public void changeHeight(double value, int direction)
+    {
+        switch(direction)
+        {
+            case 0 -> this.setHeight(value+this.getHeight());
+            case 1 -> this.setHeight(this.getHeight()-value);
+        }
+    }
+    
+    @Override
+    public void changeVSpeed(double value, int direction)
+    {
+        switch(direction)
+        {
+            case 0 -> this.setvSpeed(value+this.getvSpeed());
+            case 1 -> this.setvSpeed(this.getvSpeed()-value);
+        }
+    }
+    
+    
+    @Override
     public void changeSpeed(double value, int direction)
     {
         switch(direction)

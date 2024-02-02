@@ -31,7 +31,6 @@ public class AircraftTest {
             {
                 if(expected.get(i)/actual.get(i) < Threshold)
                 {
-                    System.out.println(expected.get(i)/actual.get(i));
                     return false;
                 }
             }
@@ -39,7 +38,6 @@ public class AircraftTest {
             {
                 if(actual.get(i)/expected.get(i) < Threshold)
                 {
-                    System.out.println(actual.get(i)/expected.get(i));
                     return false;
                 }
             }
@@ -124,22 +122,26 @@ public class AircraftTest {
     
     @ParameterizedTest(name = "{index} => expected={0}, Aircraft={1}, commandList={2}")
     @MethodSource("dataProviderAircraftPath")
-    public void TestPathExecution(List<Double> expected, Aircraft a1,List<CommandObjectAbstract> commands )
+    public void TestPathExecution(List<Double> expected, Aircraft a1,List<List<CommandObjectAbstract>> commands )
     {
-        for (CommandObjectAbstract o1 : commands)
+        for (List<CommandObjectAbstract> l1 : commands)
+        {
+        for (CommandObjectAbstract o1 : l1)
         {
             o1.setMotionObject(a1);
             q1.register(o1);
         }
+        }
         q1.notifyObservers();
+        System.out.println(a1.getPos());
         assertEquals(true, this.WithinErrorThreshold(expected, a1.getPos(), 0.99999));
     }
     
     private static Stream<Arguments> dataProviderAircraftPath() {
         return Stream.of(
-                Arguments.of(Arrays.asList(17.50700669,67.90590722),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0),new MotionObjectMove(20.0,0))),
-                Arguments.of(Arrays.asList(17.50070068,67.9005907),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(new MotionObjectMove(20.0,0))),
-                Arguments.of(Arrays.asList(17.50070068,67.9005907),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(new MotionObjectMove(20.0,0)))
+                Arguments.of(Arrays.asList(17.50700669,67.90590722),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(CommandObjectAbstract.commandFactory("Move", 5, 0, 0),CommandObjectAbstract.commandFactory("Move", 5, 0, 0))),
+                Arguments.of(Arrays.asList(17.5292644,67.86181789),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(CommandObjectAbstract.commandFactory("Move", 30, 0, 0),CommandObjectAbstract.commandFactory("Turn", 2, 60, 1),CommandObjectAbstract.commandFactory("Move", 60, 0, 0))),
+                Arguments.of(Arrays.asList(17.56305707,67.95317726),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(CommandObjectAbstract.commandFactory("Move", 30, 0, 0),CommandObjectAbstract.commandFactory("Speed", 10, 10, 0),CommandObjectAbstract.commandFactory("Move", 30, 0, 0)))
         );
     }
     

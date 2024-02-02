@@ -27,7 +27,7 @@ public abstract class CommandObjectAbstract implements Observer, Command {
     
     public static List<CommandObjectAbstract> commandFactory(String type, int numberOfObjects, double value, int direction)
     {
-        List result = new ArrayList();
+        List<CommandObjectAbstract> result = new ArrayList();
         for (int i = 0; i < numberOfObjects; i++)
         {
             switch (type)

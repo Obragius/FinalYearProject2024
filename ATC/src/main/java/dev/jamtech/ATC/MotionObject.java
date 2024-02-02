@@ -14,5 +14,6 @@ public interface MotionObject {
     public void changeDirection(double value,int direction);
     public void changeSpeed(double value, int direction);
     public void changeAcceleration(double value, int direction);
-    
+    public void changeHeight(double value, int direction);
+    public void changeVSpeed(double value, int direction);
 }
