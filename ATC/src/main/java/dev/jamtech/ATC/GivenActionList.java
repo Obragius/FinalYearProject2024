@@ -14,6 +14,22 @@ public class GivenActionList extends ActionList {
     
     public List<Observer> generateActionFromMessage(Message message)
     {
+        Aircraft target;
+        if (message.getOriginator().equals("ATC"))
+        {
+            Map map = MapOriginator.getInstance().getMap();
+            for (MapObject o1 : map.getAllObjects())
+            {
+                if (o1.getClass().equals("Aircraft"))
+                {
+                    Aircraft a1 = (Aircraft)o1;
+                    if (a1.getCallsign().equals(message.getReciever()))
+                    {
+                        target = a1;
+                    }
+                }
+            }
+        }
         return null;
     }
     

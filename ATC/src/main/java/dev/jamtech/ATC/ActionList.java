@@ -17,7 +17,7 @@ public abstract class ActionList {
     
     public List<Observer> loadChanges(double time)
     {
-        return null;
+        return change.get(time);
     }
     
 }
