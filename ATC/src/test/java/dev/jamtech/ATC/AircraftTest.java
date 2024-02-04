@@ -133,8 +133,22 @@ public class AircraftTest {
         }
         }
         q1.notifyObservers();
-        System.out.println(a1.getPos());
         assertEquals(true, this.WithinErrorThreshold(expected, a1.getPos(), 0.99999));
+    }
+    
+    @ParameterizedTest(name = "{index} => expected={0}, given={1}")
+    @MethodSource("dataProviderBearingAircraft")
+    public void TestBearingCalc(Double expected, List<List<Double>> given)
+    {
+        double bearing = Math.round(GeographicalCalculator.bearingCalc(given.get(0), given.get(1)) * 100.0) /100.0;
+        assertEquals(expected,bearing);
+    }
+    
+    private static Stream<Arguments> dataProviderBearingAircraft() {
+        return Stream.of(
+                Arguments.of(96.51,Arrays.asList(Arrays.asList(39.099912,-94.581213),Arrays.asList(38.627089,-90.200203))),
+                Arguments.of(240.0,Arrays.asList(Arrays.asList(45.89,-64.864),Arrays.asList(45.43474621,-65.97078946)))
+        );
     }
     
     private static Stream<Arguments> dataProviderAircraftPath() {

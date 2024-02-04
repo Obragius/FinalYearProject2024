@@ -36,11 +36,25 @@ public class GeographicalCalculator {
         y1 = Math.toRadians(y1);
         Double x2 = Math.asin(Math.sin(x1)*Math.cos(distance) + Math.cos(x1) * Math.sin(distance) * Math.cos(angle));
         Double y2 = y1 + Math.atan2(Math.sin(angle)*Math.sin(distance)*Math.cos(x1), Math.cos(distance) - Math.sin(x1) * Math.sin(x2));
-        x2 = x2*180/Math.PI;
-        y2 = y2*180/Math.PI;
+        x2 = Math.toDegrees(x2);
+        y2 = Math.toDegrees(y2);
         x2 = Math.round(x2 * 100000000.0) /100000000.0;
         y2 = Math.round(y2 * 100000000.0) /100000000.0;
         return Arrays.asList(x2,y2);
+    }
+    
+    public static double bearingCalc(List<Double> origin, List<Double> destination)
+    {
+        // There was an issue here, where math.sin only accpts radians
+        double X = Math.cos(Math.toRadians(destination.get(0)))*Math.sin(Math.toRadians(Math.abs(origin.get(1)-destination.get(1))));
+        double Y = Math.cos(Math.toRadians(origin.get(0))) * Math.sin(Math.toRadians(destination.get(0))) - Math.sin(Math.toRadians(origin.get(0))) * Math.cos(Math.toRadians(destination.get(0))) * Math.cos(Math.toRadians(Math.abs(origin.get(1)-destination.get(1))));
+        
+        //Resolving issue where horizontal bearing is incorrect
+        if (origin.get(1)>destination.get(1))
+        {
+            return 360 - Math.toDegrees(Math.atan2(X, Y));
+        }
+        return Math.toDegrees(Math.atan2(X, Y));
     }
     
 }
