@@ -195,9 +195,9 @@ public class AircraftTest {
     
     private static Stream<Arguments> dataProviderUnregisterAircraft() {
         return Stream.of(
-                Arguments.of(34.3,new Aircraft(17.5,67.9,100,new Angle(23.8)) , 10.5, 0 ),
-                Arguments.of(145.6,new Aircraft(17.5,67.9,100,new Angle(313.2)) , 167.6, 1),
-                Arguments.of(119.9,new Aircraft(17.5,67.9,150,new Angle(359.2)) , 120.7, 0)
+                Arguments.of(34.3,new Aircraft(17.5,67.9,100,new Angle(23.8)) , 34.3, 0 ),
+                Arguments.of(145.6,new Aircraft(17.5,67.9,100,new Angle(313.2)) , 145.6, 1),
+                Arguments.of(119.9,new Aircraft(17.5,67.9,150,new Angle(359.2)) , 119.9, 0)
         );
     }
     
