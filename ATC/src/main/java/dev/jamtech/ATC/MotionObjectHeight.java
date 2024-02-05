@@ -8,6 +8,22 @@ package dev.jamtech.ATC;
  *
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
-public class MotionObjectHeight {
+public class MotionObjectHeight extends CommandObjectAbstract {
+    
+     public MotionObjectHeight(double value, int direction)
+    {
+        super(value,direction);
+    }
+    
+
+    @Override
+    public void tick() {
+        this.motionObject.changeHeight(value, direction);
+    }
+
+    @Override
+    public void update(double time) {
+        this.tick();
+    }
     
 }

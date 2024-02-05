@@ -33,6 +33,9 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
         {
             case 0 -> this.angle.clockwise(value);
             case 1 -> this.angle.antiClockwise(value);
+            
+            // Special case when a value for new angle is set
+            case 2 -> this.angle.setValue(value);
         }
     }
     
