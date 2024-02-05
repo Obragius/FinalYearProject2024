@@ -116,10 +116,12 @@ public class AircraftTest {
         MotionObjectTurn c1 = new MotionObjectTurn(value, direction);
         c1.setMotionObject(a1);
         q1.register(c1);
+        System.out.println(q1.toString());
         for (int i = 0; i < 100; i++)
         {
             q1.notifyObservers();
         }
+        System.out.println(q1.toString());
         assertEquals(expected, a1.getAngle().getValue());
     }
     

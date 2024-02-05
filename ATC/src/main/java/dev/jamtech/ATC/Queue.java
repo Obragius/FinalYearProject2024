@@ -76,6 +76,12 @@ public class Queue {
         return Queue.instance;
     }
     
+    @Override
+    public String toString()
+    {
+        return this.observerList.toString();
+    }
+    
     
     
 }
