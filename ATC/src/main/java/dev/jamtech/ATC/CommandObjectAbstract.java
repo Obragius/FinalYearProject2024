@@ -24,6 +24,8 @@ public abstract class CommandObjectAbstract implements Observer, Command {
     protected MotionObject motionObject;
     protected double value;
     protected int direction;
+    // Increment for the action
+    protected double inc;
     
     public static List<CommandObjectAbstract> commandFactory(String type, int numberOfObjects, double value, int direction)
     {
@@ -41,10 +43,11 @@ public abstract class CommandObjectAbstract implements Observer, Command {
         return result;
     }
     
-    public CommandObjectAbstract(double value, int direction)
+    public CommandObjectAbstract(double value, int direction, double inc)
     {
         this.value = value;
         this.direction = direction;
+        this.inc = inc;
     }
 
     @Override

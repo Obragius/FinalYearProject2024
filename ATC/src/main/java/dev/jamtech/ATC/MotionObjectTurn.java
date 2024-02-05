@@ -12,17 +12,24 @@ public class MotionObjectTurn extends CommandObjectAbstract{
     
     public MotionObjectTurn(double value, int direction)
     {
-        super(value,direction);
+        super(value,direction,10);
     }
 
     @Override
     public void tick() {
-        this.motionObject.changeDirection(this.value, this.direction);
+        this.motionObject.changeDirection(this.value, this.direction,this.inc);
     }
 
     @Override
     public void update(double time) {
-        this.tick();
+        if (this.motionObject.outcomeAchieved(value, "Turn"))
+        {
+            Queue.getInstance().unregister(this);
+        }
+        else
+        {
+            this.tick();
+        }
     }
     
     

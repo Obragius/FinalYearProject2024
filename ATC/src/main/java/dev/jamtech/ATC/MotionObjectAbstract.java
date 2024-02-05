@@ -27,56 +27,131 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
     }
     
     @Override
-    public void changeDirection(double value, int direction)
+    public void changeDirection(double value, int direction, double inc)
     {
-        switch(direction)
+        double deltaValue;
+        if (value >= this.angle.getValue())
         {
-            case 0 -> this.angle.clockwise(value);
-            case 1 -> this.angle.antiClockwise(value);
-            
-            // Special case when a value for new angle is set
-            case 2 -> this.angle.setValue(value);
+            deltaValue = switch(direction)
+            {
+                case 0 -> value - this.angle.getValue();
+                case 1 -> 360.0 - value + this.angle.getValue();
+                default -> 0.0;
+            };
+        }
+        else
+        {
+            deltaValue = switch(direction)
+            {
+                case 0 -> 360.0 - this.angle.getValue() + value;
+                case 1 -> this.angle.getValue() - value;
+                default -> 0.0;
+            };
+        }
+        double finalValue;
+        if (deltaValue >= inc)
+        {
+            finalValue = inc;
+        }
+        else
+        {
+            finalValue = deltaValue;
+        }
+        switch (direction)
+        {
+            case 0 -> this.angle.clockwise(finalValue);
+            case 1 -> this.angle.antiClockwise(finalValue);
         }
     }
     
     @Override
-    public void changeHeight(double value, int direction)
+    public boolean outcomeAchieved(double value, String action)
     {
+        return switch (action)
+        {
+            case "Turn" -> this.angle.getValue() == value;
+            case "Speed" -> this.speed == value;
+            case "VSpeed" -> this.vSpeed == value;
+            case "Accelerate" -> this.acceleration == value;
+            case "Height" -> this.height == value;
+            default -> false;
+        };
+    }
+    
+    @Override
+    public void changeHeight(double value, int direction, double inc)
+    {
+        double deltaValue;
+        if (value >= inc)
+        {
+            deltaValue = inc;
+        }
+        else
+        {
+            deltaValue = value;
+        }
         switch(direction)
         {
-            case 0 -> this.setHeight(value+this.getHeight());
-            case 1 -> this.setHeight(this.getHeight()-value);
+            case 0 -> this.setHeight(deltaValue+this.getHeight());
+            case 1 -> this.setHeight(this.getHeight()-deltaValue);
         }
     }
     
     @Override
-    public void changeVSpeed(double value, int direction)
+    public void changeVSpeed(double value, int direction, double inc)
     {
+        double deltaValue;
+        if (value >= inc)
+        {
+            deltaValue = inc;
+        }
+        else
+        {
+            deltaValue = value;
+        }
         switch(direction)
         {
-            case 0 -> this.setvSpeed(value+this.getvSpeed());
-            case 1 -> this.setvSpeed(this.getvSpeed()-value);
+            case 0 -> this.setvSpeed(deltaValue+this.getvSpeed());
+            case 1 -> this.setvSpeed(this.getvSpeed()-deltaValue);
         }
     }
     
     
     @Override
-    public void changeSpeed(double value, int direction)
+    public void changeSpeed(double value, int direction, double inc)
     {
+        double deltaValue;
+        if (value >= inc)
+        {
+            deltaValue = inc;
+        }
+        else
+        {
+            deltaValue = value;
+        }
         switch(direction)
         {
-            case 0 -> this.setSpeed(value+this.getSpeed());
-            case 1 -> this.setSpeed(this.getSpeed()-value);
+            case 0 -> this.setSpeed(deltaValue+this.getSpeed());
+            case 1 -> this.setSpeed(this.getSpeed()-deltaValue);
         }
     }
     
     @Override
-    public void changeAcceleration(double value, int direction)
+    public void changeAcceleration(double value, int direction, double inc)
     {
+        double deltaValue;
+        if (value >= inc)
+        {
+            deltaValue = inc;
+        }
+        else
+        {
+            deltaValue = value;
+        }
         switch(direction)
         {
-            case 0 -> this.setAcceleration(value+this.getAcceleration());
-            case 1 -> this.setAcceleration(this.getAcceleration()-value);
+            case 0 -> this.setAcceleration(deltaValue+this.getAcceleration());
+            case 1 -> this.setAcceleration(this.getAcceleration()-deltaValue);
         }
     }
 

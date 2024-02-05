@@ -11,9 +11,10 @@ package dev.jamtech.ATC;
 public interface MotionObject {
     
     public void move();
-    public void changeDirection(double value,int direction);
-    public void changeSpeed(double value, int direction);
-    public void changeAcceleration(double value, int direction);
-    public void changeHeight(double value, int direction);
-    public void changeVSpeed(double value, int direction);
+    public boolean outcomeAchieved(double value, String action);
+    public void changeDirection(double value,int direction, double inc);
+    public void changeSpeed(double value, int direction, double inc);
+    public void changeAcceleration(double value, int direction, double inc);
+    public void changeHeight(double value, int direction, double inc);
+    public void changeVSpeed(double value, int direction, double inc);
 }

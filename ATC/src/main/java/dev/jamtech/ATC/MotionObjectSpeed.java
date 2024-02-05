@@ -13,18 +13,25 @@ public class MotionObjectSpeed extends CommandObjectAbstract {
     
     public MotionObjectSpeed(double value, int direction)
     {
-        super(value,direction);
+        super(value,direction,2.0);
     }
     
 
     @Override
     public void tick() {
-        this.motionObject.changeSpeed(value, direction);
+        this.motionObject.changeSpeed(this.value, this.direction,this.inc);
     }
 
     @Override
     public void update(double time) {
-        this.tick();
+        if (this.motionObject.outcomeAchieved(value, "Speed"))
+        {
+            Queue.getInstance().unregister(this);
+        }
+        else
+        {
+            this.tick();
+        }
     }
     
 }
