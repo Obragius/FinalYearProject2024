@@ -23,15 +23,13 @@ public class MotionObjectSpeed extends CommandObjectAbstract {
     }
 
     @Override
-    public void update(double time) {
+    public boolean update(double time) {
         if (this.motionObject.outcomeAchieved(value, "Speed"))
         {
-            Queue.getInstance().unregister(this);
+            return true;
         }
-        else
-        {
-            this.tick();
-        }
+        this.tick();
+        return false;
     }
     
 }

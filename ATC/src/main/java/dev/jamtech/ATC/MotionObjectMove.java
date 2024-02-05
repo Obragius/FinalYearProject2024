@@ -22,8 +22,9 @@ public class MotionObjectMove extends CommandObjectAbstract {
     }
 
     @Override
-    public void update(double time) {
+    public boolean update(double time) {
         this.tick();
+        return false;
     }
     
     

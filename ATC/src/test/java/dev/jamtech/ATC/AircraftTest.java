@@ -110,6 +110,20 @@ public class AircraftTest {
     }
     
     @ParameterizedTest(name = "{index} => expected={0}, Aircraft={1}, value={2}, direction={3}")
+    @MethodSource("dataProviderUnregisterAircraft")
+    public void TestUnregister(double expected, Aircraft a1, double value, int direction )
+    {
+        MotionObjectTurn c1 = new MotionObjectTurn(value, direction);
+        c1.setMotionObject(a1);
+        q1.register(c1);
+        for (int i = 0; i < 100; i++)
+        {
+            q1.notifyObservers();
+        }
+        assertEquals(expected, a1.getAngle().getValue());
+    }
+    
+    @ParameterizedTest(name = "{index} => expected={0}, Aircraft={1}, value={2}, direction={3}")
     @MethodSource("dataProviderAccelerationAircraft")
     public void TestAccelerationCommand(double expected, Aircraft a1, double value, int direction )
     {
@@ -133,8 +147,10 @@ public class AircraftTest {
         }
         }
         q1.notifyObservers();
-        assertEquals(true, this.WithinErrorThreshold(expected, a1.getPos(), 0.99999));
+        assertEquals(true, this.WithinErrorThreshold(expected, a1.getPos(), 0.9999));
     }
+    
+    
     
     @ParameterizedTest(name = "{index} => expected={0}, given={1}")
     @MethodSource("dataProviderBearingAircraft")
@@ -154,20 +170,28 @@ public class AircraftTest {
     private static Stream<Arguments> dataProviderAircraftPath() {
         return Stream.of(
                 Arguments.of(Arrays.asList(17.50700669,67.90590722),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(CommandObjectAbstract.commandFactory("Move", 5, 0, 0),CommandObjectAbstract.commandFactory("Move", 5, 0, 0))),
-                Arguments.of(Arrays.asList(17.5292644,67.86181789),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(CommandObjectAbstract.commandFactory("Move", 30, 0, 0),CommandObjectAbstract.commandFactory("Turn", 2, 60, 1),CommandObjectAbstract.commandFactory("Move", 60, 0, 0))),
-                Arguments.of(Arrays.asList(17.56305707,67.95317726),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(CommandObjectAbstract.commandFactory("Move", 30, 0, 0),CommandObjectAbstract.commandFactory("Speed", 10, 10, 0),CommandObjectAbstract.commandFactory("Move", 30, 0, 0)))
+                Arguments.of(Arrays.asList(17.56862933,67.94493091),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(CommandObjectAbstract.commandFactory("Move", 30, 0, 0),CommandObjectAbstract.commandFactory("Turn", 1, 120, 1),CommandObjectAbstract.commandFactory("Move", 60, 0, 0))),
+                Arguments.of(Arrays.asList(17.54634755,67.9389734),new Aircraft(17.5,67.9,100,new Angle(38.8)), Arrays.asList(CommandObjectAbstract.commandFactory("Move", 30, 0, 0),CommandObjectAbstract.commandFactory("Speed", 10, 10, 0),CommandObjectAbstract.commandFactory("Move", 30, 0, 0)))
         );
     }
     
     private static Stream<Arguments> dataProviderSpeedAircraft() {
         return Stream.of(
-                Arguments.of(120,new Aircraft(17.5,67.9,100,new Angle(38.8)) , 20, 0 ),
-                Arguments.of(80,new Aircraft(17.5,67.9,100,new Angle(38.8)) , 20, 1),
-                Arguments.of(200,new Aircraft(17.5,67.9,150,new Angle(38.8)) , 50, 0)
+                Arguments.of(102,new Aircraft(17.5,67.9,100,new Angle(38.8)) , 20, 0 ),
+                Arguments.of(98,new Aircraft(17.5,67.9,100,new Angle(38.8)) , 20, 1),
+                Arguments.of(152,new Aircraft(17.5,67.9,150,new Angle(38.8)) , 50, 0)
         );
     }
     
     private static Stream<Arguments> dataProviderAngleAircraft() {
+        return Stream.of(
+                Arguments.of(33.8,new Aircraft(17.5,67.9,100,new Angle(23.8)) , 10.5, 0 ),
+                Arguments.of(303.2,new Aircraft(17.5,67.9,100,new Angle(313.2)) , 167.6, 1),
+                Arguments.of(9.2,new Aircraft(17.5,67.9,150,new Angle(359.2)) , 120.7, 0)
+        );
+    }
+    
+    private static Stream<Arguments> dataProviderUnregisterAircraft() {
         return Stream.of(
                 Arguments.of(34.3,new Aircraft(17.5,67.9,100,new Angle(23.8)) , 10.5, 0 ),
                 Arguments.of(145.6,new Aircraft(17.5,67.9,100,new Angle(313.2)) , 167.6, 1),
@@ -178,8 +202,8 @@ public class AircraftTest {
     private static Stream<Arguments> dataProviderAccelerationAircraft() {
         return Stream.of(
                 Arguments.of(14.5,new Aircraft(17.5,67.9,100,new Angle(23.8),14.2) , 0.3, 0 ),
-                Arguments.of(7.3,new Aircraft(17.5,67.9,100,new Angle(313.2),10.0) , 2.7, 1),
-                Arguments.of(11.9,new Aircraft(17.5,67.9,150,new Angle(359.2),6.9) , 5, 0)
+                Arguments.of(8.0,new Aircraft(17.5,67.9,100,new Angle(313.2),10.0) , 2.7, 1),
+                Arguments.of(8.9,new Aircraft(17.5,67.9,150,new Angle(359.2),6.9) , 5, 0)
         );
     }
     

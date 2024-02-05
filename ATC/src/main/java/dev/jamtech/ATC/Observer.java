@@ -10,6 +10,6 @@ package dev.jamtech.ATC;
  */
 public interface Observer {
     
-    public void update(double time);
+    public boolean update(double time);
     
 }

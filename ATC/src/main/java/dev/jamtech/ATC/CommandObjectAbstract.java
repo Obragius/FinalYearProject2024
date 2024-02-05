@@ -56,8 +56,9 @@ public abstract class CommandObjectAbstract implements Observer, Command {
     }
 
     @Override
-    public void update(double time) {
+    public boolean update(double time) {
         tick();
+        return false;
     }
     
 }

@@ -5,6 +5,7 @@
 package dev.jamtech.ATC;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -40,9 +41,16 @@ public class Queue {
     {
         for (int i = 0; i < this.speed; i++)
         {
-            for (Observer observer : this.observerList)
+            boolean unregister;
+            Iterator<Observer> myIter = this.observerList.listIterator();
+            while (myIter.hasNext())
             {
-                observer.update(this.time.getCurrentTime());
+               Observer myObserver = myIter.next();
+               unregister = myObserver.update(this.time.getCurrentTime());
+               if (unregister)
+               {
+                  myIter.remove();
+               }
             }
         }
     }
