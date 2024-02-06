@@ -14,7 +14,7 @@ public interface MotionObject {
     public boolean outcomeAchieved(double value, String action);
     public void changeDirection(double value,int direction, double inc);
     public void changeSpeed(double inc, double max);
-    public void changeAcceleration(double value, int direction, double inc, double max);
+    public void changeAcceleration(double value, int direction, double inc, double max,boolean stop);
     public void changeHeight(double inc, double max);
     public void changeVSpeed(double value, int direction, double inc);
 }
