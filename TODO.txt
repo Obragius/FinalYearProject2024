@@ -2,3 +2,4 @@
 - Resolve issue where if direction or speed is changed multiple ticks per cycle,
 the distance will be incorrect;
 - Include command decoder class to change strings into object of clear commands.
+- Couple Speed and Acceleration, Couple VSpeed and Height (Include maximum acceleration)

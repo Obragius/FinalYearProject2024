@@ -12,21 +12,17 @@ public class MotionObjectHeight extends CommandObjectAbstract {
     
      public MotionObjectHeight(double value, int direction)
     {
-        super(value,direction,17.0);
+        super(value,direction,17.0,42000.0);
     }
     
 
     @Override
     public void tick() {
-        this.motionObject.changeHeight(this.value, this.direction,this.inc);
+        this.motionObject.changeHeight(this.inc, this.maxValue);
     }
 
     @Override
     public boolean update(double time) {
-        if (this.motionObject.outcomeAchieved(value, "Height"))
-        {
-            return true;
-        }
         this.tick();
         return false;
     }

@@ -12,17 +12,17 @@ public class MotionObjectAcceleration extends CommandObjectAbstract {
     
     public MotionObjectAcceleration(double value, int direction)
     {
-        super(value,direction,2.0);
+        super(value,direction,2.0, 5.0);
     }
 
     @Override
     public void tick() {
-        this.motionObject.changeAcceleration(this.value, this.direction, this.inc);
+        this.motionObject.changeAcceleration(this.value, this.direction, this.inc, this.maxValue);
     }
 
     @Override
     public boolean update(double time) {
-        if (this.motionObject.outcomeAchieved(value, "Accelerate"))
+        if (this.motionObject.outcomeAchieved(value, "Speed"))
         {
             return true;
         }

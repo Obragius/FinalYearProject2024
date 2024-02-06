@@ -12,7 +12,7 @@ public class MotionObjectTurn extends CommandObjectAbstract{
     
     public MotionObjectTurn(double value, int direction)
     {
-        super(value,direction,10);
+        super(value,direction,10,0.0);
     }
     
     public MotionObjectTurn(double value, int direction, MotionObject target)

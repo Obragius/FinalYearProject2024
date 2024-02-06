@@ -12,13 +12,13 @@ public class MotionObjectVSpeed extends CommandObjectAbstract {
     
     public MotionObjectVSpeed(double value, int direction)
     {
-        super(value,direction,17.0);
+        super(value,direction,17.0,17.0);
     }
     
 
     @Override
     public void tick() {
-        this.motionObject.changeHeight(this.value, this.direction,this.inc);
+        this.motionObject.changeVSpeed(this.value, this.direction,this.inc);
     }
 
     @Override

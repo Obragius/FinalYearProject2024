@@ -26,6 +26,7 @@ public abstract class CommandObjectAbstract implements Observer, Command {
     protected int direction;
     // Increment for the action
     protected double inc;
+    protected double maxValue;
     
     public static List<CommandObjectAbstract> commandFactory(String type, int numberOfObjects, double value, int direction)
     {
@@ -36,18 +37,19 @@ public abstract class CommandObjectAbstract implements Observer, Command {
             {
                 case "Move" -> result.add(new MotionObjectMove(value,direction));
                 case "Turn" -> result.add(new MotionObjectTurn(value,direction));
-                case "Speed" -> result.add(new MotionObjectSpeed(value,direction));
-                case "Acceleration" -> result.add(new MotionObjectAcceleration(value,direction));
+                case "Speed" -> result.add(new MotionObjectAcceleration(value,direction));
             }
+
         }
         return result;
     }
     
-    public CommandObjectAbstract(double value, int direction, double inc)
+    public CommandObjectAbstract(double value, int direction, double inc,double maxValue)
     {
         this.value = value;
         this.direction = direction;
         this.inc = inc;
+        this.maxValue = maxValue;
     }
     
     public CommandObjectAbstract(double value, int direction, double inc, MotionObject target)

@@ -13,21 +13,17 @@ public class MotionObjectSpeed extends CommandObjectAbstract {
     
     public MotionObjectSpeed(double value, int direction)
     {
-        super(value,direction,2.0);
+        super(value,direction,5.0,233.0);
     }
     
 
     @Override
     public void tick() {
-        this.motionObject.changeSpeed(this.value, this.direction,this.inc);
+        this.motionObject.changeSpeed(this.inc, this.maxValue);
     }
 
     @Override
     public boolean update(double time) {
-        if (this.motionObject.outcomeAchieved(value, "Speed"))
-        {
-            return true;
-        }
         this.tick();
         return false;
     }

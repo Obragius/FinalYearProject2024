@@ -12,7 +12,7 @@ public class MotionObjectMove extends CommandObjectAbstract {
 
     public MotionObjectMove(double value, int direction)
     {
-        super(value,direction,0.0);
+        super(value,direction,0.0,0.0);
     }
     
     @Override

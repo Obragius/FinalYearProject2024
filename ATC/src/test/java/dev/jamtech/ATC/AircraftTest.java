@@ -87,14 +87,21 @@ public class AircraftTest {
         assertEquals(true,this.WithinErrorThreshold(expected, a1.getPos(), t1));
     }
     
-    @ParameterizedTest(name = "{index} => expected={0}, Aircraft={1}, value={2}, direction={3}")
+    @ParameterizedTest(name = "{index} => expected={0}, Aircraft={1}, value={2}")
     @MethodSource("dataProviderSpeedAircraft")
     public void TestSpeedCommand(double expected, Aircraft a1, double value, int direction )
     {
-        MotionObjectSpeed c1 = new MotionObjectSpeed(value, direction);
+        CommandObjectAbstract c1 = CommandObjectAbstract.commandFactory("Speed", 1, value, direction).get(0);
         c1.setMotionObject(a1);
+        MotionObjectSpeed c2 = new MotionObjectSpeed(0.0,0);
+        c2.setMotionObject(a1);
         q1.register(c1);
-        q1.notifyObservers();
+        q1.register(c2);
+        
+        for (int i = 0; i < 100; i++)
+        {
+            q1.notifyObservers();
+        }
         assertEquals(expected, a1.getSpeed());
     }
     
@@ -123,16 +130,16 @@ public class AircraftTest {
         assertEquals(expected, a1.getAngle().getValue());
     }
     
-    @ParameterizedTest(name = "{index} => expected={0}, Aircraft={1}, value={2}, direction={3}")
-    @MethodSource("dataProviderAccelerationAircraft")
-    public void TestAccelerationCommand(double expected, Aircraft a1, double value, int direction )
-    {
-        MotionObjectAcceleration c1 = new MotionObjectAcceleration(value, direction);
-        c1.setMotionObject(a1);
-        q1.register(c1);
-        q1.notifyObservers();
-        assertEquals(expected, a1.getAcceleration());
-    }
+//    @ParameterizedTest(name = "{index} => expected={0}, Aircraft={1}, value={2}, direction={3}")
+//    @MethodSource("dataProviderAccelerationAircraft")
+//    public void TestAccelerationCommand(double expected, Aircraft a1, double value, int direction )
+//    {
+//        MotionObjectAcceleration c1 = new MotionObjectAcceleration(value, direction);
+//        c1.setMotionObject(a1);
+//        q1.register(c1);
+//        q1.notifyObservers();
+//        assertEquals(expected, a1.getAcceleration());
+//    }
     
     @ParameterizedTest(name = "{index} => expected={0}, Aircraft={1}, commandList={2}")
     @MethodSource("dataProviderAircraftPath")
@@ -199,9 +206,9 @@ public class AircraftTest {
     
     private static Stream<Arguments> dataProviderSpeedAircraft() {
         return Stream.of(
-                Arguments.of(102,new Aircraft(17.5,67.9,100,new Angle(38.8)) , 20, 0 ),
-                Arguments.of(98,new Aircraft(17.5,67.9,100,new Angle(38.8)) , 20, 1),
-                Arguments.of(152,new Aircraft(17.5,67.9,150,new Angle(38.8)) , 50, 0)
+                Arguments.of(120,new Aircraft(17.5,67.9,100,new Angle(38.8),0.0) , 120, 0 ),
+                Arguments.of(80,new Aircraft(17.5,67.9,100,new Angle(38.8),0.0) , 80, 1),
+                Arguments.of(200,new Aircraft(17.5,67.9,150,new Angle(38.8),0.0) , 200, 0)
         );
     }
     

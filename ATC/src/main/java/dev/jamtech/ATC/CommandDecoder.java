@@ -25,7 +25,9 @@ public class CommandDecoder {
     {
         // Setup list of possible commands
         List<String> patterns = Arrays.asList("turn left heading",
-                                              "turn right heading");
+                                              "turn right heading",
+                                              "climb and maintain",
+                                              "descend and maintain");
         int match = -1;
         for (int i = 0; i < patterns.size(); i++)
         {
