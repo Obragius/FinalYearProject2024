@@ -116,12 +116,10 @@ public class AircraftTest {
         MotionObjectTurn c1 = new MotionObjectTurn(value, direction);
         c1.setMotionObject(a1);
         q1.register(c1);
-        System.out.println(q1.toString());
         for (int i = 0; i < 100; i++)
         {
             q1.notifyObservers();
         }
-        System.out.println(q1.toString());
         assertEquals(expected, a1.getAngle().getValue());
     }
     
@@ -152,6 +150,20 @@ public class AircraftTest {
         assertEquals(true, this.WithinErrorThreshold(expected, a1.getPos(), 0.9999));
     }
     
+    @ParameterizedTest(name = "{index} => expected={0}, Aircraft={1}, action={2}")
+    @MethodSource("dataProviderActionAngleAircraft")
+    public void TestDecoderAngleCommand(double expected, Aircraft a1, String action)
+    {
+        CommandObjectAbstract c1 = CommandDecoder.decodeAction(action, a1);
+        c1.setMotionObject(a1);
+        q1.register(c1);
+        for (int i = 0; i < 100; i++)
+        {
+            q1.notifyObservers();
+        }
+        assertEquals(expected, a1.getAngle().getValue());
+    }
+    
     
     
     @ParameterizedTest(name = "{index} => expected={0}, given={1}")
@@ -160,6 +172,14 @@ public class AircraftTest {
     {
         double bearing = Math.round(GeographicalCalculator.bearingCalc(given.get(0), given.get(1)) * 100.0) /100.0;
         assertEquals(expected,bearing);
+    }
+    
+    private static Stream<Arguments> dataProviderActionAngleAircraft() {
+        return Stream.of(
+                Arguments.of(79.0,new Aircraft(17.5,67.9,100,new Angle(23.8)) , "turn left heading 079" ),
+                Arguments.of(79.0,new Aircraft(17.5,67.9,100,new Angle(23.8)) , "turn right heading 079" ),
+                Arguments.of(279.0,new Aircraft(17.5,67.9,100,new Angle(23.8)) , "turn left heading 279" )
+        );
     }
     
     private static Stream<Arguments> dataProviderBearingAircraft() {

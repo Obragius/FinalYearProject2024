@@ -15,12 +15,26 @@ public class Angle {
     
     public void clockwise(double value)
     {
-        this.value = (this.getValue() + value) % 360;
+        if (this.getValue() + value < 0)
+        {
+            this.value = (this.getValue() + value) + 360;
+        }
+        else
+        {
+         this.value = this.getValue() + value;
+        }
     }
     
     public void antiClockwise(double value)
     {
-        this.value = (this.getValue() - value) % 360;
+        if (this.getValue() - value < 0)
+        {
+            this.value = (this.getValue() - value) + 360;
+        }
+        else
+        {
+         this.value = this.getValue() - value;
+        }
     }
 
     public double getValue() {

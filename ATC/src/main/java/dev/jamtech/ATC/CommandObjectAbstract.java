@@ -49,6 +49,14 @@ public abstract class CommandObjectAbstract implements Observer, Command {
         this.direction = direction;
         this.inc = inc;
     }
+    
+    public CommandObjectAbstract(double value, int direction, double inc, MotionObject target)
+    {
+        this.value = value;
+        this.direction = direction;
+        this.inc = inc;
+        this.motionObject = target;
+    }
 
     @Override
     public void tick() {

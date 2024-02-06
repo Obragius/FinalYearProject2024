@@ -14,6 +14,11 @@ public class MotionObjectTurn extends CommandObjectAbstract{
     {
         super(value,direction,10);
     }
+    
+    public MotionObjectTurn(double value, int direction, MotionObject target)
+    {
+        super(value,direction,10,target);
+    }
 
     @Override
     public void tick() {

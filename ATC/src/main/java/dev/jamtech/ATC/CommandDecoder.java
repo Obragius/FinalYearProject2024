@@ -40,8 +40,8 @@ public class CommandDecoder {
         CommandObjectAbstract commandGiven;
         switch (match)
         {
-            case 0 -> commandGiven = new MotionObjectTurn(Integer.parseInt(action.replace("turn left heading ", "")),2);
-            case 1 -> commandGiven = new MotionObjectTurn(Integer.parseInt(action.replace("turn right heading ", "")),2);
+            case 0 -> commandGiven = new MotionObjectTurn(Integer.parseInt(action.replace("turn left heading ", "")),1,target);
+            case 1 -> commandGiven = new MotionObjectTurn(Integer.parseInt(action.replace("turn right heading ", "")),0,target);
             default -> commandGiven = null;
         }
         return commandGiven;

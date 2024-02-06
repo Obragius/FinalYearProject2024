@@ -48,6 +48,7 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
                 default -> 0.0;
             };
         }
+        
         double finalValue;
         if (deltaValue >= inc)
         {
