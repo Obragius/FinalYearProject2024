@@ -186,6 +186,7 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
                     deltaValue = inc;
                 }
                 this.setAcceleration(deltaValue+this.getAcceleration(),max);
+                break;
             }
             case 1 : 
             {
@@ -206,6 +207,7 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
                     deltaValue = inc;
                 }
                 this.setAcceleration(this.getAcceleration()-deltaValue, max);
+                break;
             }
         }
     }
@@ -218,8 +220,8 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
         this.speed = speed;
     }
 
-    public Double getAcceleration() {
-        return acceleration;
+    public double getAcceleration() {
+        return this.acceleration;
     }
 
     public void setAcceleration(double acceleration,double max) {
