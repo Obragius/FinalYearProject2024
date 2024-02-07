@@ -4,11 +4,12 @@
  */
 package dev.jamtech.ATC;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
- *
+ * Implements {@link MotionObject} interface and extends {@link MapObject}
+ * This is the parent class of any moving object in the simulation.
+ * Is extended by {@link Aircraft}
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
 public abstract class MotionObjectAbstract extends MapObject implements MotionObject {
@@ -156,7 +157,6 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
             }
             case 1 : 
             {
-                System.out.println(this.getHeight());
                 if (this.getHeight() - 50 < value )
                 {
                     max = 12;
@@ -333,10 +333,25 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
         this.id = id;
     }
     
+    /**
+    * Tracks the speed of the motion object
+    */
     private double speed;
+    /**
+    * Tracks the acceleration of the motion object
+    */
     private double acceleration;
+    /**
+    * Tracks the height of the motion object
+    */
     private double height;
+    /**
+    * Tracks the vertical speed of the motion object
+    */
     private double vSpeed;
+    /**
+    * Unused attribute, might be used later to use with persistent storage
+    */
     private double id;
 
     
@@ -348,6 +363,10 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
     public void setAngle(Angle angle) {
         this.angle = angle;
     }
+    
+    /**
+    * Stores {@link Angle} object with the value of the angle of direction
+    */
     private Angle angle;
     
 }

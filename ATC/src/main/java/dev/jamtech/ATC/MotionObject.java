@@ -5,16 +5,37 @@
 package dev.jamtech.ATC;
 
 /**
- *
+ * Interface for any moving object in the simulation implemented by {@link MotionObjectAbstract}
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
 public interface MotionObject {
     
+    /**
+     * This method must change the latitude and longitude of the object
+     */
     public void move();
+    /**
+     * This method must check if the {@link MotionObject} has achieved its target value
+     */
     public boolean outcomeAchieved(double value, String action, int direction);
+    /**
+     * This method must change the {@link Angle} value of target object
+     */
     public void changeDirection(double value,int direction, double inc);
+    /**
+     * This method must change the speed value of the target object
+     */
     public void changeSpeed(double inc, double max);
+    /**
+     * This method must change the acceleration value of the target object
+     */
     public void changeAcceleration(double value, int direction, double inc, double max,boolean stop);
+    /**
+     * This method must change the height value of the target object
+     */
     public void changeHeight(double inc, double max);
+    /**
+     * This method must change the vSpeed value of the target object
+     */
     public void changeVSpeed(double value, int direction, double inc, double max, boolean stop);
 }
