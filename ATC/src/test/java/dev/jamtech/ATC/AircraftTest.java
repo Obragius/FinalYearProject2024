@@ -207,8 +207,8 @@ public class AircraftTest {
     private static Stream<Arguments> dataProviderSpeedAircraft() {
         return Stream.of(
                 Arguments.of(129.99,new Aircraft(17.5,67.9,110.11,new Angle(38.8),0.0) , 129.99, 0 ),
-                Arguments.of(79.99,new Aircraft(17.5,67.9,100.56,new Angle(38.8),0.0), 79.99, 1)
-                //Arguments.of(200,new Aircraft(17.5,67.9,150,new Angle(38.8),0.0) , 200, 0)
+                Arguments.of(79.98,new Aircraft(17.5,67.9,101.56,new Angle(38.8),0.0), 79.98, 1),
+                Arguments.of(200,new Aircraft(17.5,67.9,150,new Angle(38.8),0.0) , 200, 0)
         );
     }
     
