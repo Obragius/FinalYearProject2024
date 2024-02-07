@@ -44,6 +44,8 @@ public class CommandDecoder {
         {
             case 0 -> commandGiven = new MotionObjectTurn(Integer.parseInt(action.replace("turn left heading ", "")),1,target);
             case 1 -> commandGiven = new MotionObjectTurn(Integer.parseInt(action.replace("turn right heading ", "")),0,target);
+            case 2 -> commandGiven = new MotionObjectVSpeed(Integer.parseInt(action.replace("climb and maintain", "")),0,target);
+            case 3 -> commandGiven = new MotionObjectVSpeed(Integer.parseInt(action.replace("descend and maintain", "")),1,target);
             default -> commandGiven = null;
         }
         return commandGiven;

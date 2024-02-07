@@ -53,6 +53,15 @@ public abstract class CommandObjectAbstract implements Observer, Command {
         this.maxValue = maxValue;
     }
     
+    public CommandObjectAbstract(double value, int direction, double inc,double maxValue,MotionObject target)
+    {
+        this.value = value;
+        this.direction = direction;
+        this.inc = inc;
+        this.maxValue = maxValue;
+        this.motionObject = target;
+    }
+    
     public CommandObjectAbstract(double value, int direction, double inc, MotionObject target)
     {
         this.value = value;

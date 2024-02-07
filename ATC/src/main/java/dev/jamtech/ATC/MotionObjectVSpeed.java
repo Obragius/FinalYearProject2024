@@ -15,6 +15,11 @@ public class MotionObjectVSpeed extends CommandObjectAbstract {
         super(value,direction,5.0,17.0);
     }
     
+    public MotionObjectVSpeed(double value, int direction, MotionObject target )
+    {
+        super(value,direction,5.0,17.0,target);
+    }
+    
 
     @Override
     public void tick() {
