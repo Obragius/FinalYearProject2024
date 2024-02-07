@@ -27,7 +27,7 @@ public class MotionObjectTurn extends CommandObjectAbstract{
 
     @Override
     public boolean update(double time) {
-        if (this.motionObject.outcomeAchieved(value, "Turn"))
+        if (this.motionObject.outcomeAchieved(value, "Turn",this.direction))
         {
             return true;
         }

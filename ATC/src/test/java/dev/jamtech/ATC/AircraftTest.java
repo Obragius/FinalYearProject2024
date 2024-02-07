@@ -98,9 +98,8 @@ public class AircraftTest {
         q1.register(c1);
         q1.register(c2);
         
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 30; i++)
         {
-            System.out.println(q1.toString());
             q1.notifyObservers();
         }
         assertEquals(expected, a1.getSpeed());
@@ -207,8 +206,8 @@ public class AircraftTest {
     
     private static Stream<Arguments> dataProviderSpeedAircraft() {
         return Stream.of(
-                Arguments.of(120,new Aircraft(17.5,67.9,115,new Angle(38.8),0.0) , 120, 0 )
-                //Arguments.of(80,new Aircraft(17.5,67.9,100,new Angle(38.8),0.0) , 80, 1),
+                Arguments.of(129.99,new Aircraft(17.5,67.9,110.11,new Angle(38.8),0.0) , 129.99, 0 ),
+                Arguments.of(79.99,new Aircraft(17.5,67.9,100.56,new Angle(38.8),0.0), 79.99, 1)
                 //Arguments.of(200,new Aircraft(17.5,67.9,150,new Angle(38.8),0.0) , 200, 0)
         );
     }

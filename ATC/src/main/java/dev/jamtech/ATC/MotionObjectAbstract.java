@@ -66,18 +66,30 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
     }
     
     @Override
-    public boolean outcomeAchieved(double value, String action)
+    public boolean outcomeAchieved(double value, String action, int direction)
     {
-        System.out.println(this.speed + this.getAcceleration());
-        System.out.println(value);
-        return switch (action)
+        if (direction == 0)
+        {   
+            return switch (action)
+            {
+                case "Turn" -> this.angle.getValue() == value;
+                case "Speed" -> this.speed > value;
+                case "VSpeed" -> this.vSpeed == value;
+                case "Height" -> this.height == value;
+                default -> false;
+            };
+        }
+        else
         {
-            case "Turn" -> this.angle.getValue() > value;
-            case "Speed" -> this.speed + this.getAcceleration() > value;
-            case "VSpeed" -> this.vSpeed > value;
-            case "Height" -> this.height > value;
-            default -> false;
-        };
+           return switch (action)
+            {
+                case "Turn" -> this.angle.getValue() == value;
+                case "Speed" -> this.speed < value;
+                case "VSpeed" -> this.vSpeed == value;
+                case "Height" -> this.height == value;
+                default -> false;
+            }; 
+        }
     }
     
     @Override
@@ -134,32 +146,25 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
     @Override
     public void changeSpeed(double inc,double max)
     {
-        int direction;
-        double value;
-        if (this.getAcceleration() < 0)
-        {
-            direction = 1;
-            value = this.getAcceleration();
-        }
-        else
-        {
-            direction = 0;
-            value = this.getAcceleration();
-        }
+        double value = this.getAcceleration();
         double deltaValue;
-        if (value >= inc)
+        if (Math.abs(value) >= inc)
         {
-            deltaValue = inc;
+            if (value >= 0)
+            {
+                deltaValue = inc;
+            }
+            else
+            {
+                deltaValue = -inc;
+            }
         }
         else
         {
             deltaValue = value;
         }
-        switch(direction)
-        {
-            case 0 -> this.setSpeed(deltaValue+this.getSpeed());
-            case 1 -> this.setSpeed(this.getSpeed()-deltaValue);
-        }
+        this.setSpeed(deltaValue+this.getSpeed());
+        
     }
     
     @Override
@@ -186,14 +191,16 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
                 {
                     deltaValue = inc;
                 }
+                if (this.getSpeed() + 2 >= value )
+                {
+                    deltaValue = (value - this.getSpeed() - this.getAcceleration());
+                }
                 if (stop)
                 {
                     max = 2;
                     deltaValue = - this.getAcceleration();
                 }
-                System.out.println(deltaValue);
                 this.setAcceleration(deltaValue+this.getAcceleration(),max);
-                System.out.println(this.getAcceleration());
                 break;
             }
             case 1 : 
@@ -208,18 +215,24 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
                 }
                 if (Math.abs(this.getAcceleration()) > max)
                 {
-                    deltaValue = - (Math.abs(this.getAcceleration()) - max);
+                    deltaValue = -( this.getAcceleration() - max);
                 }
                 else
                 {
-                    deltaValue = inc;
+                    deltaValue = -inc;
+                }
+                if (this.getSpeed() - 2 <= value )
+                {
+                    deltaValue = (value - this.getSpeed() + this.getAcceleration());
+                    System.out.println(max);
+                    System.out.println(deltaValue);
                 }
                 if (stop)
                 {
                     max = 2;
                     deltaValue = - this.getAcceleration();
                 }
-                this.setAcceleration(this.getAcceleration()-deltaValue, max);
+                this.setAcceleration(deltaValue+this.getAcceleration(),max);
                 break;
             }
         }

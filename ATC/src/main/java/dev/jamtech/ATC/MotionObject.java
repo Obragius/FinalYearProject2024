@@ -11,7 +11,7 @@ package dev.jamtech.ATC;
 public interface MotionObject {
     
     public void move();
-    public boolean outcomeAchieved(double value, String action);
+    public boolean outcomeAchieved(double value, String action, int direction);
     public void changeDirection(double value,int direction, double inc);
     public void changeSpeed(double inc, double max);
     public void changeAcceleration(double value, int direction, double inc, double max,boolean stop);

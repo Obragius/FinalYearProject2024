@@ -23,7 +23,7 @@ public class MotionObjectVSpeed extends CommandObjectAbstract {
 
     @Override
     public boolean update(double time) {
-        if (this.motionObject.outcomeAchieved(value, "VSpeed"))
+        if (this.motionObject.outcomeAchieved(value, "VSpeed",this.direction))
         {
             return true;
         }

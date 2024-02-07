@@ -22,7 +22,7 @@ public class MotionObjectAcceleration extends CommandObjectAbstract {
 
     @Override
     public boolean update(double time) {
-        if (this.motionObject.outcomeAchieved(value, "Speed"))
+        if (this.motionObject.outcomeAchieved(value, "Speed",this.direction))
         {
             this.motionObject.changeAcceleration(value, direction, inc, maxValue, true);
             return true;
