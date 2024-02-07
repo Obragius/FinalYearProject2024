@@ -19,6 +19,10 @@ public class Angle {
         {
             this.value = (this.getValue() + value) + 360;
         }
+        else if (this.getValue() + value > 360)
+        {
+            this.value = (this.getValue() + value) - 360;
+        }
         else
         {
          this.value = this.getValue() + value;
@@ -30,6 +34,10 @@ public class Angle {
         if (this.getValue() - value < 0)
         {
             this.value = (this.getValue() - value) + 360;
+        }
+        else if (this.getValue() - value > 360)
+        {
+            this.value = (this.getValue() - value) - 360;
         }
         else
         {
