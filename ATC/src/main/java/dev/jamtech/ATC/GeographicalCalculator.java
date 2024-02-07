@@ -4,20 +4,36 @@
  */
 package dev.jamtech.ATC;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
+
 import java.util.Arrays;
 import java.util.List;
 
 /**
- *
- * @author Daniels Zazerskis K1801606 <dev.jamtech>
+ * Geographical calculator is a class responsible for calculations regarding
+ * the position of {@link MapObject} on the {@link Map}.
+ * All the methods are static and are used to move the objects on the map
+ * and calculate target positions. 
+ * This class stores radius of the Earth in kilometers as one of it's static attributes
+ * Some formulas are taken from Bearing and Distance Calculator Calculation Methods (no date). Available at: 
+ * http://www.geomidpoint.com/destination/calculation.html} (Accessed: 30 January 2024). 
+ * and Latitude Longitude Distance Calculator (no date). Available at: 
+ * https://www.omnicalculator.com/other/latitude-longitude-distance (Accessed: 7 February 2024).
+ * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
 public class GeographicalCalculator {
     
     static Double R = 6372.7976;
     
-    // Great circle distance (Maybe innacurate)
+    /**
+     * This method returns a distance between two points using the longitude and latitude
+     * in degrees. This method uses spherical mode. 
+     * Method converts all the values to radians using the standard {@link Math} library
+     * @param x1 The latitude of the first point
+     * @param y1 The longitude of the first point
+     * @param x2 The latitude of the second point
+     * @param y2 The longitude of the second point
+     * @return the distance between the points in metres.
+     */
     public static double distanceCalc(Double x1, Double y1, Double x2, Double y2)
     {
         x1 = Math.toRadians(x1);
@@ -28,6 +44,20 @@ public class GeographicalCalculator {
         return d*1000;
     }
     
+    
+    /**
+     * This method returns a List of two points based on starting position, distance and angle.
+     * The points must be in degrees
+     * Distance must in m
+     * Angle should be between 360 and 0
+     * This method uses spherical mode. 
+     * Method converts all points to radians using the standard {@link Math} library
+     * @param x1 The latitude of the starting point
+     * @param y1 The longitude of the starting point
+     * @param distance The distance from the starting point (Commonly uses the speed assuming m/s and one second of travel)
+     * @param angle The bearing from the starting point
+     * @return List of (double Latitude,double Longitude) using standard {@link List}
+     */
     public static List<Double> coordCalc(Double x1, Double y1, Double distance, Double angle)
     {
         distance = (distance/1000) / GeographicalCalculator.R;
@@ -43,6 +73,14 @@ public class GeographicalCalculator {
         return Arrays.asList(x2,y2);
     }
     
+    /**
+     * This method returns an angle between two points
+     * This method uses spherical mode. 
+     * Method converts all points to radians using the standard {@link Math} library
+     * @param origin the list of latitude and longitude of the first point
+     * @param destination the list of latitude and longitude of the second point
+     * @return The angle between the given points as a double
+     */
     public static double bearingCalc(List<Double> origin, List<Double> destination)
     {
         // There was an issue here, where math.sin only accpts radians
