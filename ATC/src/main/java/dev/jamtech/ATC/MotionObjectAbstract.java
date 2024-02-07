@@ -74,8 +74,7 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
             {
                 case "Turn" -> this.angle.getValue() == value;
                 case "Speed" -> this.speed > value;
-                case "VSpeed" -> this.vSpeed == value;
-                case "Height" -> this.height == value;
+                case "Height" -> this.height > value;
                 default -> false;
             };
         }
@@ -85,8 +84,7 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
             {
                 case "Turn" -> this.angle.getValue() == value;
                 case "Speed" -> this.speed < value;
-                case "VSpeed" -> this.vSpeed == value;
-                case "Height" -> this.height == value;
+                case "Height" -> this.height < value;
                 default -> false;
             }; 
         }
@@ -95,50 +93,102 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
     @Override
     public void changeHeight(double inc, double max)
     {
-        int direction;
-        double value;
-        if (this.getvSpeed() < 0)
-        {
-            direction = 1;
-            value = this.getvSpeed();
-        }
-        else
-        {
-            direction = 0;
-            value = this.getvSpeed();
-        }
+        double value = this.getvSpeed();
         double deltaValue;
-        if (value >= inc)
+        if (Math.abs(value) >= inc)
         {
-            deltaValue = inc;
+            if (value >= 0)
+            {
+                deltaValue = inc;
+            }
+            else
+            {
+                deltaValue = -inc;
+            }
         }
         else
         {
             deltaValue = value;
         }
-        switch(direction)
-        {
-            case 0 -> this.setHeight(deltaValue+this.getHeight());
-            case 1 -> this.setHeight(this.getHeight()-deltaValue);
-        }
+        this.setHeight(deltaValue+this.getHeight());
+        
     }
     
     @Override
-    public void changeVSpeed(double value, int direction, double inc)
+    public void changeVSpeed(double value, int direction, double inc, double max, boolean stop)
     {
         double deltaValue;
-        if (value >= inc)
-        {
-            deltaValue = inc;
-        }
-        else
-        {
-            deltaValue = value;
-        }
         switch(direction)
         {
-            case 0 -> this.setvSpeed(deltaValue+this.getvSpeed());
-            case 1 -> this.setvSpeed(this.getvSpeed()-deltaValue);
+            case 0 : 
+            {
+                if (this.getHeight() + 50 > value )
+                {
+                    max = 12;
+                }
+                if (this.getHeight() + 40 > value )
+                {
+                    max = 8;
+                }
+                if (this.getHeight() + 30 > value )
+                {
+                    max = 5;
+                }
+                if (Math.abs(this.getvSpeed()) > max)
+                {
+                    deltaValue = - (this.getvSpeed() - max);
+                }
+                else
+                {
+                    deltaValue = inc;
+                }
+                if (this.getHeight() + 5 >= value )
+                {
+                    deltaValue = (value - this.getHeight() - this.getvSpeed());
+                }
+                if (stop)
+                {
+                    max = 5;
+                    deltaValue = - this.getvSpeed();
+                }
+                this.setvSpeed(deltaValue+this.getvSpeed(),max);
+                break;
+            }
+            case 1 : 
+            {
+                System.out.println(this.getHeight());
+                if (this.getHeight() - 50 < value )
+                {
+                    max = 12;
+                }
+                if (this.getHeight() - 40 < value )
+                {
+                    max = 8;
+                }
+                if (this.getHeight() - 30 < value )
+                {
+                    max = 5;
+                }
+                if (Math.abs(this.getvSpeed()) > max)
+                {
+                    deltaValue = - ( this.getvSpeed() + max);
+                }
+                else
+                {
+                    deltaValue = -inc;
+                }
+                if (this.getHeight() - 5 <= value )
+                {
+                    deltaValue = ( value - this.getHeight() - this.getvSpeed());
+                }
+                if (stop)
+                {
+                    max = 5;
+                    deltaValue = - this.getvSpeed();
+                }
+                this.setvSpeed(deltaValue+this.getvSpeed(),max);
+                break;
+            }
         }
     }
     
@@ -256,20 +306,23 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
         }
     }
 
-    public Double getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public void setHeight(Double height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
-    public Double getvSpeed() {
+    public double getvSpeed() {
         return vSpeed;
     }
 
-    public void setvSpeed(Double vSpeed) {
-        this.vSpeed = vSpeed;
+    public void setvSpeed(double vSpeed, double max) {
+        if (Math.abs(vSpeed) <= max)
+        {
+            this.vSpeed = vSpeed;
+        }
     }
 
     public Double getId() {

@@ -38,6 +38,7 @@ public abstract class CommandObjectAbstract implements Observer, Command {
                 case "Move" -> result.add(new MotionObjectMove(value,direction));
                 case "Turn" -> result.add(new MotionObjectTurn(value,direction));
                 case "Speed" -> result.add(new MotionObjectAcceleration(value,direction));
+                case "Height" -> result.add(new MotionObjectVSpeed(value,direction));
             }
 
         }
