@@ -11,16 +11,34 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
+ * CommandDecoder is a class which allows to decode messages
+ * into their correspoding command objects. This is used when
+ * ATC gives a text command to an aircraft and that command
+ * needs to be performed by the Aircraft.
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
 public class CommandDecoder {
     
+    /**
+     * This method splits the text into individual actions
+     * to be decoded by the {@link decodeAction} method
+     * @param actions The string containing all of the actions, separated by commas
+     * @return The list containing individual actions to be sent for decoding
+     */
     public static List<String> splitActions(String actions)
     {
         return Arrays.asList(actions.split(","));
     }
     
+    /**
+     * This method converts action into a {@link CommandObjectAbstract} by using a
+     * manually selected list of possible actions
+     * @param action The string containing the action in the form of "Action Number" where
+     * Action is the actual expected command and
+     * Number is a numeric value as the expected outcome of this action
+     * @param target The aircraft which is to perform the action given
+     * @return CommandObjectAbstract which contains the target of the command and needs to be registered with {@link Queue} object
+     */
     public static CommandObjectAbstract decodeAction(String action, MotionObject target)
     {
         // Setup list of possible commands

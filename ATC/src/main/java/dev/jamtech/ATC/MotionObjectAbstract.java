@@ -287,11 +287,11 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
         }
     }
 
-    public Double getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(Double speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 
@@ -325,19 +325,19 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
         }
     }
 
-    public Double getId() {
+    public double getId() {
         return id;
     }
 
-    public void setId(Double id) {
+    public void setId(double id) {
         this.id = id;
     }
     
-    private Double speed;
-    private Double acceleration;
-    private Double height;
-    private Double vSpeed;
-    private Double id;
+    private double speed;
+    private double acceleration;
+    private double height;
+    private double vSpeed;
+    private double id;
 
     
 
