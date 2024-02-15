@@ -3,10 +3,19 @@ import './App.css';
 import api from './api/axiosConfig';
 import { useState, useEffect } from 'react';
 
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, Marker,TileLayer, Popup } from 'react-leaflet';
+import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet-rotatedmarker";
 
 function App() {
+  const markers = [{geocode:[51.509865,-0.118292],popUp:"Airplane 1",angle:0},{geocode:[51.509765,-0.118052],popUp:"Airplane 2",angle:180}]
+
+  const airplaneIcon = new Icon({
+    iconUrl: require("./images/GreenPlane.png"),
+    iconSize: [38,38]
+  })
+
   const [map, setMap] = useState();
 
   const getMap = async () => {
@@ -30,11 +39,14 @@ function App() {
   },[])
 
   return (
-    <MapContainer center={[35.5140,5.1312]} zoom={13}>
-      <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' 
-      url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-
+    <MapContainer center={[51.509865,-0.118092]} zoom={13}>
+      <TileLayer attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
+      url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"/>
+      {markers.map(marker => (<Marker position={marker.geocode} icon={airplaneIcon} rotationAngle={marker.angle} draggable={true} popUp={marker.popUp} >
+        <Popup>{marker.popUp}</Popup>
+      </Marker>))}
       </MapContainer>
+      
   )
 }
 
