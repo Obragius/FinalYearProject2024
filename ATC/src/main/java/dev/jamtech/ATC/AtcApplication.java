@@ -14,6 +14,7 @@ public class AtcApplication {
 	}
         
         @GetMapping("/root")
+        
         public String apiIndex()
         {
             return "Hello, this is my string";
