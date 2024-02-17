@@ -5,11 +5,15 @@
 package dev.jamtech.ATC;
 
 import java.util.List;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
+@Document(collection = "Map")
 public class Map {
 
     public List<MapObject> getAllObjects() {
@@ -30,6 +34,8 @@ public class Map {
         this.allObjects.remove(object);
     }
     
+    @Id
+    private ObjectId id;
     private List<MapObject> allObjects;
     
 }
