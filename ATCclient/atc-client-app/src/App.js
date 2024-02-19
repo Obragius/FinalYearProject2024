@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import api from './api/axiosConfig';
 import { useState, useEffect } from 'react';
@@ -7,14 +6,27 @@ import { MapContainer, Marker,TileLayer, Popup, useMapEvents } from 'react-leafl
 import { Icon, LatLng, latLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-rotatedmarker";
-import { click } from '@testing-library/user-event/dist/click';
 
 var edit = false;
+
+const elementsToAdd = [];
+
+function SendElements()
+{
+
+}
+
+const Elements = async (e) =>
+{
+    const response = await api.post("api/addMap",{map:"hello"})
+    alert(response.data);
+}
 
 function EditMode()
 {
   if (edit)
   {
+    SendElements();
     edit = false;
   }
   else
@@ -42,8 +54,11 @@ function App() {
       {
         if (edit)
         {
+          alert(elementsToAdd);
           var markerOptions = {icon:airplaneIcon,rotationAngle:0,draggable:true}
-          new L.Marker(e.latlng,markerOptions).addTo(map);
+          var newMarker = new L.Marker(e.latlng,markerOptions)
+          elementsToAdd.push(newMarker);
+          newMarker.addTo(map);
         }
       }
     })
@@ -85,6 +100,7 @@ function App() {
         <AddObject />
         </MapContainer>;
       <button onClick={EditMode}>Edit Mode</button>
+      <button onClick={Elements}>Add Map</button>
     </div>
       
   )
