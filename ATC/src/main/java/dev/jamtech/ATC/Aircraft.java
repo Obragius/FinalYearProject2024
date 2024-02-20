@@ -74,6 +74,10 @@ public class Aircraft extends MotionObjectAbstract {
         this.setxPos(xPos);
         this.setyPos(yPos);
         this.setAngle(new Angle());
+        this.setSpeed(100);
+        this.setHeight(12000);
+        this.setvSpeed(0.0, 0.0);
+        this.setAcceleration(0.0, 0.0);
     }
     
     public Aircraft()
