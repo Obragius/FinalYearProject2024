@@ -60,7 +60,7 @@ public class Angle {
     
     public Angle()
     {
-        
+        this.setValue(0);
     }
     
     private double value;

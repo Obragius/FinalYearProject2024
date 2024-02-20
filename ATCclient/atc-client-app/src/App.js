@@ -11,15 +11,42 @@ var edit = false;
 
 const elementsToAdd = [];
 
+const oldMarkers = [];
+
+const markers = [];
+
+var mapMarkers = L.layerGroup();
+
+function reloadAllElements(aircraft)
+{
+  const airplaneIcon = new Icon({
+    iconUrl: require("./images/GreenPlane.png"),
+    iconSize: [38,38]
+  })
+
+  var markerOptions = {icon:airplaneIcon,rotationAngle:aircraft.angle.value,draggable:true}
+  var newMarker = new L.Marker([aircraft.xPos,aircraft.yPos],markerOptions)
+  markers.push(newMarker);
+} 
+
 function SendElements()
 {
 
 }
 
+function emptyArray(array)
+{
+  for (let index = 0; index < array.length; index++) {
+    array;
+  }
+}
+
 const Elements = async (e) =>
 {
-    const response = await api.post("api/addMap",{map:"hello"})
-    alert(response.data);
+    const response = await api.post("api/addMap",{map:"hello"});
+    emptyArray(markers);
+    console.log(markers);
+    response.data.allObjects.forEach(reloadAllElements);
 }
 
 function EditMode()
@@ -36,7 +63,6 @@ function EditMode()
 }  
 
 function App() {
-  const markers = [{geocode:[51.509865,-0.118292],popUp:"Airplane 1",angle:0},{geocode:[51.509765,-0.118052],popUp:"Airplane 2",angle:180}]
 
   const airplaneIcon = new Icon({
     iconUrl: require("./images/GreenPlane.png"),
@@ -54,7 +80,6 @@ function App() {
       {
         if (edit)
         {
-          alert(elementsToAdd);
           var markerOptions = {icon:airplaneIcon,rotationAngle:0,draggable:true}
           var newMarker = new L.Marker(e.latlng,markerOptions)
           elementsToAdd.push(newMarker);
@@ -65,6 +90,29 @@ function App() {
    
      return null
      
+   }
+
+   function UpdateMarkers()
+   {
+    const map = useMapEvents({
+      click(e)
+      {
+        if (JSON.stringify(markers) !== JSON.stringify(oldMarkers))
+        {
+          mapMarkers.clearLayers();
+          console.log("this runs")
+          for(let index = 0; index < markers.length; index++) 
+          {
+            markers.pop(index).addTo(mapMarkers);
+            
+          }
+          mapMarkers.addTo(map);
+          oldMarkers.join;
+        }
+      }
+    })
+   
+     return null
    }
 
   const getMap = async () => {
@@ -94,10 +142,9 @@ function App() {
         <MapContainer onClick={AddObject} center={[51.509865,-0.118092]} zoom={13}>
         <TileLayer  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
         url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"/>
-        {markers.map(marker => (<Marker position={marker.geocode} icon={airplaneIcon} rotationAngle={marker.angle} draggable={true} popUp={marker.popUp} >
-        <Popup>{marker.popUp}</Popup>
-        </Marker>))}
         <AddObject />
+        <UpdateMarkers />
+        <reloadAllElements />
         </MapContainer>;
       <button onClick={EditMode}>Edit Mode</button>
       <button onClick={Elements}>Add Map</button>

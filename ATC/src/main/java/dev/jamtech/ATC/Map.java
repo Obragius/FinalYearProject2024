@@ -4,7 +4,11 @@
  */
 package dev.jamtech.ATC;
 
+import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,7 +17,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
-@Document(collection = "Map")
+@Document
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Map {
 
     public List<MapObject> getAllObjects() {
@@ -36,6 +43,6 @@ public class Map {
     
     @Id
     private ObjectId id;
-    private List<MapObject> allObjects;
+    private List<MapObject> allObjects = new ArrayList();
     
 }

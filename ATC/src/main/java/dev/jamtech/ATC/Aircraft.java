@@ -65,9 +65,18 @@ public class Aircraft extends MotionObjectAbstract {
         
     }
     
+    public Aircraft(double xPos, double yPos)
+    {
+        this.setxPos(xPos);
+        this.setyPos(yPos);
+        this.setAngle(new Angle());
+    }
+    
     public Aircraft()
     {
-        
+        this.setxPos(0.0);
+        this.setyPos(0.0);
+        this.setAngle(new Angle());
     }
     
     private String callsign;

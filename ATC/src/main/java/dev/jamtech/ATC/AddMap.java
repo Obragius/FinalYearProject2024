@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -21,11 +21,17 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RequestMapping("api/addMap")
 public class AddMap {
     
+    @Autowired
+    private AddMapService myMapService;
+    
     @PostMapping
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<String> addNewMap(@RequestBody Map payload)
+    public ResponseEntity<Map> addNewMap(@RequestBody Map payload)
     {
-        return new ResponseEntity("Map was added",HttpStatus.CREATED);
+        Map newMap = myMapService.createMap();
+        Aircraft myAir = new Aircraft(51.505865,-0.118292);
+        newMap.addObjects(myAir);
+        return new ResponseEntity(newMap,HttpStatus.CREATED);
     }
     
 }
