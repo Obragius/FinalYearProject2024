@@ -19,14 +19,14 @@ var mapMarkers = L.layerGroup();
 
 var mapID = null;
 
-function reloadAllElements(aircraft)
+function ReloadAllElements(aircraft)
 {
   const airplaneIcon = new Icon({
     iconUrl: require("./images/GreenPlane.png"),
     iconSize: [38,38]
   })
 
-  var markerOptions = {icon:airplaneIcon,rotationAngle:aircraft.angle.value,draggable:true};
+  var markerOptions = {icon:airplaneIcon,rotationAngle:aircraft.angle.value,draggable:false};
   var newMarker = new L.Marker([aircraft.xPos,aircraft.yPos],markerOptions);
   markers.push(newMarker);
 } 
@@ -37,8 +37,8 @@ const SendElements = async (e) =>
     const response = await api.post("api/addAircraft",{"xPos":elementsToAdd[index].getLatLng().lat,"yPos":elementsToAdd[index].getLatLng().lng,"mapID":mapID});
     const result = response.data[0];
     mapID = result.mapID;
-    console.log(mapID);
-    result.allObjects.forEach(reloadAllElements);
+    console.log("Aircraft sent, Map returned")
+    result.allObjects.forEach(ReloadAllElements);
   }
 }
 
@@ -47,15 +47,15 @@ const Elements = async (e) =>
     const response = await api.post("api/addMap",{map:"hello"});
     mapID = response.data.mapID;
     console.log(mapID);
-    response.data.allObjects.forEach(reloadAllElements);
+    response.data.allObjects.forEach(ReloadAllElements);
 }
 
 function EditMode()
 {
   if (edit)
   {
-    SendElements();
     edit = false;
+    SendElements();
   }
   else
   {
@@ -71,6 +71,7 @@ function App() {
   })
 
   const [map, setMap] = useState();
+
 
 
   function AddObject() {
@@ -101,13 +102,16 @@ function App() {
         if (JSON.stringify(markers) !== JSON.stringify(oldMarkers))
         {
           mapMarkers.clearLayers();
-          for(let index = 0; index < markers.length; index++) 
+          map.removeLayer(mapMarkers)
+          for(let index = 0; index <= markers.length; index++) 
           {
             markers.pop(index).addTo(mapMarkers);
-            
+          }
+          for(let index = 0; index <= elementsToAdd.length; index++) 
+          {
+            map.removeLayer(elementsToAdd.pop(index));
           }
           mapMarkers.addTo(map);
-          oldMarkers.join;
         }
       }
     })
@@ -119,8 +123,6 @@ function App() {
     try
     {
       const response = await api.get("/api/getMap");
-
-      console.log(response.data);
 
       setMap(response.data);
     }
@@ -144,7 +146,6 @@ function App() {
         url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"/>
         <AddObject />
         <UpdateMarkers />
-        <reloadAllElements />
         </MapContainer>;
       <button onClick={EditMode}>Edit Mode</button>
       <button onClick={Elements}>Add Map</button>
