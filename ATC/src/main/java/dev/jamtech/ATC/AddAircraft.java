@@ -4,13 +4,17 @@
  */
 package dev.jamtech.ATC;
 
+import java.util.Date;
+import java.util.Map;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("api/addAircraft")
+@Service
 public class AddAircraft {
     
     @Autowired
@@ -33,13 +38,11 @@ public class AddAircraft {
     
     @PostMapping
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Map> addNewAircraft(@RequestBody String xPos, String yPos, ObjectId mapID)
+    public ResponseEntity<GeoMap> addNewAircraft(@RequestBody Map payload)
     {
-        System.out.println(xPos);
-        System.out.println(yPos);
-        Aircraft myAir = new Aircraft(Double.parseDouble(xPos),Double.parseDouble(yPos));
-        mongoTemplate.update(Map.class).matching(Criteria.where("id").is(mapID)).apply(new Update().push("allObjects").value(myAir)).first();
-        return new ResponseEntity(myMapRepository.findById(mapID),HttpStatus.CREATED);
+        Aircraft myAir = new Aircraft((double)payload.get("xPos"),(double)payload.get("yPos"));
+        mongoTemplate.update(GeoMap.class).matching(Criteria.where("mapID").is((int)payload.get("mapID"))).apply(new Update().push("allObjects").value(myAir)).first();
+        return new ResponseEntity(mongoTemplate.find(new Query(Criteria.where("mapID").is((int)payload.get("mapID"))),GeoMap.class),HttpStatus.CREATED);
     }
     
 }

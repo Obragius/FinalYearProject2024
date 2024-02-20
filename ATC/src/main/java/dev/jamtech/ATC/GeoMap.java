@@ -43,6 +43,7 @@ public class GeoMap {
     
     @Id
     private ObjectId id;
+    private int mapID = new ObjectId().getTimestamp();
     private List<MapObject> allObjects = new ArrayList();
     
 }

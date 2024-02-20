@@ -34,17 +34,19 @@ function reloadAllElements(aircraft)
 const SendElements = async (e) =>
 {
   for (let index = 0; index < elementsToAdd.length; index++) {
-    console.log(elementsToAdd[index].getLatLng());
-    const response = await api.post("api/addAircraft",{"xPos":elementsToAdd[index].getLatLng().lat.toString(),"yPos":elementsToAdd[index].getLatLng().lng.toString(),"mapID":mapID});
-    mapID = response.data.id;
-    response.data.allObjects.forEach(reloadAllElements);
+    const response = await api.post("api/addAircraft",{"xPos":elementsToAdd[index].getLatLng().lat,"yPos":elementsToAdd[index].getLatLng().lng,"mapID":mapID});
+    const result = response.data[0];
+    mapID = result.mapID;
+    console.log(mapID);
+    result.allObjects.forEach(reloadAllElements);
   }
 }
 
 const Elements = async (e) =>
 {
     const response = await api.post("api/addMap",{map:"hello"});
-    mapID = response.data.id;
+    mapID = response.data.mapID;
+    console.log(mapID);
     response.data.allObjects.forEach(reloadAllElements);
 }
 
@@ -99,7 +101,6 @@ function App() {
         if (JSON.stringify(markers) !== JSON.stringify(oldMarkers))
         {
           mapMarkers.clearLayers();
-          console.log("this runs")
           for(let index = 0; index < markers.length; index++) 
           {
             markers.pop(index).addTo(mapMarkers);

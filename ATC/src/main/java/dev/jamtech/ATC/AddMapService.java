@@ -17,9 +17,9 @@ public class AddMapService {
     @Autowired
     private MapRepository mapRepository;
     
-    public Map createMap() 
+    public GeoMap createMap() 
     {
-        Map myMap = new Map();
+        GeoMap myMap = new GeoMap();
         mapRepository.insert(myMap);
         
         return myMap;

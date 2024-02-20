@@ -10,15 +10,15 @@ package dev.jamtech.ATC;
  */
 public class MapOriginator implements Observer {
 
-    public Map getMap() {
+    public GeoMap getMap() {
         return map;
     }
 
-    public void setMap(Map map) {
+    public void setMap(GeoMap map) {
         this.map = map;
     }
     
-    private Map map;
+    private GeoMap map;
     private static MapOriginator instance;
     
     public MapMemento storeInMapMemento()

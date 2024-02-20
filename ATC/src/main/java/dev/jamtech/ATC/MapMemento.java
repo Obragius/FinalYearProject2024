@@ -10,13 +10,13 @@ package dev.jamtech.ATC;
  */
 public class MapMemento {
 
-    public Map getMap() {
+    public GeoMap getMap() {
         return map;
     }
     
-    private Map map;
+    private GeoMap map;
     
-    public MapMemento(Map map)
+    public MapMemento(GeoMap map)
     {
         this.map = map;
     }

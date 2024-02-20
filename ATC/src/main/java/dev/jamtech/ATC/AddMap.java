@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
@@ -29,9 +30,6 @@ public class AddMap {
     public ResponseEntity<GeoMap> addNewMap(@RequestBody GeoMap payload)
     {
         GeoMap newMap = myMapService.createMap();
-        Aircraft myAir = new Aircraft(51.505865,-0.118292);
-        newMap.addObjects(myAir);
-        System.out.println(newMap.getId().toString());
         return new ResponseEntity(newMap,HttpStatus.CREATED);
     }
     

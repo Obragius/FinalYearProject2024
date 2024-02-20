@@ -5,11 +5,15 @@
 package dev.jamtech.ATC;
 
 import java.util.HashSet;
+import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
+@Data
+@Document
 public class Aircraft extends MotionObjectAbstract {
 
     public String getCallsign() {
