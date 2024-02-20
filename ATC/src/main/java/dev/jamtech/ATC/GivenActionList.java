@@ -17,7 +17,7 @@ public class GivenActionList extends ActionList {
         Aircraft target;
         if (message.getOriginator().equals("ATC"))
         {
-            Map map = MapOriginator.getInstance().getMap();
+            GeoMap map = MapOriginator.getInstance().getMap();
             for (MapObject o1 : map.getAllObjects())
             {
                 if (o1.getClass().equals("Aircraft"))

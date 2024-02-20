@@ -21,7 +21,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Map {
+public class GeoMap {
 
     public List<MapObject> getAllObjects() {
         return allObjects;

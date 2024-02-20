@@ -17,6 +17,8 @@ const markers = [];
 
 var mapMarkers = L.layerGroup();
 
+var mapID = null;
+
 function reloadAllElements(aircraft)
 {
   const airplaneIcon = new Icon({
@@ -24,28 +26,25 @@ function reloadAllElements(aircraft)
     iconSize: [38,38]
   })
 
-  var markerOptions = {icon:airplaneIcon,rotationAngle:aircraft.angle.value,draggable:true}
-  var newMarker = new L.Marker([aircraft.xPos,aircraft.yPos],markerOptions)
+  var markerOptions = {icon:airplaneIcon,rotationAngle:aircraft.angle.value,draggable:true};
+  var newMarker = new L.Marker([aircraft.xPos,aircraft.yPos],markerOptions);
   markers.push(newMarker);
 } 
 
-function SendElements()
+const SendElements = async (e) =>
 {
-
-}
-
-function emptyArray(array)
-{
-  for (let index = 0; index < array.length; index++) {
-    array;
+  for (let index = 0; index < elementsToAdd.length; index++) {
+    console.log(elementsToAdd[index].getLatLng());
+    const response = await api.post("api/addAircraft",{"xPos":elementsToAdd[index].getLatLng().lat.toString(),"yPos":elementsToAdd[index].getLatLng().lng.toString(),"mapID":mapID});
+    mapID = response.data.id;
+    response.data.allObjects.forEach(reloadAllElements);
   }
 }
 
 const Elements = async (e) =>
 {
     const response = await api.post("api/addMap",{map:"hello"});
-    emptyArray(markers);
-    console.log(markers);
+    mapID = response.data.id;
     response.data.allObjects.forEach(reloadAllElements);
 }
 

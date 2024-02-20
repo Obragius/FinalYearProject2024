@@ -26,11 +26,12 @@ public class AddMap {
     
     @PostMapping
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Map> addNewMap(@RequestBody Map payload)
+    public ResponseEntity<GeoMap> addNewMap(@RequestBody GeoMap payload)
     {
-        Map newMap = myMapService.createMap();
+        GeoMap newMap = myMapService.createMap();
         Aircraft myAir = new Aircraft(51.505865,-0.118292);
         newMap.addObjects(myAir);
+        System.out.println(newMap.getId().toString());
         return new ResponseEntity(newMap,HttpStatus.CREATED);
     }
     

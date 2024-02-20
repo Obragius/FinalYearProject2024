@@ -17,7 +17,7 @@ public class MapService {
     
     @Autowired
     private MapRepository mapRepository;
-    public List<Map> getMaps()
+    public List<GeoMap> getMaps()
     {
         return mapRepository.findAll();
     }

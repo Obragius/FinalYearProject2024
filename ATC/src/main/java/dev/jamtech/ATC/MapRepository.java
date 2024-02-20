@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
 @Repository
-public interface MapRepository extends MongoRepository<Map, ObjectId>{
+public interface MapRepository extends MongoRepository<GeoMap, ObjectId>{
     
 }

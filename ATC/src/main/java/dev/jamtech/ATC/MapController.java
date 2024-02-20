@@ -25,9 +25,9 @@ public class MapController {
     
     @GetMapping
         
-        public ResponseEntity<List<Map>> getAllMaps()
+        public ResponseEntity<List<GeoMap>> getAllMaps()
         {
-            return new ResponseEntity<List<Map>>(mapService.getMaps(),HttpStatus.OK);
+            return new ResponseEntity<List<GeoMap>>(mapService.getMaps(),HttpStatus.OK);
         }
     
 }
