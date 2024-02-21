@@ -9,11 +9,13 @@ import "leaflet-rotatedmarker";
 
 var edit = false;
 
+var pause = false;
+
 const elementsToAdd = [];
 
-const oldMarkers = [];
-
 const markers = [];
+
+const empty = [];
 
 var mapMarkers = L.layerGroup();
 
@@ -38,8 +40,21 @@ const SendElements = async (e) =>
     const result = response.data[0];
     mapID = result.mapID;
     console.log("Aircraft sent, Map returned")
+    for(let index = 0; index <= markers.length; index++)
+    {
+      markers.pop();
+    }
     result.allObjects.forEach(ReloadAllElements);
   }
+}
+
+const Tick = async (e) =>
+{
+    const response = await api.post("api/tick",{"mapID":mapID});
+    mapID = response.data.mapID;
+    console.log(mapID);
+    markers.length = 0;
+    response.data.allObjects.forEach(ReloadAllElements);
 }
 
 const Elements = async (e) =>
@@ -63,7 +78,21 @@ function EditMode()
   }
 }  
 
+function Pause()
+{
+  if (pause)
+  {
+    pause = false;
+  }
+  else
+  {
+    pause = true;
+  }
+} 
+
 function App() {
+
+  useEffect (() => {const interval = setInterval(() => {if(mapID !== null && edit == false && pause == false){Tick();}},1000); return () => clearInterval(interval);}, []);
 
   const airplaneIcon = new Icon({
     iconUrl: require("./images/GreenPlane.png"),
@@ -99,17 +128,22 @@ function App() {
     const map = useMapEvents({
       click(e)
       {
-        if (JSON.stringify(markers) !== JSON.stringify(oldMarkers))
+        if (JSON.stringify(markers) !== JSON.stringify(empty))
         {
+          var markerNum = elementsToAdd.length;
+          for(let index = 0; index < markerNum; index++) 
+          {
+            if (elementsToAdd.length != 0)
+            {
+              map.removeLayer(elementsToAdd.pop());
+            }
+          }
           mapMarkers.clearLayers();
           map.removeLayer(mapMarkers)
-          for(let index = 0; index <= markers.length; index++) 
+          var markerNum = markers.length;
+          for(let index = 0; index < markerNum; index++) 
           {
-            markers.pop(index).addTo(mapMarkers);
-          }
-          for(let index = 0; index <= elementsToAdd.length; index++) 
-          {
-            map.removeLayer(elementsToAdd.pop(index));
+            markers.pop().addTo(mapMarkers);
           }
           mapMarkers.addTo(map);
         }
@@ -118,26 +152,6 @@ function App() {
    
      return null
    }
-
-  const getMap = async () => {
-    try
-    {
-      const response = await api.get("/api/getMap");
-
-      setMap(response.data);
-    }
-    catch (err)
-    {
-      console.log(err);
-    }
-  }
-
-  useEffect(() =>
-  {
-    getMap();
-
-
-  },[])
 
   return (
     <div>
@@ -149,6 +163,7 @@ function App() {
         </MapContainer>;
       <button onClick={EditMode}>Edit Mode</button>
       <button onClick={Elements}>Add Map</button>
+      <button onClick={Pause}>Pause Tick</button>
     </div>
       
   )
