@@ -6,6 +6,7 @@ import { MapContainer, Marker,TileLayer, Popup, useMapEvents } from 'react-leafl
 import { Icon, LatLng, latLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-rotatedmarker";
+import { useMap } from 'react-leaflet';
 
 var edit = false;
 
@@ -16,6 +17,8 @@ const elementsToAdd = [];
 const markers = [];
 
 const empty = [];
+
+var init = true;
 
 var mapMarkers = L.layerGroup();
 
@@ -35,8 +38,10 @@ function ReloadAllElements(aircraft)
 
 const SendElements = async (e) =>
 {
-  for (let index = 0; index < elementsToAdd.length; index++) {
-    const response = await api.post("api/addAircraft",{"xPos":elementsToAdd[index].getLatLng().lat,"yPos":elementsToAdd[index].getLatLng().lng,"mapID":mapID});
+  var elementsNum = elementsToAdd.length;
+  for (let index = 0; index < elementsNum; index++) {
+    var element = elementsToAdd.pop()
+    const response = await api.post("api/addAircraft",{"xPos":element.getLatLng().lat,"yPos":element.getLatLng().lng,"mapID":mapID});
     const result = response.data[0];
     mapID = result.mapID;
     console.log("Aircraft sent, Map returned")
@@ -46,15 +51,6 @@ const SendElements = async (e) =>
     }
     result.allObjects.forEach(ReloadAllElements);
   }
-}
-
-const Tick = async (e) =>
-{
-    const response = await api.post("api/tick",{"mapID":mapID});
-    mapID = response.data.mapID;
-    console.log(mapID);
-    markers.length = 0;
-    response.data.allObjects.forEach(ReloadAllElements);
 }
 
 const Elements = async (e) =>
@@ -92,7 +88,8 @@ function Pause()
 
 function App() {
 
-  useEffect (() => {const interval = setInterval(() => {if(mapID !== null && edit == false && pause == false){Tick();}},1000); return () => clearInterval(interval);}, []);
+  useEffect (() => {const interval = setInterval(() => {if(mapID !== null && edit == false && pause == false){Tick();
+    }},1000); return () => clearInterval(interval);}, []);
 
   const airplaneIcon = new Icon({
     iconUrl: require("./images/GreenPlane.png"),
@@ -100,6 +97,28 @@ function App() {
   })
 
   const [map, setMap] = useState();
+
+
+  const Tick = async (e) =>
+{
+    const response = await api.post("api/tick",{"mapID":mapID});
+    mapID = response.data.mapID;
+    console.log(mapID);
+    markers.length = 0;
+    response.data.allObjects.forEach(ReloadAllElements);
+
+    if (JSON.stringify(markers) !== JSON.stringify(empty))
+        {
+          mapMarkers.clearLayers();
+          //map.removeLayer(mapMarkers)
+          var markerNum = markers.length;
+          for(let index = 0; index < markerNum; index++) 
+          {
+            markers.pop().addTo(mapMarkers);
+          }
+          //mapMarkers.addTo(map);
+        }
+}
 
 
 
@@ -114,7 +133,15 @@ function App() {
           var markerOptions = {icon:airplaneIcon,rotationAngle:0,draggable:true}
           var newMarker = new L.Marker(e.latlng,markerOptions)
           elementsToAdd.push(newMarker);
-          newMarker.addTo(map);
+          newMarker.addTo(mapMarkers);
+        }
+        else
+        {
+          if (init)
+          {
+            mapMarkers.addTo(map);
+            init = false;
+          }
         }
       }
     })
@@ -125,42 +152,43 @@ function App() {
 
    function UpdateMarkers()
    {
-    const map = useMapEvents({
-      click(e)
-      {
-        if (JSON.stringify(markers) !== JSON.stringify(empty))
-        {
-          var markerNum = elementsToAdd.length;
-          for(let index = 0; index < markerNum; index++) 
-          {
-            if (elementsToAdd.length != 0)
-            {
-              map.removeLayer(elementsToAdd.pop());
-            }
-          }
-          mapMarkers.clearLayers();
-          map.removeLayer(mapMarkers)
-          var markerNum = markers.length;
-          for(let index = 0; index < markerNum; index++) 
-          {
-            markers.pop().addTo(mapMarkers);
-          }
-          mapMarkers.addTo(map);
-        }
-      }
-    })
+    // const map = useMapEvents({
+    //   click(e)
+    //   {
+    //     if (JSON.stringify(markers) !== JSON.stringify(empty))
+    //     {
+    //       var markerNum = elementsToAdd.length;
+    //       for(let index = 0; index < markerNum; index++) 
+    //       {
+    //         if (elementsToAdd.length != 0)
+    //         {
+    //           map.removeLayer(elementsToAdd.pop());
+    //         }
+    //       }
+    //       mapMarkers.clearLayers();
+    //       //map.removeLayer(mapMarkers)
+    //       var markerNum = markers.length;
+    //       for(let index = 0; index < markerNum; index++) 
+    //       {
+    //         markers.pop().addTo(mapMarkers);
+    //       }
+    //       //mapMarkers.addTo(map);
+    //     }
+    //   }
+    // })
    
-     return null
+    //  return null
    }
 
   return (
     <div>
-        <MapContainer onClick={AddObject} center={[51.509865,-0.118092]} zoom={13}>
+        <MapContainer center={[51.509865,-0.118092]} zoom={13}> 
         <TileLayer  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
         url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"/>
         <AddObject />
         <UpdateMarkers />
         </MapContainer>;
+        
       <button onClick={EditMode}>Edit Mode</button>
       <button onClick={Elements}>Add Map</button>
       <button onClick={Pause}>Pause Tick</button>
