@@ -6,6 +6,7 @@ package dev.jamtech.ATC;
 
 import java.util.HashSet;
 import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -15,6 +16,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Document
 public class Aircraft extends MotionObjectAbstract {
+    
+    public static int airNum = 0;
 
     public String getCallsign() {
         return callsign;
@@ -78,6 +81,13 @@ public class Aircraft extends MotionObjectAbstract {
         this.setHeight(12000);
         this.setvSpeed(0.0, 0.0);
         this.setAcceleration(0.0, 0.0);
+        this.setId(new ObjectId().getTimestamp()+Aircraft.getIdNum());
+    }
+    
+    public static int getIdNum()
+    {
+        Aircraft.airNum += 1;
+        return Aircraft.airNum;
     }
     
     public Aircraft()
