@@ -68,8 +68,8 @@ public class GeographicalCalculator {
         Double y2 = y1 + Math.atan2(Math.sin(angle)*Math.sin(distance)*Math.cos(x1), Math.cos(distance) - Math.sin(x1) * Math.sin(x2));
         x2 = Math.toDegrees(x2);
         y2 = Math.toDegrees(y2);
-        x2 = Math.round(x2 * 100000000.0) /100000000.0;
-        y2 = Math.round(y2 * 100000000.0) /100000000.0;
+        //x2 = Math.round(x2 * 100000000.0) /100000000.0;
+        //y2 = Math.round(y2 * 100000000.0) /100000000.0;
         return Arrays.asList(x2,y2);
     }
     

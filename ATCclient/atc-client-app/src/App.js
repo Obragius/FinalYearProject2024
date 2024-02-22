@@ -47,9 +47,8 @@ const SendElements = async (e) =>
   var elementsNum = elementsToAdd.length;
   for (let index = 0; index < elementsNum; index++) {
     var element = elementsToAdd.pop()
-    var angle = element.getPopup().getContent().slice(16,18);
-    console.log(angle);
-    const response = await api.post("api/addAircraft",{"xPos":element.getLatLng().lat,"yPos":element.getLatLng().lng,"mapID":mapID});
+    var angle = parseInt(element.getPopup().getContent().slice(6,9));
+    const response = await api.post("api/addAircraft",{"xPos":element.getLatLng().lat,"yPos":element.getLatLng().lng,"angle":angle,"mapID":mapID});
     const result = response.data[0];
     mapID = result.mapID;
     console.log("Aircraft sent, Map returned")
@@ -75,6 +74,7 @@ function EditMode()
   {
     edit = false;
     SendElements();
+    elementID = 0;
   }
   else
   {
@@ -134,6 +134,17 @@ function App() {
     })
   }
 
+  function FinishPopup(){
+    const map = useMapEvents({
+      popupclose(e)
+      {
+        if (e.popup.a == 1)
+        e.popup.setContent("Angle:"+e.popup.getContent().slice(23,26));
+        e.popup.a = 0
+      }
+    })
+  }
+
 
 
   function AddObject() {
@@ -148,6 +159,7 @@ function App() {
           var newMarker = new L.Marker(e.latlng,markerOptions)
           var popupOptions = {content:'Angle:<textarea id = '+elementID+'></textarea>',interactive:true};
           var popup = new L.Popup(popupOptions);
+          popup.a = 1;
           newMarker.bindPopup(popup);
           elementsToAdd.push(newMarker);
           newMarker.addTo(mapMarkers);
@@ -175,6 +187,7 @@ function App() {
         url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"/>
         <AddObject />
         <UpdatePopup />
+        <FinishPopup />
         </MapContainer>;
         
       <button onClick={EditMode}>Edit Mode</button>

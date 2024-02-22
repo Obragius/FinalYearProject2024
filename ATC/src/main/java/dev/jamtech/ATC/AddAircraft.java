@@ -40,7 +40,8 @@ public class AddAircraft {
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<GeoMap> addNewAircraft(@RequestBody Map payload)
     {
-        Aircraft myAir = new Aircraft((double)payload.get("xPos"),(double)payload.get("yPos"));
+        System.out.println(payload.get("angle"));
+        Aircraft myAir = new Aircraft((double)payload.get("xPos"),(double)payload.get("yPos"),(int)payload.get("angle"));
         mongoTemplate.update(GeoMap.class).matching(Criteria.where("mapID").is((int)payload.get("mapID"))).apply(new Update().push("allObjects").value(myAir)).first();
         return new ResponseEntity(mongoTemplate.find(new Query(Criteria.where("mapID").is((int)payload.get("mapID"))),GeoMap.class),HttpStatus.CREATED);
     }
