@@ -38,6 +38,7 @@ function ReloadAllElements(aircraft)
   var newMarker = new L.Marker([aircraft.xPos,aircraft.yPos],markerOptions);
   var popupOptions = {content:aircraft.id.toString()};
   var popup = new L.Popup(popupOptions);
+  popup.b = aircraft.id
   newMarker.bindPopup(popup);
   markers.push(newMarker);
 } 
@@ -115,11 +116,11 @@ function App() {
     markers.length = 0;
     response.data.allObjects.forEach(ReloadAllElements);
 
-    mapMarkers.clearLayers();
+
     var markerNum = markers.length;
     for(let index = 0; index < markerNum; index++) 
     {
-      markers.pop().addTo(mapMarkers);
+      thisMarker = markers.pop();
     }
 }
 
