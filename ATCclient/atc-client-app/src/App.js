@@ -32,7 +32,7 @@ function buildAircraft(aircraft)
 {
   var speed = aircraft.speed*1.94384.toPrecision(5);
   var result = "";
-  result += "<table><tr><th>ID</th><th>Heading</th><th>Speed</th></tr><tr><td>" + aircraft.id + "</td><td>" + aircraft.angle.value + "°</td><td>" + speed + "kts</td></tr></table>"
+  result += "<table><tr><th>ID</th><th>Heading</th><th>Speed</th><th>Altitude</th></tr><tr><td>" + aircraft.id + "</td><td>" + aircraft.angle.value + "°</td><td>" + speed + "kts</td><td>FL" + (aircraft.height/100) + "</td></tr></table>"
   return result;
 }
 
@@ -48,9 +48,12 @@ function ReloadAllElements(aircraft)
   var aircraftInfo = buildAircraft(aircraft);
   var popupOptions = {content:aircraftInfo,interactive:true};
   var popup = new L.Popup(popupOptions);
+  var toolTipOptions = {content:aircraft.id.toString(),permanent:true,opacity:1,className:'myTooltip',direction:"bottom"}
+  var toolTip = new L.Tooltip(toolTipOptions);
   popup.a = aircraft.id;
   newMarker.setRotationOrigin('center center');
   newMarker.bindPopup(popup);
+  newMarker.bindTooltip(toolTip);
   markers.push(newMarker);
 } 
 

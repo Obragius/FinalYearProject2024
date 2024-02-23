@@ -36,3 +36,15 @@
 .leaflet-container {
   height: 95vh;
 }
+
+.leaflet-tooltip.myTooltip
+{
+  background-color: transparent;
+  border-color: transparent;
+  border: 0px;
+  color:white;
+}
+
+.leaflet-tooltip-bottom:before {
+  border: 0 !important;
+}
