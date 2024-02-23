@@ -35,9 +35,11 @@ function ReloadAllElements(aircraft)
 
   var markerOptions = {icon:airplaneIcon,rotationAngle:aircraft.angle.value,draggable:false};
   var newMarker = new L.Marker([aircraft.xPos,aircraft.yPos],markerOptions);
-  var popupOptions = {content:aircraft.id.toString(),interactive:true};
+  var aircraftInfo = '<textarea></textarea>';
+  var popupOptions = {content:aircraftInfo,interactive:true};
   var popup = new L.Popup(popupOptions);
   popup.a = aircraft.id;
+  newMarker.setRotationOrigin('center center');
   newMarker.bindPopup(popup);
   markers.push(newMarker);
 } 
@@ -81,7 +83,7 @@ function EditMode()
   {
     edit = false;
     SendElements();
-    elementID = 0;
+    elementID = -1;
   }
   else
   {
@@ -148,8 +150,11 @@ function App() {
     const map = useMapEvents({
       keyup(e)
       {
-        var content = 'Angle:<textarea id = '+(elementID-1)+'>'+(document.getElementById(elementID-1).value)+'</textarea>';
-        elementsToAdd[elementID-1].getPopup().setContent(content)
+        if (elementID > 0)
+        {
+          var content = 'Angle:<textarea id = '+(elementID-1)+'>'+(document.getElementById(elementID-1).value)+'</textarea>';
+          elementsToAdd[elementID-1].getPopup().setContent(content)
+        }
       }
     })
   }
@@ -159,8 +164,10 @@ function App() {
       popupclose(e)
       {
         if (e.popup.a == 1)
-        e.popup.setContent("Angle:"+e.popup.getContent().slice(23,26));
-        e.popup.a = 0
+        {
+          e.popup.setContent("Angle:"+e.popup.getContent().slice(23,26));
+          e.popup.a = 0
+        }
       }
     })
   }
