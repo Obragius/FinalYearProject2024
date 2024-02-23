@@ -28,7 +28,6 @@ var mapID = null;
 
 function ReloadAllElements(aircraft)
 {
-  console.log(aircraft);
   const airplaneIcon = new Icon({
     iconUrl: require("./images/GreenPlane.png"),
     iconSize: [38,38]
@@ -36,9 +35,9 @@ function ReloadAllElements(aircraft)
 
   var markerOptions = {icon:airplaneIcon,rotationAngle:aircraft.angle.value,draggable:false};
   var newMarker = new L.Marker([aircraft.xPos,aircraft.yPos],markerOptions);
-  var popupOptions = {content:aircraft.id.toString()};
+  var popupOptions = {content:aircraft.id.toString(),interactive:true};
   var popup = new L.Popup(popupOptions);
-  popup.b = aircraft.id
+  popup.a = aircraft.id;
   newMarker.bindPopup(popup);
   markers.push(newMarker);
 } 
@@ -57,7 +56,14 @@ const SendElements = async (e) =>
     {
       markers.pop();
     }
+    
     result.allObjects.forEach(ReloadAllElements);
+
+    var markNum = markers.length;
+    for( let index = 0; index < markNum; index ++)
+    {
+      mapMarkers.addLayer(markers.pop());
+    }
   }
 }
 
@@ -112,15 +118,28 @@ function App() {
 {
     const response = await api.post("api/tick",{"mapID":mapID});
     mapID = response.data.mapID;
-    console.log(mapID);
     markers.length = 0;
     response.data.allObjects.forEach(ReloadAllElements);
 
-
-    var markerNum = markers.length;
+    var markerNum = mapMarkers.getLayers().length;
+    var allAircraft = response.data.allObjects;
+    var myMarkers = mapMarkers.getLayers();
     for(let index = 0; index < markerNum; index++) 
     {
-      thisMarker = markers.pop();
+      var aircraftNum = allAircraft.length;
+      console.log(myMarkers[index].getPopup().a)
+      for (let i = 0; i < aircraftNum; i++)
+      {
+        if (myMarkers[index].getPopup().a == allAircraft[i].id)
+        {
+          myMarkers[index].setLatLng([allAircraft[i].xPos,allAircraft[i].yPos])
+          myMarkers[index].setRotationAngle(allAircraft[i].angle.value);
+        }
+        else if (myMarkers[index].getPopup().a == 0)
+        {
+          mapMarkers.removeLayer(myMarkers[index]);
+        }
+      }
     }
 }
 
