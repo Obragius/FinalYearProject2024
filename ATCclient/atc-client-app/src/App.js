@@ -84,7 +84,7 @@ const SendElements = async (e) =>
 
 const Elements = async (e) =>
 {
-    const response = await api.post("api/addMap",{map:"hello"});
+    const response = await api.post("api/addMap",{map:"newMap"});
     mapID = response.data.mapID;
     console.log(mapID);
     response.data.allObjects.forEach(ReloadAllElements);
