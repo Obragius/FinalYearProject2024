@@ -26,6 +26,13 @@ var mapMarkers = L.layerGroup();
 
 var mapID = null;
 
+function buildAircraft(aircraft)
+{
+  var result = "";
+  result += "<table><tr><th>ID</th><th>Heading</th><th>Speed</th></tr><tr><td>" + aircraft.id + "</td><td>" + aircraft.angle.value + "</td><td>" + aircraft.speed + "</td></tr></table>"
+  return result;
+}
+
 function ReloadAllElements(aircraft)
 {
   const airplaneIcon = new Icon({
@@ -35,7 +42,7 @@ function ReloadAllElements(aircraft)
 
   var markerOptions = {icon:airplaneIcon,rotationAngle:aircraft.angle.value,draggable:false};
   var newMarker = new L.Marker([aircraft.xPos,aircraft.yPos],markerOptions);
-  var aircraftInfo = '<textarea></textarea>';
+  var aircraftInfo = buildAircraft(aircraft);
   var popupOptions = {content:aircraftInfo,interactive:true};
   var popup = new L.Popup(popupOptions);
   popup.a = aircraft.id;
@@ -83,7 +90,7 @@ function EditMode()
   {
     edit = false;
     SendElements();
-    elementID = -1;
+    elementID = 0;
   }
   else
   {
@@ -129,7 +136,6 @@ function App() {
     for(let index = 0; index < markerNum; index++) 
     {
       var aircraftNum = allAircraft.length;
-      console.log(myMarkers[index].getPopup().a)
       for (let i = 0; i < aircraftNum; i++)
       {
         if (myMarkers[index].getPopup().a == allAircraft[i].id)

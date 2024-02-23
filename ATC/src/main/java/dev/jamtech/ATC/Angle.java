@@ -50,6 +50,10 @@ public class Angle {
     }
 
     public void setValue(double value) {
+        if (value > 360.0)
+        {
+            value = value % 360.0;
+        }
         this.value = value;
     }
     
