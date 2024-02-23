@@ -10,6 +10,8 @@ import { useMap } from 'react-leaflet';
 
 var edit = false;
 
+var removeMode = false;
+
 var pause = false;
 
 var elementID = 0;
@@ -28,8 +30,9 @@ var mapID = null;
 
 function buildAircraft(aircraft)
 {
+  var speed = aircraft.speed*1.94384.toPrecision(5);
   var result = "";
-  result += "<table><tr><th>ID</th><th>Heading</th><th>Speed</th></tr><tr><td>" + aircraft.id + "</td><td>" + aircraft.angle.value + "</td><td>" + aircraft.speed + "</td></tr></table>"
+  result += "<table><tr><th>ID</th><th>Heading</th><th>Speed</th></tr><tr><td>" + aircraft.id + "</td><td>" + aircraft.angle.value + "°</td><td>" + speed + "kts</td></tr></table>"
   return result;
 }
 
@@ -89,14 +92,30 @@ function EditMode()
   if (edit)
   {
     edit = false;
-    SendElements();
+    if (elementsToAdd.length > 0)
+    {
+      SendElements();
+    }
     elementID = 0;
   }
   else
   {
     edit = true;
   }
-}  
+} 
+
+function RemoveMode()
+{
+  console.log(removeMode)
+  if (removeMode)
+  {
+    removeMode = false;
+  }
+  else
+  {
+    removeMode = true;
+  }
+} 
 
 function Pause()
 {
@@ -178,6 +197,22 @@ function App() {
     })
   }
 
+  function RemoveObject(){
+    const map = useMapEvents({
+      popupopen(e)
+      {
+        if (removeMode)
+        {
+          if (elementsToAdd.indexOf(e.popup._source) != -1)
+          {
+            elementsToAdd.splice(elementsToAdd.indexOf(e.popup._source),1)
+            mapMarkers.removeLayer(e.popup._source)
+            elementID -= 1;
+          }
+        }
+      }
+    })
+  }
 
 
   function AddObject() {
@@ -186,6 +221,7 @@ function App() {
     const map = useMapEvents({
       click(e)
       {
+
         if (edit)
         {
           var markerOptions = {icon:airplaneIcon,rotationAngle:0,draggable:true}
@@ -221,11 +257,13 @@ function App() {
         <AddObject />
         <UpdatePopup />
         <FinishPopup />
+        <RemoveObject />
         </MapContainer>;
         
       <button onClick={EditMode}>Edit Mode</button>
       <button onClick={Elements}>Add Map</button>
       <button onClick={Pause}>Pause Tick</button>
+      <button onClick={RemoveMode}>Remove Mode</button>
     </div>
       
   )
