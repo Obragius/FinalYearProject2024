@@ -28,6 +28,8 @@ var mapMarkers = L.layerGroup();
 
 var mapID = null;
 
+const chatMessages = [];
+
 function buildAircraft(aircraft)
 {
   var speed = aircraft.speed*1.94384.toPrecision(5);
@@ -136,6 +138,15 @@ function App() {
 
   useEffect (() => {const interval = setInterval(() => {if(mapID !== null && edit == false && pause == false){Tick();
     }},1000); return () => clearInterval(interval);}, []);
+
+  const [formValue, setFormValue] = useState();
+
+  const sendCommand = async(e) => {
+    e.preventDefault();
+    console.log(formValue);
+    setFormValue('')
+  }
+  
 
   const airplaneIcon = new Icon({
     iconUrl: require("./images/GreenPlane.png"),
@@ -267,6 +278,10 @@ function App() {
       <button onClick={Elements}>Add Map</button>
       <button onClick={Pause}>Pause Tick</button>
       <button onClick={RemoveMode}>Remove Mode</button>
+
+      <form onSubmit={sendCommand}>
+        <input value={formValue} onChange={(e) => setFormValue(e.target.value)}></input>
+      </form>
     </div>
       
   )
