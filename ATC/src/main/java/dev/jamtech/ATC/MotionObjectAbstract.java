@@ -325,11 +325,11 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
         }
     }
 
-    public double getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(double id) {
+    public void setId(int id) {
         this.id = id;
     }
     
@@ -352,7 +352,7 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
     /**
     * Unused attribute, might be used later to use with persistent storage
     */
-    private double id;
+    private int id;
 
     
 
