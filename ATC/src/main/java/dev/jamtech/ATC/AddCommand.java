@@ -33,22 +33,37 @@ public class AddCommand {
     
     @PostMapping
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<String> addCoomand(@RequestBody Map payload)
+    public ResponseEntity<GeoMap> addCoomand(@RequestBody Map payload)
     {
         int mapID = (int)payload.get("mapID");
         GeoMap myMap = mongoTemplate.find(new Query(Criteria.where("mapID").is(mapID)),GeoMap.class).get(0);
+        String myText = (String)payload.get("text");
+        String myAircraft = myText.substring(0, 10);
+        String myCommand;
+        if (myText.length() > 9)
+        {
+            myCommand = myText.substring(11);
+        }
+        else
+        {
+            myCommand = "Command not found";
+        }
         Queue.getInstance().reset();
         Queue myQ = Queue.getInstance();
+        System.out.println(myAircraft);
+        System.out.println(myCommand);
         for (MapObject myObject :myMap.getAllObjects())
         {
             if (myObject instanceof MotionObject)
             {
                 MotionObjectAbstract myMotion = (MotionObjectAbstract)myObject;
-                String myText = (String)payload.get("text");
                 String myId = Integer.toString(myMotion.getId());
-                if (myText.equals(myId))
+                if (myAircraft.equals(myId))
                 {
-                    return new ResponseEntity("Aircraft found",HttpStatus.OK);
+                    CommandObjectAbstract action = CommandDecoder.decodeAction(myCommand, myMotion);
+                    myQ.register(action);
+                    myQ.notifyObservers();
+                    return new ResponseEntity(myMap,HttpStatus.OK);
                 }
             }
         }

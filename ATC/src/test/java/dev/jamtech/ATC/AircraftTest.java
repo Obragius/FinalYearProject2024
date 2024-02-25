@@ -203,7 +203,9 @@ public class AircraftTest {
         return Stream.of(
                 Arguments.of(79.0,new Aircraft(17.5,67.9,100,new Angle(23.8)) , "turn left heading 079" ),
                 Arguments.of(79.0,new Aircraft(17.5,67.9,100,new Angle(23.8)) , "turn right heading 079" ),
+                Arguments.of(350.0,new Aircraft(17.5,67.9,100,new Angle(23.8)) , "turn left heading 350" ),
                 Arguments.of(279.0,new Aircraft(17.5,67.9,100,new Angle(23.8)) , "turn left heading 279" )
+                
         );
     }
     
