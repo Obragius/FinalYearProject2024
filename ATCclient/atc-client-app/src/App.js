@@ -231,6 +231,25 @@ function App() {
     })
   }
 
+  function SelectPlane(){
+    const map = useMapEvents({
+      popupopen(e)
+      {
+        if (e.popup.a != 0 && e.popup.a != 1)
+        {
+          setFormValue(e.popup.a);
+        }
+      },
+      popupclose(e)
+      {
+        if (e.popup.a != 0 && e.popup.a != 1)
+        {
+          setFormValue("");
+        }
+      }
+    })
+  }
+
 
   function AddObject() {
 
@@ -274,8 +293,9 @@ function App() {
         <AddObject />
         <UpdatePopup />
         <FinishPopup />
+        <SelectPlane />
         <RemoveObject />
-        </MapContainer>;
+        </MapContainer>
         
       <button onClick={EditMode}>Edit Mode</button>
       <button onClick={Elements}>Add Map</button>

@@ -25,6 +25,7 @@ public class AddMapService {
         GeoMap myMap = new GeoMap();
         mapRepository.insert(myMap);
         Queue q1 = Queue.getInstance();
+        q1.reset();
         q1.connectMap(myMap.getMapID());
         queueRepository.insert(q1);
         

@@ -71,6 +71,7 @@ public class Queue {
     public void reset()
     {
         this.observerList = new ArrayList();
+        this.id = new ObjectId();
     }
     
     private Queue()
@@ -78,6 +79,7 @@ public class Queue {
         this.observerList = new ArrayList();
         this.speed = 1;
         this.time = new TimeStamp();
+        this.id = new ObjectId();
     }
     
     private Queue(int mapID)
@@ -86,6 +88,7 @@ public class Queue {
         this.speed = 1;
         this.time = new TimeStamp();
         this.connectedMapID = mapID;
+        this.id = new ObjectId();
     }
     
     public void connectMap(int mapID)
