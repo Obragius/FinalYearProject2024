@@ -4,7 +4,6 @@
  */
 package dev.jamtech.ATC;
 
-import java.util.HashSet;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -81,7 +80,7 @@ public class Aircraft extends MotionObjectAbstract {
         this.setHeight(12000);
         this.setvSpeed(0.0, 0.0);
         this.setAcceleration(0.0, 0.0);
-        this.setId(new ObjectId().getTimestamp()+Aircraft.getIdNum());
+        this.setId((int)new ObjectId().getTimestamp()+Aircraft.getIdNum());
     }
     
     public static int getIdNum()

@@ -26,8 +26,6 @@ public class AddMapService {
         mapRepository.insert(myMap);
         Queue q1 = Queue.getInstance();
         q1.connectMap(myMap.getMapID());
-        MotionObjectMove move = new MotionObjectMove(0.0,0);
-        q1.register(move);
         queueRepository.insert(q1);
         
         return myMap;

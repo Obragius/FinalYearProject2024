@@ -4,10 +4,13 @@
  */
 package dev.jamtech.ATC;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 /**
  * Interface for any moving object in the simulation implemented by {@link MotionObjectAbstract}
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
+@Document
 public interface MotionObject {
     
     /**

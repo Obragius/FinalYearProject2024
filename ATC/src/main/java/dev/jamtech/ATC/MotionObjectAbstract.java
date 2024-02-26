@@ -5,6 +5,8 @@
 package dev.jamtech.ATC;
 
 import java.util.List;
+import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Implements {@link MotionObject} interface and extends {@link MapObject}
@@ -12,6 +14,8 @@ import java.util.List;
  * Is extended by {@link Aircraft}
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
+@Data
+@Document
 public abstract class MotionObjectAbstract extends MapObject implements MotionObject {
     
     public MapObject createObject()

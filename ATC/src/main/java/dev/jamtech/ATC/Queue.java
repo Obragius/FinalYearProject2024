@@ -93,6 +93,16 @@ public class Queue {
         this.connectedMapID = mapID;
     }
     
+    public void setId(ObjectId id)
+    {
+        this.id = id;
+    }
+    
+    public ObjectId getId()
+    {
+        return this.id;
+    }
+    
     public static Queue getInstance()
     {
         if (Queue.instance == null)
