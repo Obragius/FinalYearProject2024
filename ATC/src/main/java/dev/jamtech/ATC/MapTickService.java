@@ -53,8 +53,7 @@ public class MapTickService {
                         CommandObjectAbstract myCommand = (CommandObjectAbstract)myObserver;
                         if (myCommand.getMotionObject().getId() == myAir.getId())
                         {
-                            myMap.removeObject(myObject);
-                            myMap.addObjects((MapObject)myCommand.getMotionObject());
+                            myCommand.setMotionObject(myAir);
                         }
                     }
                 }

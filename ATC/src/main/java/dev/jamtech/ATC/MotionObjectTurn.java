@@ -4,10 +4,19 @@
  */
 package dev.jamtech.ATC;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 /**
  *
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
+@Document
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MotionObjectTurn extends CommandObjectAbstract{
     
     public MotionObjectTurn(double value, int direction)

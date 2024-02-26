@@ -48,8 +48,9 @@ public class AddCommand {
         {
             myCommand = "Command not found";
         }
-        Queue.getInstance().reset();
-        Queue myQ = Queue.getInstance();
+//        Queue.getInstance().reset();
+//        Queue myQ = Queue.getInstance();
+        Queue myQ = mongoTemplate.find(new Query(Criteria.where("connectedMapID").is(mapID)),Queue.class).get(0);
         System.out.println(myAircraft);
         System.out.println(myCommand);
         for (MapObject myObject :myMap.getAllObjects())
@@ -62,7 +63,7 @@ public class AddCommand {
                 {
                     CommandObjectAbstract action = CommandDecoder.decodeAction(myCommand, myMotion);
                     myQ.register(action);
-                    myQ.notifyObservers();
+                    mongoTemplate.update(Queue.class).matching(Criteria.where("connectedMapID").is(mapID)).apply(new Update().set("observerList",myQ.getObserverList())).first();
                     return new ResponseEntity(myMap,HttpStatus.OK);
                 }
             }

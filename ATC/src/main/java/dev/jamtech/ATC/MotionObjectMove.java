@@ -4,10 +4,13 @@
  */
 package dev.jamtech.ATC;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 /**
  *
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
+@Document
 public class MotionObjectMove extends CommandObjectAbstract {
 
     public MotionObjectMove(double value, int direction)
