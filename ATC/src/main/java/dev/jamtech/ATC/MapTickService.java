@@ -38,21 +38,31 @@ public class MapTickService {
     {
         int mapID = (int)payload.get("mapID");
         GeoMap myMap = mongoTemplate.find(new Query(Criteria.where("mapID").is(mapID)),GeoMap.class).get(0);
-        Queue.getInstance().reset();
-        Queue myQ = Queue.getInstance();
+//        Queue.getInstance().reset();
+//        Queue myQ = Queue.getInstance();
+        Queue myQ = mongoTemplate.find(new Query(Criteria.where("connectedMapID").is(mapID)),Queue.class).get(0);
         for (MapObject myObject :myMap.getAllObjects())
         {
             if (myObject instanceof MotionObject)
             {
-                MotionObjectMove move = new MotionObjectMove(0.0,0);
-                move.setMotionObject((MotionObject)myObject);
-                myQ.setSpeed(1);
-                myQ.register(move);
+                MotionObjectAbstract myAir = (MotionObjectAbstract)myObject;
+                for (Observer myObserver :myQ.getObserverList())
+                {
+                    if (myObserver instanceof CommandObjectAbstract)
+                    {
+                        CommandObjectAbstract myCommand = (CommandObjectAbstract)myObserver;
+                        if (myCommand.getMotionObject().getId() == myAir.getId())
+                        {
+                            myMap.removeObject(myObject);
+                            myMap.addObjects((MapObject)myCommand.getMotionObject());
+                        }
+                    }
+                }
             }
         }
         myQ.notifyObservers();
-        // Works until here
         mongoTemplate.update(GeoMap.class).matching(Criteria.where("mapID").is(mapID)).apply(new Update().set("allObjects",myMap.getAllObjects())).first();
+        mongoTemplate.update(Queue.class).matching(Criteria.where("connectedMapID").is(mapID)).apply(new Update().set("observerList",myQ.getObserverList())).first();
         return new ResponseEntity(myMap,HttpStatus.OK);
         
     }

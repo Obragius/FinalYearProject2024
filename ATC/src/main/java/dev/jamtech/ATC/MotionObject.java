@@ -13,6 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public interface MotionObject {
     
+    
+    public int getId();
     /**
      * This method must change the latitude and longitude of the object
      */

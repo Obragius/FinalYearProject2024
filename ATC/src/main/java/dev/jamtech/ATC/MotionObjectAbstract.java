@@ -329,6 +329,7 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
         }
     }
 
+    @Override
     public int getId() {
         return id;
     }
