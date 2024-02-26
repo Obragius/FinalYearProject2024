@@ -42,6 +42,20 @@ public class Queue {
     
     public void register(Observer observer)
     {
+        Iterator<Observer> myIter = this.observerList.listIterator();
+        while (myIter.hasNext())
+        {
+            Observer myObserver = myIter.next();
+            if (myObserver.getClass() == observer.getClass())
+            {
+                CommandObjectAbstract myCommand = (CommandObjectAbstract)myObserver;
+                CommandObjectAbstract givenCommand = (CommandObjectAbstract)observer;
+                if (myCommand.getMotionObject().getId() == givenCommand.getMotionObject().getId())
+                {
+                    myIter.remove();
+                }
+            }
+        }
         this.observerList.add(observer);
     }
     
