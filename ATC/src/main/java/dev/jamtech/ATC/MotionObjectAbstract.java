@@ -78,8 +78,8 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
             return switch (action)
             {
                 case "Turn" -> this.angle.getValue() == value;
-                case "Speed" -> this.speed > value;
-                case "Height" -> this.height > value;
+                case "Speed" -> this.speed >= value;
+                case "Height" -> this.height >= value;
                 default -> false;
             };
         }
@@ -88,8 +88,8 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
            return switch (action)
             {
                 case "Turn" -> this.angle.getValue() == value;
-                case "Speed" -> this.speed < value;
-                case "Height" -> this.height < value;
+                case "Speed" -> this.speed <= value;
+                case "Height" -> this.height <= value;
                 default -> false;
             }; 
         }
