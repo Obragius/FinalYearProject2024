@@ -46,10 +46,16 @@ public class AddAircraft {
         int mapID = (int)payload.get("mapID");
         Aircraft myAir = new Aircraft((double)payload.get("xPos"),(double)payload.get("yPos"),(int)payload.get("angle"));
         MotionObjectMove move = new MotionObjectMove(0,0);
+        MotionObjectHeight height = new MotionObjectHeight(0.0,0);
+        MotionObjectSpeed speed = new MotionObjectSpeed(0.0,0);
         move.setMotionObject(myAir);
+        height.setMotionObject(myAir);
+        speed.setMotionObject(myAir);
         mongoTemplate.update(GeoMap.class).matching(Criteria.where("mapID").is((int)payload.get("mapID"))).apply(new Update().push("allObjects").value(myAir)).first();
         Queue q1 = mongoTemplate.find(new Query(Criteria.where("connectedMapID").is(mapID)),Queue.class).get(0);
         q1.register(move);
+        q1.register(height);
+        q1.register(speed);
         mongoTemplate.update(Queue.class).matching(Criteria.where("connectedMapID").is(mapID)).apply(new Update().set("observerList",q1.getObserverList())).first();
         return new ResponseEntity(mongoTemplate.find(new Query(Criteria.where("mapID").is((int)payload.get("mapID"))),GeoMap.class),HttpStatus.CREATED);
     }

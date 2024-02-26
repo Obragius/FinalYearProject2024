@@ -176,6 +176,8 @@ function App() {
         {
           myMarkers[index].setLatLng([allAircraft[i].xPos,allAircraft[i].yPos])
           myMarkers[index].setRotationAngle(allAircraft[i].angle.value);
+          var aircraftInfo = buildAircraft(allAircraft[i])
+          myMarkers[index].getPopup().setContent(aircraftInfo);
         }
         else if (myMarkers[index].getPopup().a == 0)
         {
