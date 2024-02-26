@@ -7,14 +7,27 @@ package dev.jamtech.ATC;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
+@Document
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Queue {
     
+    @Id
+    private ObjectId id;
     private List<Observer> observerList;
+    private int connectedMapID;
     private static Queue instance;
     private TimeStamp time;
 
@@ -65,6 +78,19 @@ public class Queue {
         this.observerList = new ArrayList();
         this.speed = 1;
         this.time = new TimeStamp();
+    }
+    
+    private Queue(int mapID)
+    {
+        this.observerList = new ArrayList();
+        this.speed = 1;
+        this.time = new TimeStamp();
+        this.connectedMapID = mapID;
+    }
+    
+    public void connectMap(int mapID)
+    {
+        this.connectedMapID = mapID;
     }
     
     public static Queue getInstance()

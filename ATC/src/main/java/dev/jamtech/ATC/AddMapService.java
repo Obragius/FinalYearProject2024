@@ -17,10 +17,18 @@ public class AddMapService {
     @Autowired
     private MapRepository mapRepository;
     
+    @Autowired
+    private QueueRepository queueRepository;
+    
     public GeoMap createMap() 
     {
         GeoMap myMap = new GeoMap();
         mapRepository.insert(myMap);
+        Queue q1 = Queue.getInstance();
+        q1.connectMap(myMap.getMapID());
+        MotionObjectMove move = new MotionObjectMove(0.0,0);
+        q1.register(move);
+        queueRepository.insert(q1);
         
         return myMap;
     }
