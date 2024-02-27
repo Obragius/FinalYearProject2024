@@ -217,10 +217,10 @@ function App() {
       {
         if (elementID > 0)
         {
-          var content = 'Angle:<input id = '+(elementID-1)+' value='+(document.getElementById(elementID-1).value)+'>'+'</input>';
+          var content = 'Angle:<input id = angle'+(elementID-1)+' value='+(document.getElementById(("angle"+(elementID-1))).value)+'>'+'</input>';
           elementsToAdd[elementID-1].getPopup().setContent(content);
-          document.getElementById(elementID-1).focus();
-          document.getElementById(elementID-1).setSelectionRange(1000, 1000);
+          document.getElementById(("angle"+(elementID-1))).focus();
+          document.getElementById(("angle"+(elementID-1))).setSelectionRange(1000, 1000);
           
         }
       }
@@ -233,7 +233,7 @@ function App() {
       {
         if (e.popup.a == 1)
         {
-          e.popup.setContent("Angle:"+e.popup.getContent().slice(26,29));
+          e.popup.setContent("Angle:"+e.popup.getContent().slice(31,34));
           e.popup.a = 0
         }
       }
@@ -288,7 +288,7 @@ function App() {
         {
           var markerOptions = {icon:airplaneIcon,rotationAngle:0,draggable:true}
           var newMarker = new L.Marker(e.latlng,markerOptions)
-          var popupOptions = {content:'Angle:<input id = '+elementID+'></input>',interactive:true};
+          var popupOptions = {content:'Angle:<input id = angle'+elementID+'></input>',interactive:true};
           var popup = new L.Popup(popupOptions);
           popup.a = 1;
           newMarker.bindPopup(popup);
