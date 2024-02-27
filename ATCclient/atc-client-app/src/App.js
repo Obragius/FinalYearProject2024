@@ -151,6 +151,25 @@ function App() {
     console.log(response.data);
     setFormValue('')
   }
+
+  const LoadMap = async(e) =>
+  {
+    mapID = parseInt(formValue);
+    const response = await api.post("api/getgeomap",{"mapID":mapID});
+    const result = response.data[0];
+    for(let index = 0; index <= markers.length; index++)
+    {
+      markers.pop();
+    }
+    result.allObjects.forEach(ReloadAllElements);
+
+    var markNum = markers.length;
+    for( let index = 0; index < markNum; index ++)
+    {
+      var thisMarker = markers.pop();
+      mapMarkers.addLayer(thisMarker);
+    }
+  }
   
 
   const airplaneIcon = new Icon({
@@ -305,6 +324,7 @@ function App() {
       <button onClick={Elements}>Add Map</button>
       <button onClick={Pause}>Pause Tick</button>
       <button onClick={RemoveMode}>Remove Mode</button>
+      <button onClick={LoadMap}>Load Map</button>
 
       <form onSubmit={sendCommand}>
         <input value={formValue} onChange={(e) => setFormValue(e.target.value)}></input>
