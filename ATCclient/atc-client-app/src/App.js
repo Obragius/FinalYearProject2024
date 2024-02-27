@@ -218,7 +218,10 @@ function App() {
         if (elementID > 0)
         {
           var content = 'Angle:<input id = '+(elementID-1)+' value='+(document.getElementById(elementID-1).value)+'>'+'</input>';
-          elementsToAdd[elementID-1].getPopup().setContent(content)
+          elementsToAdd[elementID-1].getPopup().setContent(content);
+          document.getElementById(elementID-1).focus();
+          document.getElementById(elementID-1).setSelectionRange(1000, 1000);
+          
         }
       }
     })
