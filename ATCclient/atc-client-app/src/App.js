@@ -79,7 +79,11 @@ const SendElements = async (e) =>
     var markNum = markers.length;
     for( let index = 0; index < markNum; index ++)
     {
-      mapMarkers.addLayer(markers.pop());
+      var thisMarker = markers.pop();
+      if (index == 0)
+      {
+        mapMarkers.addLayer(thisMarker);
+      }
     }
   }
 }
