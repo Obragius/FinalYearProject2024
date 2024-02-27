@@ -44,7 +44,7 @@ public class AddAircraft {
     public ResponseEntity<GeoMap> addNewAircraft(@RequestBody Map payload)
     {
         int mapID = (int)payload.get("mapID");
-        Aircraft myAir = new Aircraft((double)payload.get("xPos"),(double)payload.get("yPos"),(int)payload.get("angle"));
+        Aircraft myAir = new Aircraft((double)payload.get("xPos"),(double)payload.get("yPos"),(int)payload.get("angle"),(int)payload.get("speed"));
         MotionObjectMove move = new MotionObjectMove(0,0);
         MotionObjectHeight height = new MotionObjectHeight(0.0,0);
         MotionObjectSpeed speed = new MotionObjectSpeed(0.0,0);

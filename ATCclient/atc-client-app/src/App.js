@@ -69,7 +69,8 @@ const SendElements = async (e) =>
   for (let index = 0; index < elementsNum; index++) {
     var element = elementsToAdd.pop()
     var angle = parseInt(element.getPopup().getContent().slice(6,9));
-    const response = await api.post("api/addAircraft",{"xPos":element.getLatLng().lat,"yPos":element.getLatLng().lng,"angle":angle,"mapID":mapID});
+    var speed = parseInt(element.getPopup().getContent().slice(19,22));
+    const response = await api.post("api/addAircraft",{"xPos":element.getLatLng().lat,"yPos":element.getLatLng().lng,"angle":angle,"speed":speed,"mapID":mapID});
     const result = response.data[0];
     mapID = result.mapID;
     console.log("Aircraft sent, Map returned")
@@ -230,7 +231,7 @@ function App() {
           {
             change = 1;
           }
-          var content = 'Angle:<input id = angle'+(elementID-1)+' value='+(document.getElementById(("angle"+(elementID-1))).value)+'></input><br>Speed:<input id = speed'+(elementID-1)+' value='+(document.getElementById(("speed"+(elementID-1))).value)+'></input>';
+          var content = 'Angle:<input id = angle'+(elementID-1)+' value='+(document.getElementById(("angle"+(elementID-1))).value)+' maxlength=3></input><br>Speed:<input id = speed'+(elementID-1)+' value='+(document.getElementById(("speed"+(elementID-1))).value)+'></input>';
           var focusElement;
           switch (change)
           {
@@ -253,7 +254,7 @@ function App() {
       {
         if (e.popup.a == 1)
         {
-          e.popup.setContent("Angle:"+e.popup.getContent().slice(31,34));
+          e.popup.setContent("Angle:"+e.popup.getContent().slice(31,34)+"<br>Speed:"+e.popup.getContent().slice(90,93));
           angleBefore = '';
           speedBefore = '';
           e.popup.a = 0
@@ -310,7 +311,7 @@ function App() {
         {
           var markerOptions = {icon:airplaneIcon,rotationAngle:0,draggable:true}
           var newMarker = new L.Marker(e.latlng,markerOptions)
-          var popupOptions = {content:'Angle:<input id = angle'+elementID+'></input><br>Speed:<input id = speed'+elementID+'></input>',interactive:true};
+          var popupOptions = {content:'Angle:<input id = angle'+elementID+' maxlength=3></input><br>Speed:<input id = speed'+elementID+'></input>',interactive:true};
           var popup = new L.Popup(popupOptions);
           popup.a = 1;
           newMarker.bindPopup(popup);
