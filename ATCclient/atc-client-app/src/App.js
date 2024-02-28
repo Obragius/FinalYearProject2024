@@ -107,6 +107,7 @@ const Elements = async (e) =>
 {
     const response = await api.post("api/addMap",{map:"newMap"});
     mapID = response.data.mapID;
+    document.getElementById("mapID").innerHTML = "MapID = " + mapID;
     console.log(mapID);
     response.data.allObjects.forEach(ReloadAllElements);
 }
@@ -148,10 +149,12 @@ function Pause()
 {
   if (pause)
   {
+    document.getElementById("Sim").classList.add("myClass");
     pause = false;
   }
   else
   {
+    document.getElementById("Sim").classList.remove("myClass");
     pause = true;
   }
 } 
@@ -173,6 +176,7 @@ function App() {
   const LoadMap = async(e) =>
   {
     mapID = parseInt(formValue);
+    document.getElementById("mapID").innerHTML = "MapID = " + mapID;
     const response = await api.post("api/getgeomap",{"mapID":mapID});
     const result = response.data[0];
     for(let index = 0; index <= markers.length; index++)
@@ -378,9 +382,10 @@ function App() {
         
       <button id={"EditModeButton"} onClick={EditMode}>Edit Mode</button>
       <button onClick={Elements}>Add Map</button>
-      <button onClick={Pause}>Pause Tick</button>
+      <button class={"myClass"} id={"Sim"} onClick={Pause}>Simulation Running</button>
       <button onClick={RemoveMode}>Remove Mode</button>
       <button onClick={LoadMap}>Load Map</button>
+      <b><p1 id={"mapID"}></p1></b>
 
       <form onSubmit={sendCommand}>
         <input value={formValue} onChange={(e) => setFormValue(e.target.value)}></input>
