@@ -376,6 +376,7 @@ function App() {
       <button class={"myClass"} id={"Sim"} onClick={Pause}>Simulation Running</button>
       <button id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
       <button onClick={LoadMap}>Load Map</button>
+      <b><p1 id={"mapID"}></p1></b>
         <MapContainer center={[51.509865,-0.118092]} zoom={13}> 
         <TileLayer  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
         url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"/>
@@ -386,7 +387,6 @@ function App() {
         <RemoveObject />
         </MapContainer>
         
-      <b><p1 id={"mapID"}></p1></b>
 
       <form onSubmit={sendCommand}>
         <input value={formValue} onChange={(e) => setFormValue(e.target.value)}></input>

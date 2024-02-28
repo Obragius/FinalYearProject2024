@@ -35,6 +35,7 @@
 
 .leaflet-container {
   height: 93vh;
+  width: 70vi;
 }
 
 .leaflet-tooltip.myTooltip
