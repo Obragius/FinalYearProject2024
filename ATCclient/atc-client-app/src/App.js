@@ -16,11 +16,15 @@ var pause = false;
 
 var elementID = 0;
 
+var popupID = 0;
+
 const elementsToAdd = [];
 
 var angleBefore = '';
 
 var speedBefore = '';
+
+var signBefore = '';
 
 const markers = [];
 
@@ -38,7 +42,7 @@ function buildAircraft(aircraft)
 {
   var speed = aircraft.speed*1.94384.toPrecision(5);
   var result = "";
-  result += "<table><tr><th>ID</th><th>Heading</th><th>Speed</th><th>Altitude</th></tr><tr><td>" + aircraft.id + "</td><td>" + aircraft.angle.value + "°</td><td>" + speed + "kts</td><td>FL" + (aircraft.height/100) + "</td></tr></table>"
+  result += "<table><tr><th>Callsign</th><th>ID</th><th>Heading</th><th>Speed</th><th>Altitude</th></tr><tr><td>" + aircraft.callsign + "</td><td>" + aircraft.id + "</td><td>" + aircraft.angle.value + "°</td><td>" + speed + "kts</td><td>FL" + (aircraft.height/100) + "</td></tr></table>"
   return result;
 }
 
@@ -54,7 +58,7 @@ function ReloadAllElements(aircraft)
   var aircraftInfo = buildAircraft(aircraft);
   var popupOptions = {content:aircraftInfo,interactive:true};
   var popup = new L.Popup(popupOptions);
-  var toolTipOptions = {content:aircraft.id.toString(),permanent:true,opacity:1,className:'myTooltip',direction:"bottom"}
+  var toolTipOptions = {content:aircraft.callsign.toString(),permanent:true,opacity:1,className:'myTooltip',direction:"bottom"}
   var toolTip = new L.Tooltip(toolTipOptions);
   popup.a = aircraft.id;
   newMarker.setRotationOrigin('center center');
@@ -66,11 +70,19 @@ function ReloadAllElements(aircraft)
 const SendElements = async (e) =>
 {
   var elementsNum = elementsToAdd.length;
-  for (let index = 0; index < elementsNum; index++) {
+  for (let index = (elementsNum-1); index > -1; index--) {
     var element = elementsToAdd.pop()
-    var angle = parseInt(element.getPopup().getContent().slice(6,9));
-    var speed = parseInt(element.getPopup().getContent().slice(19,22));
-    const response = await api.post("api/addAircraft",{"xPos":element.getLatLng().lat,"yPos":element.getLatLng().lng,"angle":angle,"speed":speed,"mapID":mapID});
+    console.log(element)
+    console.log(index);
+    element.openPopup();
+    var angle = parseInt(document.getElementById(("angle"+(index))).value);
+    var speed = parseInt(document.getElementById(("speed"+(index))).value);
+    var sign = document.getElementById(("sign"+(index))).value
+    element.closePopup();
+    // var angle = parseInt(element.getPopup().getContent().slice(6,9));
+    // var speed = parseInt(element.getPopup().getContent().slice(19,22));
+    // var sign = parseInt(element.getPopup().getContent().slice(19,22));
+    const response = await api.post("api/addAircraft",{"xPos":element.getLatLng().lat,"yPos":element.getLatLng().lng,"angle":angle,"speed":speed,"sign":sign,"mapID":mapID});
     const result = response.data[0];
     mapID = result.mapID;
     console.log("Aircraft sent, Map returned")
@@ -111,6 +123,7 @@ function EditMode()
       SendElements();
     }
     elementID = 0;
+    popupID = 0;
   }
   else
   {
@@ -222,27 +235,42 @@ function App() {
       {
         if (elementID > 0)
         {
+          var elementSelected;
+          var markNum = mapMarkers.getLayers().length;
+          for( let index = 0; index < markNum; index ++)
+          {
+            if(mapMarkers.getLayers()[index].getPopup().isOpen())
+            {
+              elementSelected = mapMarkers.getLayers()[index].getPopup().id;
+            }
+          }
           var change = 0;
-          if ((document.getElementById(("angle"+(elementID-1))).value) != angleBefore)
+          if ((document.getElementById(("angle"+(elementSelected))).value) != angleBefore)
           {
             change = 0;
           }
-          else if ((document.getElementById(("speed"+(elementID-1))).value) != speedBefore)
+          else if ((document.getElementById(("speed"+(elementSelected))).value) != speedBefore)
           {
             change = 1;
           }
-          var content = 'Angle:<input id = angle'+(elementID-1)+' value='+(document.getElementById(("angle"+(elementID-1))).value)+' maxlength=3></input><br>Speed:<input id = speed'+(elementID-1)+' value='+(document.getElementById(("speed"+(elementID-1))).value)+'></input>';
+          else if ((document.getElementById(("sign"+(elementSelected))).value) != signBefore)
+          {
+            change = 2;
+          }
+          var content = 'Angle:<input id = angle'+(elementSelected)+' value='+(document.getElementById(("angle"+(elementSelected))).value)+' maxlength=3></input><br>Speed:<input id = speed'+(elementSelected)+' value='+(document.getElementById(("speed"+(elementSelected))).value)+'></input><br>Callsign:<input id = sign'+(elementSelected)+' value='+(document.getElementById(("sign"+(elementSelected))).value)+'></input>';
           var focusElement;
           switch (change)
           {
             case 0: focusElement = "angle";break;
             case 1: focusElement = "speed";break;
+            case 2: focusElement = "sign";break;
           }
-          elementsToAdd[elementID-1].getPopup().setContent(content);
-          document.getElementById((focusElement+(elementID-1))).focus();
-          document.getElementById((focusElement+(elementID-1))).setSelectionRange(1000, 1000);
-          angleBefore = document.getElementById(("angle"+(elementID-1))).value;
-          speedBefore = document.getElementById(("speed"+(elementID-1))).value;
+          elementsToAdd[elementSelected].getPopup().setContent(content);
+          angleBefore = document.getElementById(("angle"+(elementSelected))).value;
+          speedBefore = document.getElementById(("speed"+(elementSelected))).value;
+          signBefore = document.getElementById(("sign"+(elementSelected))).value;
+          document.getElementById((focusElement+(elementSelected))).focus();
+          document.getElementById((focusElement+(elementSelected))).setSelectionRange(1000, 1000);
         }
       }
     })
@@ -254,7 +282,7 @@ function App() {
       {
         if (e.popup.a == 1)
         {
-          e.popup.setContent("Angle:"+e.popup.getContent().slice(31,34)+"<br>Speed:"+e.popup.getContent().slice(90,93));
+          signBefore = '';
           angleBefore = '';
           speedBefore = '';
           e.popup.a = 0
@@ -311,9 +339,11 @@ function App() {
         {
           var markerOptions = {icon:airplaneIcon,rotationAngle:0,draggable:true}
           var newMarker = new L.Marker(e.latlng,markerOptions)
-          var popupOptions = {content:'Angle:<input id = angle'+elementID+' maxlength=3></input><br>Speed:<input id = speed'+elementID+'></input>',interactive:true};
+          var popupOptions = {content:'Angle:<input id = angle'+elementID+' maxlength=3></input><br>Speed:<input id = speed'+elementID+'></input><br>Callsign:<input id = sign'+elementID+'></input>',interactive:true};
           var popup = new L.Popup(popupOptions);
           popup.a = 1;
+          popup.id = popupID;
+          popupID += 1;
           newMarker.bindPopup(popup);
           elementsToAdd.push(newMarker);
           newMarker.addTo(mapMarkers);

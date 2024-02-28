@@ -71,13 +71,14 @@ public class Aircraft extends MotionObjectAbstract {
         
     }
     
-    public Aircraft(double xPos, double yPos, double angle, double speed)
+    public Aircraft(double xPos, double yPos, double angle, double speed,String sign)
     {
         this.setxPos(xPos);
         this.setyPos(yPos);
         this.setAngle(new Angle(angle));
         this.setSpeed(speed);
         this.setHeight(12000);
+        this.setCallsign(sign);
         this.setvSpeed(0.0, 0.0);
         this.setAcceleration(0.0, 0.0);
         this.setId((int)new ObjectId().getTimestamp()+Aircraft.getIdNum());
