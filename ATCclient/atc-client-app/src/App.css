@@ -34,7 +34,7 @@
 
 
 .leaflet-container {
-  height: 95vh;
+  height: 93vh;
 }
 
 .leaflet-tooltip.myTooltip
@@ -53,4 +53,21 @@
 .myClass
 {
   background-color:rgb(66, 216, 66);
+}
+
+button {
+  font-family: Arial;
+  color: #000000;
+  font-size: 15px;
+  background: #ffffff;
+  padding: 8px 8px 8px 8px;
+  text-decoration: none;
+  position:static;
+  top:10%;
+  left:10%;
+}
+
+button:hover {
+  opacity: 70%;
+  text-decoration: none;
 }

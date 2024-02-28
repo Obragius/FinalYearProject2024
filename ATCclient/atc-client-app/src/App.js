@@ -134,13 +134,14 @@ function EditMode()
 
 function RemoveMode()
 {
-  console.log(removeMode)
   if (removeMode)
   {
+    document.getElementById("Remove").classList.remove("myClass");
     removeMode = false;
   }
   else
   {
+    document.getElementById("Remove").classList.add("myClass");
     removeMode = true;
   }
 } 
@@ -370,6 +371,11 @@ function App() {
 
   return (
     <div>
+      <button id={"EditModeButton"} onClick={EditMode}>Edit Mode</button>
+      <button onClick={Elements}>Add Map</button>
+      <button class={"myClass"} id={"Sim"} onClick={Pause}>Simulation Running</button>
+      <button id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
+      <button onClick={LoadMap}>Load Map</button>
         <MapContainer center={[51.509865,-0.118092]} zoom={13}> 
         <TileLayer  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
         url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"/>
@@ -380,11 +386,6 @@ function App() {
         <RemoveObject />
         </MapContainer>
         
-      <button id={"EditModeButton"} onClick={EditMode}>Edit Mode</button>
-      <button onClick={Elements}>Add Map</button>
-      <button class={"myClass"} id={"Sim"} onClick={Pause}>Simulation Running</button>
-      <button onClick={RemoveMode}>Remove Mode</button>
-      <button onClick={LoadMap}>Load Map</button>
       <b><p1 id={"mapID"}></p1></b>
 
       <form onSubmit={sendCommand}>
