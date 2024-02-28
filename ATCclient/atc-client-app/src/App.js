@@ -72,8 +72,6 @@ const SendElements = async (e) =>
   var elementsNum = elementsToAdd.length;
   for (let index = (elementsNum-1); index > -1; index--) {
     var element = elementsToAdd.pop()
-    console.log(element)
-    console.log(index);
     element.openPopup();
     var angle = parseInt(document.getElementById(("angle"+(index))).value);
     var speed = parseInt(document.getElementById(("speed"+(index))).value);
@@ -124,10 +122,12 @@ function EditMode()
     }
     elementID = 0;
     popupID = 0;
+    document.getElementById("EditModeButton").classList.remove("myClass");
   }
   else
   {
     edit = true;
+    document.getElementById("EditModeButton").classList.add("myClass");
   }
 } 
 
@@ -376,7 +376,7 @@ function App() {
         <RemoveObject />
         </MapContainer>
         
-      <button onClick={EditMode}>Edit Mode</button>
+      <button id={"EditModeButton"} onClick={EditMode}>Edit Mode</button>
       <button onClick={Elements}>Add Map</button>
       <button onClick={Pause}>Pause Tick</button>
       <button onClick={RemoveMode}>Remove Mode</button>

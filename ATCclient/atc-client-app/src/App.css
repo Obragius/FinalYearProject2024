@@ -49,3 +49,8 @@
 .leaflet-tooltip-bottom:before {
   border: 0 !important;
 }
+
+.myClass
+{
+  background-color:rgb(66, 216, 66);
+}
