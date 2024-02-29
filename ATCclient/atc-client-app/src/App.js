@@ -168,15 +168,15 @@ function App() {
   useEffect (() => {const interval = setInterval(() => {if(mapID !== null && edit == false && pause == false){Tick();
     }},1000); return () => clearInterval(interval);}, []);
 
-  const [formValue = "", setFormValue] = useState();
+  const [formValue, setFormValue] = useState("");
 
-  const [chatValue = "", setChatValue] = useState();
+  const [chatValue, setChatValue] = useState([]);
 
   const sendCommand = async(e) => {
     e.preventDefault();
     const response = await api.post("api/addCommand",{"mapID":mapID,"text":formValue});
     console.log(response.data);
-    setChatValue(formValue);
+    chatValue.push(formValue);
     setFormValue('')
   }
 
