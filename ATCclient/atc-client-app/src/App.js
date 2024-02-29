@@ -8,6 +8,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-rotatedmarker";
 import { useMap } from 'react-leaflet';
 import ChatWindow from './components/ChatWindow';
+import useSpeechRecognition from './hooks/useSpeechRecognitionHook';
 
 
 var edit = false;
@@ -166,19 +167,34 @@ function Pause()
 
 function App() {
 
-  useEffect (() => {const interval = setInterval(() => {if(mapID !== null && edit == false && pause == false){Tick();
+  useEffect (() => {const interval = setInterval(() => {if(mapID !== null && edit == false && pause == false){Tick();handleInput();
     }},1000); return () => clearInterval(interval);}, []);
 
   const [formValue, setFormValue] = useState("");
 
   const [chatValue, setChatValue] = useState([]);
 
+  const {text,setText,startListening,stopListening,isListening,hasRecognitionSupport} = useSpeechRecognition();
+
+  const [handleCounter,setCounter] = useState(0);
+
   const sendCommand = async(e) => {
     e.preventDefault();
-    const response = await api.post("api/addCommand",{"mapID":mapID,"text":formValue});
+    const response = await api.post("api/addCommand",{"mapID":mapID,"text":text});
     console.log(response.data);
-    chatValue.push(formValue);
-    setFormValue('')
+    chatValue.push(text);
+    setText('')
+  }
+
+  function handleInput()
+  {
+    if(document.getElementById("input").value !== "")
+    {
+      var newText = document.getElementById("input").value;
+      document.getElementById("input").value = "";
+      setFormValue(newText)
+      document.myform.requestSubmit()
+    }
   }
 
   const LoadMap = async(e) =>
@@ -383,7 +399,9 @@ function App() {
       <button class={"myClass"} id={"Sim"} onClick={Pause}>Simulation Running</button>
       <button id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
       <button onClick={LoadMap}>Load Map</button>
-      <b><p1 id={"mapID"}></p1></b>
+      <p1 id={"mapID"}></p1>
+      <div>{hasRecognitionSupport ? (<div><button onClick={startListening}>Start listening</button></div>
+            ):(<h1>NOOOOOOO</h1>)}</div>
       <div className='Container'>
         <div>
           <MapContainer center={[51.509865,-0.118092]} zoom={13}> 
@@ -398,8 +416,9 @@ function App() {
         </div>
         <div>
           <ChatWindow text={chatValue}></ChatWindow>
-          <form onSubmit={sendCommand}>
+          <form name="myform" onSubmit={sendCommand}>
             <input className='Input' value={formValue} onChange={(e) => setFormValue(e.target.value)}></input>
+            <input id="input" className='Input'></input>
           </form>
         </div>
       </div>
@@ -407,6 +426,8 @@ function App() {
     </div>
       
   )
+
+  return {setFormValue}
 }
 
 export default App;
