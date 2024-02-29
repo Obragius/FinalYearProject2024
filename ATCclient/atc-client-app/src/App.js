@@ -7,6 +7,8 @@ import { Icon, LatLng, latLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-rotatedmarker";
 import { useMap } from 'react-leaflet';
+import ChatWindow from './components/ChatWindow';
+
 
 var edit = false;
 
@@ -127,6 +129,7 @@ function EditMode()
   }
   else
   {
+
     edit = true;
     document.getElementById("EditModeButton").classList.add("myClass");
   }
@@ -167,10 +170,13 @@ function App() {
 
   const [formValue = "", setFormValue] = useState();
 
+  const [chatValue = "", setChatValue] = useState();
+
   const sendCommand = async(e) => {
     e.preventDefault();
     const response = await api.post("api/addCommand",{"mapID":mapID,"text":formValue});
     console.log(response.data);
+    setChatValue(formValue);
     setFormValue('')
   }
 
@@ -377,17 +383,22 @@ function App() {
       <button id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
       <button onClick={LoadMap}>Load Map</button>
       <b><p1 id={"mapID"}></p1></b>
-        <MapContainer center={[51.509865,-0.118092]} zoom={13}> 
-        <TileLayer  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
-        url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"/>
-        <AddObject />
-        <UpdatePopup />
-        <FinishPopup />
-        <SelectPlane />
-        <RemoveObject />
-        </MapContainer>
-        
-
+      <div className='Container'>
+        <div>
+          <MapContainer center={[51.509865,-0.118092]} zoom={13}> 
+          <TileLayer  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"/>
+          <AddObject />
+          <UpdatePopup />
+          <FinishPopup />
+          <SelectPlane />
+          <RemoveObject />
+          </MapContainer>
+        </div>
+        <div>
+          <ChatWindow text={chatValue}></ChatWindow>
+        </div>
+      </div>
       <form onSubmit={sendCommand}>
         <input value={formValue} onChange={(e) => setFormValue(e.target.value)}></input>
       </form>

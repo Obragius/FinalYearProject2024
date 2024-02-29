@@ -72,3 +72,17 @@ button:hover {
   opacity: 70%;
   text-decoration: none;
 }
+
+.Container
+{
+  display: inline-flex;
+}
+
+.ChatWindow
+{
+  border:#000000;
+  border-width: 2px;
+  border-style: solid;
+  width: 28vi;
+  height: 93vh;
+}
