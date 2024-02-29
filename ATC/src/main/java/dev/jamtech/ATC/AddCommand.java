@@ -38,11 +38,12 @@ public class AddCommand {
         int mapID = (int)payload.get("mapID");
         GeoMap myMap = mongoTemplate.find(new Query(Criteria.where("mapID").is(mapID)),GeoMap.class).get(0);
         String myText = (String)payload.get("text");
-        String myAircraft = myText.substring(0, 10);
+        String[] splitText = myText.split(" ",2);
+        String myAircraft = splitText[0];
         String myCommand;
         if (myText.length() > 9)
         {
-            myCommand = myText.substring(11);
+            myCommand = splitText[1];
         }
         else
         {
@@ -53,6 +54,17 @@ public class AddCommand {
         Queue myQ = mongoTemplate.find(new Query(Criteria.where("connectedMapID").is(mapID)),Queue.class).get(0);
         System.out.println(myAircraft);
         System.out.println(myCommand);
+        for (MapObject myObject :myMap.getAllObjects())
+        {
+            if (myObject instanceof Aircraft)
+            {
+                Aircraft a1 = (Aircraft)myObject;
+                if (a1.getCallsign().equals(myAircraft))
+                {
+                    myAircraft = Integer.toString(a1.getId());
+                }
+            }
+        }
         for (MapObject myObject :myMap.getAllObjects())
         {
             if (myObject instanceof MotionObject)

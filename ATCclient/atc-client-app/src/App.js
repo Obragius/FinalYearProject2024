@@ -44,7 +44,7 @@ function buildAircraft(aircraft)
 {
   var speed = aircraft.speed*1.94384.toPrecision(5);
   var result = "";
-  result += "<table><tr><th>Callsign</th><th>ID</th><th>Heading</th><th>Speed</th><th>Altitude</th></tr><tr><td>" + aircraft.callsign + "</td><td>" + aircraft.id + "</td><td>" + aircraft.angle.value + "°</td><td>" + speed + "kts</td><td>FL" + (aircraft.height/100) + "</td></tr></table>"
+  result += "<table><tr><th>Callsign</th><th>Heading</th><th>Speed</th><th>Altitude</th></tr><tr><td>" + aircraft.callsign + "</td><td>" + aircraft.angle.value + "°</td><td>" + speed + "kts</td><td>FL" + (aircraft.height/100) + "</td></tr></table>"
   return result;
 }
 
@@ -63,6 +63,7 @@ function ReloadAllElements(aircraft)
   var toolTipOptions = {content:aircraft.callsign.toString(),permanent:true,opacity:1,className:'myTooltip',direction:"bottom"}
   var toolTip = new L.Tooltip(toolTipOptions);
   popup.a = aircraft.id;
+  popup.id = aircraft.callsign;
   newMarker.setRotationOrigin('center center');
   newMarker.bindPopup(popup);
   newMarker.bindTooltip(toolTip);
@@ -325,7 +326,7 @@ function App() {
       {
         if (e.popup.a != 0 && e.popup.a != 1)
         {
-          setFormValue(e.popup.a);
+          setFormValue(e.popup.id);
         }
       },
       popupclose(e)
@@ -397,11 +398,12 @@ function App() {
         </div>
         <div>
           <ChatWindow text={chatValue}></ChatWindow>
+          <form onSubmit={sendCommand}>
+            <input className='Input' value={formValue} onChange={(e) => setFormValue(e.target.value)}></input>
+          </form>
         </div>
       </div>
-      <form onSubmit={sendCommand}>
-        <input value={formValue} onChange={(e) => setFormValue(e.target.value)}></input>
-      </form>
+      
     </div>
       
   )
