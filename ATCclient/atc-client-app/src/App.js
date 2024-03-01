@@ -9,6 +9,8 @@ import "leaflet-rotatedmarker";
 import { useMap } from 'react-leaflet';
 import ChatWindow from './components/ChatWindow';
 import useSpeechRecognition from './hooks/useSpeechRecognitionHook';
+import * as Papa from "papaparse";
+import file from './airports.csv';
 
 
 var edit = false;
@@ -181,6 +183,39 @@ function App() {
   const {text,setText,startListening,stopListening,isListening,hasRecognitionSupport} = useSpeechRecognition();
 
   const [handleCounter,setCounter] = useState(0);
+
+  const ReadFile = async(e) => 
+  {
+    Papa.parse(file, {
+      download: true,
+      complete: LoadAllElements
+    });
+
+
+
+  }
+
+  function LoadAllElements(data){
+
+    var result = data.data
+    const TriangleIcon = new Icon({
+      iconUrl: require("./images/GreenTriangle.png"),
+      iconSize: [20,20]
+    })
+    var num = result.length;
+    for (var index = 1; index < num; index++)
+    {
+      var x = parseFloat(result[index][4]);
+      var y = parseFloat(result[index][5]);
+      var markerOptions = {icon:TriangleIcon,draggable:false};
+      if (((49 < x )&&(x < 52)) && ((-2 < y)&&(y < 2)))
+      {
+        var newMarker = new L.Marker([x,y],markerOptions);
+        mapMarkers.addLayer(newMarker)
+      }
+    }
+  }
+
 
   const sendCommand = async(e) => {
     e.preventDefault();
@@ -404,17 +439,25 @@ function App() {
 
   return (
     <div>
-      <button id={"EditModeButton"} onClick={EditMode}>Edit Mode</button>
-      <button onClick={Elements}>Add Map</button>
-      <button class={"myClass"} id={"Sim"} onClick={Pause}>Simulation Running</button>
-      <button id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
-      <button onClick={LoadMap}>Load Map</button>
-      <p1 id={"mapID"}></p1>
-      <div>{hasRecognitionSupport ? (<div><button onClick={startListening}>Start listening</button></div>
-            ):(<h1>No Voice Support</h1>)}</div>
+
+      <div className='ButtonTray'>
+        <button id={"EditModeButton"} onClick={EditMode}>Edit Mode</button>
+        <button onClick={Elements}>Add Map</button>
+        <button className={"myClass"} id={"Sim"} onClick={Pause}>Simulation Running</button>
+        <button id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
+        <button onClick={LoadMap}>Load Map</button>
+        <button onClick={ReadFile}>Load Triangle</button>
+        {
+          hasRecognitionSupport 
+            ? <button onClick={startListening}>Start listening</button>
+            : <h1>No Voice Support</h1>
+        }
+        <div id={"mapID"}></div>
+      </div>
+
       <div className='Container'>
         <div>
-          <MapContainer center={[51.509865,-0.118092]} zoom={13}> 
+          <MapContainer center={[51.8864,0.2413]} zoom={13}> 
           <TileLayer  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"/>
           <AddObject />
@@ -436,8 +479,6 @@ function App() {
     </div>
       
   )
-
-  return {setFormValue}
 }
 
 export default App;

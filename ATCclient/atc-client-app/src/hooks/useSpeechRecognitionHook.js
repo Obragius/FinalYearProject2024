@@ -23,7 +23,7 @@ const useSpeechRecognition = () => {
         recognition.onresult = (event) => {
             console.log("onresult event: ",event)
             setText(CommonWords(event.results[0][0].transcript));
-            document.getElementById("input").value = CommonWords(event.results[0][0].transcript);
+            document.getElementById("input").innerHTML = CommonWords(event.results[0][0].transcript);
             recognition.stop()
             setIsListening(false);
         }

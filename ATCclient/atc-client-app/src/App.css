@@ -102,3 +102,8 @@ button:hover {
 {
   color: red;
 }
+
+.ButtonTray
+{
+  display: inline-flex;
+}

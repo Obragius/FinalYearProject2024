@@ -217,7 +217,6 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
         {
             deltaValue = value;
         }
-        System.out.println(value);
         this.setSpeed(deltaValue+this.getSpeed());
         
     }
