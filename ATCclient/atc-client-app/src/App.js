@@ -180,18 +180,22 @@ function App() {
 
   const sendCommand = async(e) => {
     e.preventDefault();
-    const response = await api.post("api/addCommand",{"mapID":mapID,"text":text});
+    const response = await api.post("api/addCommand",{"mapID":mapID,"text":formValue});
     console.log(response.data);
-    chatValue.push(text);
-    setText('')
+    chatValue.push(formValue.toUpperCase());
+    if (response.data !== "Aircraft not found")
+    { 
+      chatValue.push(response.data.toUpperCase())
+    }
+    setFormValue('')
   }
 
   function handleInput()
   {
-    if(document.getElementById("input").value !== "")
+    if(document.getElementById("input").innerHTML !== "")
     {
-      var newText = document.getElementById("input").value;
-      document.getElementById("input").value = "";
+      var newText = document.getElementById("input").innerHTML;
+      document.getElementById("input").innerHTML = "";
       setFormValue(newText)
       document.myform.requestSubmit()
     }
@@ -401,7 +405,7 @@ function App() {
       <button onClick={LoadMap}>Load Map</button>
       <p1 id={"mapID"}></p1>
       <div>{hasRecognitionSupport ? (<div><button onClick={startListening}>Start listening</button></div>
-            ):(<h1>NOOOOOOO</h1>)}</div>
+            ):(<h1>No Voice Support</h1>)}</div>
       <div className='Container'>
         <div>
           <MapContainer center={[51.509865,-0.118092]} zoom={13}> 
@@ -418,8 +422,8 @@ function App() {
           <ChatWindow text={chatValue}></ChatWindow>
           <form name="myform" onSubmit={sendCommand}>
             <input className='Input' value={formValue} onChange={(e) => setFormValue(e.target.value)}></input>
-            <input id="input" className='Input'></input>
           </form>
+          <p hidden id="input"></p>
         </div>
       </div>
       

@@ -33,7 +33,7 @@ public class AddCommand {
     
     @PostMapping
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<GeoMap> addCoomand(@RequestBody Map payload)
+    public ResponseEntity<String> addCoomand(@RequestBody Map payload)
     {
         int mapID = (int)payload.get("mapID");
         GeoMap myMap = mongoTemplate.find(new Query(Criteria.where("mapID").is(mapID)),GeoMap.class).get(0);
@@ -54,6 +54,7 @@ public class AddCommand {
         Queue myQ = mongoTemplate.find(new Query(Criteria.where("connectedMapID").is(mapID)),Queue.class).get(0);
         System.out.println(myAircraft);
         System.out.println(myCommand);
+        String myAircraftID = "";
         for (MapObject myObject :myMap.getAllObjects())
         {
             if (myObject instanceof Aircraft)
@@ -61,7 +62,7 @@ public class AddCommand {
                 Aircraft a1 = (Aircraft)myObject;
                 if (a1.getCallsign().equals(myAircraft))
                 {
-                    myAircraft = Integer.toString(a1.getId());
+                    myAircraftID = Integer.toString(a1.getId());
                 }
             }
         }
@@ -71,12 +72,12 @@ public class AddCommand {
             {
                 MotionObjectAbstract myMotion = (MotionObjectAbstract)myObject;
                 String myId = Integer.toString(myMotion.getId());
-                if (myAircraft.equals(myId))
+                if (myAircraftID.equals(myId))
                 {
                     CommandObjectAbstract action = CommandDecoder.decodeAction(myCommand, myMotion);
                     myQ.register(action);
                     mongoTemplate.update(Queue.class).matching(Criteria.where("connectedMapID").is(mapID)).apply(new Update().set("observerList",myQ.getObserverList())).first();
-                    return new ResponseEntity(myMap,HttpStatus.OK);
+                    return new ResponseEntity(myCommand + " " + myAircraft,HttpStatus.OK);
                 }
             }
         }
