@@ -79,29 +79,33 @@ const SendElements = async (e) =>
     element.openPopup();
     var angle = parseInt(document.getElementById(("angle"+(index))).value);
     var speed = parseInt(document.getElementById(("speed"+(index))).value);
+    // Convert speed from knots to m/s
+    speed = speed/1.94384.toPrecision(5);
     var sign = document.getElementById(("sign"+(index))).value
     element.closePopup();
     // var angle = parseInt(element.getPopup().getContent().slice(6,9));
     // var speed = parseInt(element.getPopup().getContent().slice(19,22));
     // var sign = parseInt(element.getPopup().getContent().slice(19,22));
     const response = await api.post("api/addAircraft",{"xPos":element.getLatLng().lat,"yPos":element.getLatLng().lng,"angle":angle,"speed":speed,"sign":sign,"mapID":mapID});
-    const result = response.data[0];
-    mapID = result.mapID;
-    console.log("Aircraft sent, Map returned")
-    for(let index = 0; index <= markers.length; index++)
+    if (response.status !== 406)
     {
-      markers.pop();
-    }
-    
-    result.allObjects.forEach(ReloadAllElements);
-
-    var markNum = markers.length;
-    for( let index = 0; index < markNum; index ++)
-    {
-      var thisMarker = markers.pop();
-      if (index == 0)
+      const result = response.data[0];
+      mapID = result.mapID;
+      console.log("Aircraft sent, Map returned")
+      for(let index = 0; index <= markers.length; index++)
       {
-        mapMarkers.addLayer(thisMarker);
+        markers.pop();
+      }
+      result.allObjects.forEach(ReloadAllElements);
+
+      var markNum = markers.length;
+      for( let index = 0; index < markNum; index ++)
+      {
+        var thisMarker = markers.pop();
+        if (index == 0)
+        {
+          mapMarkers.addLayer(thisMarker);
+        }
       }
     }
   }
@@ -182,10 +186,12 @@ function App() {
     e.preventDefault();
     const response = await api.post("api/addCommand",{"mapID":mapID,"text":formValue});
     console.log(response.data);
-    chatValue.push(formValue.toUpperCase());
+    var Message = [formValue.toUpperCase(),"Command"];
+    chatValue.push(Message);
     if (response.data !== "Aircraft not found")
     { 
-      chatValue.push(response.data.toUpperCase())
+      Message = [response.data.toUpperCase(),"Response"];
+      chatValue.push(Message);
     }
     setFormValue('')
   }

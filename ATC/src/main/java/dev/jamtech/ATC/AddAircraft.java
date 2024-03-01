@@ -44,7 +44,20 @@ public class AddAircraft {
     public ResponseEntity<GeoMap> addNewAircraft(@RequestBody Map payload)
     {
         int mapID = (int)payload.get("mapID");
-        Aircraft myAir = new Aircraft((double)payload.get("xPos"),(double)payload.get("yPos"),(int)payload.get("angle"),(int)payload.get("speed"),(String)payload.get("sign"));
+        // Check there is no aircraft with this callsign on the current map
+        GeoMap myMap = mongoTemplate.find(new Query(Criteria.where("mapID").is(mapID)),GeoMap.class).get(0);
+        for (MapObject myObject: myMap.getAllObjects())
+        {
+            if (myObject instanceof Aircraft)
+            {
+                Aircraft air1 = (Aircraft)myObject;
+                if (air1.getCallsign().equals((String)payload.get("sign")));
+                {
+                    return new ResponseEntity(myMap,HttpStatus.NOT_ACCEPTABLE);
+                }
+            }
+        }
+        Aircraft myAir = new Aircraft((double)payload.get("xPos"),(double)payload.get("yPos"),(int)payload.get("angle"),(double)payload.get("speed"),(String)payload.get("sign"));
         MotionObjectMove move = new MotionObjectMove(0,0);
         MotionObjectHeight height = new MotionObjectHeight(0.0,0);
         MotionObjectSpeed speed = new MotionObjectSpeed(0.0,0);

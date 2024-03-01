@@ -97,3 +97,8 @@ button:hover {
   height: 6vh;
   font-size: 20px;
 }
+
+.Command
+{
+  color: red;
+}
