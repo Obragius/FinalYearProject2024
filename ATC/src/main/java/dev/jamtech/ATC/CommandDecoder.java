@@ -46,7 +46,8 @@ public class CommandDecoder {
         List<String> patterns = Arrays.asList("turn left heading",
                                               "turn right heading",
                                               "climb and maintain",
-                                              "descend and maintain");
+                                              "descend and maintain",
+                                              "maintain ");
         int match = -1;
         for (int i = 0; i < patterns.size(); i++)
         {
@@ -65,11 +66,23 @@ public class CommandDecoder {
             case 1 -> commandGiven = new MotionObjectTurn(Integer.parseInt(action.replace("turn right heading ", "")),0,target);
             case 2 -> commandGiven = new MotionObjectVSpeed(Integer.parseInt(action.replace("climb and maintain ", "")),0,target);
             case 3 -> commandGiven = new MotionObjectVSpeed(Integer.parseInt(action.replace("descend and maintain ", "")),1,target);
+            case 4 -> commandGiven = new MotionObjectAcceleration(Integer.parseInt(action.replace("maintain ","").replace(" knots",""))/1.94384,-1,target);
             default -> commandGiven = null;
         }
         if (match != -1)
         {
             System.out.println("Match found");
+        }
+        if (match == 4)
+        {
+            if (commandGiven.getValue() <= ((Aircraft)target).getSpeed())
+            {
+                commandGiven.setDirection(1);
+            }
+            else
+            {
+                commandGiven.setDirection(0);
+            }
         }
         return commandGiven;
     }

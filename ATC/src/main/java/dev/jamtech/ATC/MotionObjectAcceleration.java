@@ -21,7 +21,12 @@ public class MotionObjectAcceleration extends CommandObjectAbstract {
     
     public MotionObjectAcceleration(double value, int direction)
     {
-        super(value,direction,2.0, 5.0);
+        super(value,direction,0.5, 1.5);
+    }
+    
+    public MotionObjectAcceleration(double value, int direction,MotionObject target)
+    {
+        super(value,direction,0.5, 1.5,target);
     }
 
     @Override

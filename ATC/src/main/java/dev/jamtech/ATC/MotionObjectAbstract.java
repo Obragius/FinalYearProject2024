@@ -217,6 +217,7 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
         {
             deltaValue = value;
         }
+        System.out.println(value);
         this.setSpeed(deltaValue+this.getSpeed());
         
     }
@@ -231,11 +232,11 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
             {
                 if (this.getSpeed() + 10 > value )
                 {
-                    max = 3;
+                    max = 1;
                 }
                 else if (this.getSpeed() + 5 > value )
                 {
-                    max = 2;
+                    max = 0.5;
                 }
                 if (Math.abs(this.getAcceleration()) > max)
                 {
@@ -261,12 +262,12 @@ public abstract class MotionObjectAbstract extends MapObject implements MotionOb
             {
                 if (this.getSpeed() - 5 < value )
                 {
-                    max = 2;
+                    max = 0.5;
                 }
                 
                 else if (this.getSpeed() - 10 < value )
                 {
-                    max = 3;
+                    max = 1;
                 }
                 if (Math.abs(this.getAcceleration()) > max)
                 {
