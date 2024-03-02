@@ -10,7 +10,8 @@ import { useMap } from 'react-leaflet';
 import ChatWindow from './components/ChatWindow';
 import useSpeechRecognition from './hooks/useSpeechRecognitionHook';
 import * as Papa from "papaparse";
-import file from './airports.csv';
+import airport from './airports.csv';
+import navaid from './navaids.csv';
 
 
 var edit = false;
@@ -186,21 +187,26 @@ function App() {
 
   const ReadFile = async(e) => 
   {
-    Papa.parse(file, {
+    Papa.parse(airport, {
       download: true,
-      complete: LoadAllElements
+      complete: LoadAllAirports
+    });
+
+    Papa.parse(navaid, {
+      download: true,
+      complete: LoadAllNavaids
     });
 
 
 
   }
 
-  function LoadAllElements(data){
+  function LoadAllAirports(data){
 
     var result = data.data
     const TriangleIcon = new Icon({
-      iconUrl: require("./images/GreenTriangle.png"),
-      iconSize: [20,20]
+      iconUrl: require("./images/Airport.png"),
+      iconSize: [10,10]
     })
     var num = result.length;
     for (var index = 1; index < num; index++)
@@ -210,7 +216,37 @@ function App() {
       var markerOptions = {icon:TriangleIcon,draggable:false};
       if (((49 < x )&&(x < 52)) && ((-2 < y)&&(y < 2)))
       {
+        if (result[index][2] == "large_airport")
+        {
+          var toolTipOptions = {content:result[index][1],permanent:true,opacity:1,className:'myTooltip',direction:"bottom"}
+          var toolTip = new L.Tooltip(toolTipOptions);
+          var newMarker = new L.Marker([x,y],markerOptions);
+          newMarker.bindTooltip(toolTip)
+          mapMarkers.addLayer(newMarker)
+        }
+      }
+    }
+  }
+
+  function LoadAllNavaids(data){
+
+    var result = data.data
+    const TriangleIcon = new Icon({
+      iconUrl: require("./images/BlueTriangle.png"),
+      iconSize: [10,10]
+    })
+    var num = result.length;
+    for (var index = 1; index < num; index++)
+    {
+      var x = parseFloat(result[index][6]);
+      var y = parseFloat(result[index][7]);
+      var markerOptions = {icon:TriangleIcon,draggable:false};
+      if (((49 < x )&&(x < 52)) && ((-2 < y)&&(y < 2)))
+      {
+        var toolTipOptions = {content:result[index][2]+"<br>"+result[index][4],permanent:true,opacity:1,className:'myTooltip',direction:"bottom"}
+        var toolTip = new L.Tooltip(toolTipOptions);
         var newMarker = new L.Marker([x,y],markerOptions);
+        newMarker.bindTooltip(toolTip)
         mapMarkers.addLayer(newMarker)
       }
     }
