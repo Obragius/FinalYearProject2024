@@ -267,14 +267,22 @@ function App() {
     setFormValue('')
   }
 
-  function handleInput()
+  const handleInput = async(e) =>
   {
     if(document.getElementById("input").innerHTML !== "")
     {
       var newText = document.getElementById("input").innerHTML;
       document.getElementById("input").innerHTML = "";
-      setFormValue(newText)
-      document.myform.requestSubmit()
+      const response = await api.post("api/addCommand",{"mapID":mapID,"text":newText});
+      console.log(response.data);
+      var Message = [newText.toUpperCase(),"Command"];
+      chatValue.push(Message);
+      if (response.data !== "Aircraft not found")
+      { 
+        Message = [response.data.toUpperCase(),"Response"];
+        chatValue.push(Message);
+      }
+      setFormValue('')
     }
   }
 
@@ -322,16 +330,19 @@ function App() {
       var aircraftNum = allAircraft.length;
       for (let i = 0; i < aircraftNum; i++)
       {
-        if (myMarkers[index].getPopup().a == allAircraft[i].id)
+        if (myMarkers[index].getPopup() !== undefined)
         {
-          myMarkers[index].setLatLng([allAircraft[i].xPos,allAircraft[i].yPos])
-          myMarkers[index].setRotationAngle(allAircraft[i].angle.value);
-          var aircraftInfo = buildAircraft(allAircraft[i])
-          myMarkers[index].getPopup().setContent(aircraftInfo);
-        }
-        else if (myMarkers[index].getPopup().a == 0)
-        {
-          mapMarkers.removeLayer(myMarkers[index]);
+          if (myMarkers[index].getPopup().a == allAircraft[i].id)
+          {
+            myMarkers[index].setLatLng([allAircraft[i].xPos,allAircraft[i].yPos])
+            myMarkers[index].setRotationAngle(allAircraft[i].angle.value);
+            var aircraftInfo = buildAircraft(allAircraft[i])
+            myMarkers[index].getPopup().setContent(aircraftInfo);
+          }
+          else if (myMarkers[index].getPopup().a == 0)
+          {
+            mapMarkers.removeLayer(myMarkers[index]);
+          }
         }
       }
     }
@@ -348,9 +359,12 @@ function App() {
           var markNum = mapMarkers.getLayers().length;
           for( let index = 0; index < markNum; index ++)
           {
-            if(mapMarkers.getLayers()[index].getPopup().isOpen())
+            if (mapMarkers.getLayers()[index].getPopup() !== undefined)
             {
-              elementSelected = mapMarkers.getLayers()[index].getPopup().id;
+              if(mapMarkers.getLayers()[index].getPopup().isOpen())
+              {
+                elementSelected = mapMarkers.getLayers()[index].getPopup().id;
+              }
             }
           }
           var change = 0;
