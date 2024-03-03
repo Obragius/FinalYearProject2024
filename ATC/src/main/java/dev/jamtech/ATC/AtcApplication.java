@@ -1,7 +1,7 @@
 package dev.jamtech.ATC;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.net.InetAddress;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,8 @@ public class AtcApplication {
     
 	public static void main(String[] args) {
 		SpringApplication.run(AtcApplication.class, args);
+                String ip = InetAddress.getLoopbackAddress().getHostAddress();
+                System.out.println(ip);
 	}
         
         @GetMapping("/root")

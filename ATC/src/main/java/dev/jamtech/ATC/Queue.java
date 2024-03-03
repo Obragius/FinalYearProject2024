@@ -21,7 +21,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class Queue {
     
     @Id
