@@ -290,6 +290,11 @@ function App() {
     setFormValue('')
   }
 
+  const LockMap = async(e) => {
+    const response = await api.post("api/lockmap",{"mapID":mapID});
+    console.log(response.data);
+  }
+
   const handleInput = async(e) =>
   {
     if(document.getElementById("input").innerHTML !== "")
@@ -311,10 +316,11 @@ function App() {
 
   const LoadMap = async(e) =>
   {
-    mapID = parseInt(formValue);
+    var loadingMap = parseInt(formValue);
+    const response = await api.post("api/getgeomap",{"mapID":loadingMap});
+    const result = response.data;
+    mapID = result.mapID;
     document.getElementById("mapID").innerHTML = "MapID = " + mapID;
-    const response = await api.post("api/getgeomap",{"mapID":mapID});
-    const result = response.data[0];
     for(let index = 0; index <= markers.length; index++)
     {
       markers.pop();
@@ -526,6 +532,7 @@ function App() {
         <button id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
         <button onClick={LoadMap}>Load Map</button>
         <button onClick={ReadFile}>Load Points</button>
+        <button onClick={LockMap}>Lock Map</button>
         {
           hasRecognitionSupport 
             ? <button onClick={startListening}>Start listening</button>
