@@ -32,7 +32,7 @@ public class AddCommand {
     
     
     @PostMapping
-    @CrossOrigin(origins = "http://178.79.153.76")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> addCoomand(@RequestBody Map payload)
     {
         int mapID = (int)payload.get("mapID");

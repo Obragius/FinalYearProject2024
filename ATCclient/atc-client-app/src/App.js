@@ -24,6 +24,8 @@ var elementID = 0;
 
 var popupID = 0;
 
+var defaultAircraftNum = 0;
+
 const elementsToAdd = [];
 
 var angleBefore = '';
@@ -31,6 +33,8 @@ var angleBefore = '';
 var speedBefore = '';
 
 var signBefore = '';
+
+var altBefore = '';
 
 const markers = [];
 
@@ -81,15 +85,34 @@ const SendElements = async (e) =>
     var element = elementsToAdd.pop()
     element.openPopup();
     var angle = parseInt(document.getElementById(("angle"+(index))).value);
+    if (isNaN(angle))
+    {
+      angle = 0;
+    } 
     var speed = parseInt(document.getElementById(("speed"+(index))).value);
+    if (isNaN(speed))
+    {
+      speed = 200;
+    } 
+    var altitude = parseInt(document.getElementById(("alt"+(index))).value);
+    if (isNaN(altitude))
+    {
+      altitude = 10000;
+    } 
+    console.log(angle,speed,altitude)
     // Convert speed from knots to m/s
     speed = speed/1.94384.toPrecision(5);
     var sign = document.getElementById(("sign"+(index))).value
+    if (sign == "")
+    {
+      sign = "Default Aircraft" + defaultAircraftNum
+      defaultAircraftNum += 1;
+    }
     element.closePopup();
     // var angle = parseInt(element.getPopup().getContent().slice(6,9));
     // var speed = parseInt(element.getPopup().getContent().slice(19,22));
     // var sign = parseInt(element.getPopup().getContent().slice(19,22));
-    const response = await api.post("api/addAircraft",{"xPos":element.getLatLng().lat,"yPos":element.getLatLng().lng,"angle":angle,"speed":speed,"sign":sign,"mapID":mapID});
+    const response = await api.post("api/addAircraft",{"xPos":element.getLatLng().lat,"yPos":element.getLatLng().lng,"angle":angle,"speed":speed,"sign":sign,"altitude":altitude,"mapID":mapID});
     if (response.status !== 406)
     {
       const result = response.data[0];
@@ -243,7 +266,7 @@ function App() {
       var markerOptions = {icon:TriangleIcon,draggable:false};
       if (((49 < x )&&(x < 52)) && ((-2 < y)&&(y < 2)))
       {
-        var toolTipOptions = {content:result[index][2]+"<br>"+result[index][4],permanent:true,opacity:1,className:'myTooltip',direction:"bottom"}
+        var toolTipOptions = {content:result[index][2],permanent:true,opacity:1,className:'myTooltip',direction:"bottom"}
         var toolTip = new L.Tooltip(toolTipOptions);
         var newMarker = new L.Marker([x,y],markerOptions);
         newMarker.bindTooltip(toolTip)
@@ -380,18 +403,24 @@ function App() {
           {
             change = 2;
           }
-          var content = 'Angle:<input id = angle'+(elementSelected)+' value='+(document.getElementById(("angle"+(elementSelected))).value)+' maxlength=3></input><br>Speed:<input id = speed'+(elementSelected)+' value='+(document.getElementById(("speed"+(elementSelected))).value)+'></input><br>Callsign:<input id = sign'+(elementSelected)+' value='+(document.getElementById(("sign"+(elementSelected))).value)+'></input>';
+          else if ((document.getElementById(("alt"+(elementSelected))).value) != altBefore)
+          {
+            change = 3;
+          }
+          var content = 'Angle:<input id = angle'+(elementSelected)+' value='+(document.getElementById(("angle"+(elementSelected))).value)+'></input><br>Speed:<input id = speed'+(elementSelected)+' value='+(document.getElementById(("speed"+(elementSelected))).value)+'></input><br>Callsign:<input id = sign'+(elementSelected)+' value='+(document.getElementById(("sign"+(elementSelected))).value)+'></input><br>Altitude:<input id = alt'+(elementSelected)+' value='+(document.getElementById(("alt"+(elementSelected))).value)+'></input>';
           var focusElement;
           switch (change)
           {
             case 0: focusElement = "angle";break;
             case 1: focusElement = "speed";break;
             case 2: focusElement = "sign";break;
+            case 3: focusElement = "alt";break;
           }
           elementsToAdd[elementSelected].getPopup().setContent(content);
           angleBefore = document.getElementById(("angle"+(elementSelected))).value;
           speedBefore = document.getElementById(("speed"+(elementSelected))).value;
           signBefore = document.getElementById(("sign"+(elementSelected))).value;
+          altBefore = document.getElementById(("alt"+(elementSelected))).value;
           document.getElementById((focusElement+(elementSelected))).focus();
           document.getElementById((focusElement+(elementSelected))).setSelectionRange(1000, 1000);
         }
@@ -462,7 +491,7 @@ function App() {
         {
           var markerOptions = {icon:airplaneIcon,rotationAngle:0,draggable:true}
           var newMarker = new L.Marker(e.latlng,markerOptions)
-          var popupOptions = {content:'Angle:<input id = angle'+elementID+' maxlength=3></input><br>Speed:<input id = speed'+elementID+'></input><br>Callsign:<input id = sign'+elementID+'></input>',interactive:true};
+          var popupOptions = {content:'Angle:<input id = angle'+elementID+' maxlength=3></input><br>Speed:<input id = speed'+elementID+'></input><br>Callsign:<input id = sign'+elementID+'></input><br>Altitude:<input id = alt'+elementID+'></input>',interactive:true};
           var popup = new L.Popup(popupOptions);
           popup.a = 1;
           popup.id = popupID;
@@ -496,7 +525,7 @@ function App() {
         <button className={"myClass"} id={"Sim"} onClick={Pause}>Simulation Running</button>
         <button id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
         <button onClick={LoadMap}>Load Map</button>
-        <button onClick={ReadFile}>Load Triangle</button>
+        <button onClick={ReadFile}>Load Points</button>
         {
           hasRecognitionSupport 
             ? <button onClick={startListening}>Start listening</button>

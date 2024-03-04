@@ -26,7 +26,7 @@ public class AddMap {
     private AddMapService myMapService;
     
     @PostMapping
-    @CrossOrigin(origins = "http://178.79.153.76")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<GeoMap> addNewMap(@RequestBody GeoMap payload)
     {
         GeoMap newMap = myMapService.createMap();

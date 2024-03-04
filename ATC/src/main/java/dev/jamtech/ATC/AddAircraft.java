@@ -40,7 +40,7 @@ public class AddAircraft {
     private MongoTemplate mongoTemplate;
     
     @PostMapping
-    @CrossOrigin(origins = "http://178.79.153.76")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<GeoMap> addNewAircraft(@RequestBody Map payload)
     {
         int mapID = (int)payload.get("mapID");
@@ -51,13 +51,13 @@ public class AddAircraft {
             if (myObject instanceof Aircraft)
             {
                 Aircraft air1 = (Aircraft)myObject;
-                if (air1.getCallsign().equals((String)payload.get("sign")));
+                if (air1.getCallsign().equals((String)payload.get("sign")))
                 {
                     return new ResponseEntity(myMap,HttpStatus.NOT_ACCEPTABLE);
                 }
             }
         }
-        Aircraft myAir = new Aircraft((double)payload.get("xPos"),(double)payload.get("yPos"),(int)payload.get("angle"),(double)payload.get("speed"),(String)payload.get("sign"));
+        Aircraft myAir = new Aircraft((double)payload.get("xPos"),(double)payload.get("yPos"),(int)payload.get("angle"),(double)payload.get("speed"),(int)payload.get("altitude"),(String)payload.get("sign"));
         MotionObjectMove move = new MotionObjectMove(0,0);
         MotionObjectHeight height = new MotionObjectHeight(0.0,0);
         MotionObjectSpeed speed = new MotionObjectSpeed(0.0,0);
