@@ -57,6 +57,7 @@ public class CommandDecoder {
             if (myMatcher.find())
             {
                 match = i;
+                break;
             }
         }
         CommandObjectAbstract commandGiven;

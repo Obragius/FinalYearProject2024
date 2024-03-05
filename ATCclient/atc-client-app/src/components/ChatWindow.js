@@ -7,6 +7,11 @@ function ChatWindow({api,mapID,text,chatValue,formValue,setFormValue})
     useEffect (() => {const interval = setInterval(() => {HandleInput();
     },1000); return () => clearInterval(interval);}, []);
 
+    function SelectPlane(e)
+    {
+        setFormValue(e.target.id)
+    }
+
     const HandleInput = async(e) =>
   {
     if(document.getElementById("input").innerHTML !== "")
@@ -30,12 +35,13 @@ function ChatWindow({api,mapID,text,chatValue,formValue,setFormValue})
         e.preventDefault();
         const response = await api.post("api/addCommand",{"mapID":mapID,"text":formValue});
         console.log(response.data);
-        var Message = [formValue.toUpperCase(),"Command",key];
+        var target = formValue.split(" ")[0]
+        var Message = [formValue.toUpperCase(),"Command",key,target];
         chatValue.push(Message);
         key += 1;
         if (response.data !== "Aircraft not found")
         { 
-          Message = [response.data.toUpperCase(),"Response",key];
+          Message = [response.data.toUpperCase(),"Response",key,target];
           chatValue.push(Message);
         }
         setFormValue('')
@@ -43,7 +49,7 @@ function ChatWindow({api,mapID,text,chatValue,formValue,setFormValue})
       }
 
     return (<><div className='ChatWindow'>
-            {text.map((message) => <div key={message[2]} className={message[1]}>{"-"+message[0]}</div>)}
+            {text.map((message) => <div id={message[3]} onClick={(e) => SelectPlane(e)} key={message[2]} className={message[1]}>{"-"+message[0]}</div>)}
             </div>
             <form name="myform" onSubmit={sendCommand}>
             <input className='Input' value={formValue} onChange={(e) => setFormValue(e.target.value)}></input>
