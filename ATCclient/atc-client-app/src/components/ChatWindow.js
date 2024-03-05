@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+var key= 0;
+
 function ChatWindow({api,mapID,text,chatValue,formValue,setFormValue})
 {
     useEffect (() => {const interval = setInterval(() => {HandleInput();
@@ -28,18 +30,20 @@ function ChatWindow({api,mapID,text,chatValue,formValue,setFormValue})
         e.preventDefault();
         const response = await api.post("api/addCommand",{"mapID":mapID,"text":formValue});
         console.log(response.data);
-        var Message = [formValue.toUpperCase(),"Command"];
+        var Message = [formValue.toUpperCase(),"Command",key];
         chatValue.push(Message);
+        key += 1;
         if (response.data !== "Aircraft not found")
         { 
-          Message = [response.data.toUpperCase(),"Response"];
+          Message = [response.data.toUpperCase(),"Response",key];
           chatValue.push(Message);
         }
         setFormValue('')
+        key += 1;
       }
 
     return (<><div className='ChatWindow'>
-            {text.map((message) => <div className={message[1]}>{"-"+message[0]}</div>)}
+            {text.map((message) => <div key={message[2]} className={message[1]}>{"-"+message[0]}</div>)}
             </div>
             <form name="myform" onSubmit={sendCommand}>
             <input className='Input' value={formValue} onChange={(e) => setFormValue(e.target.value)}></input>

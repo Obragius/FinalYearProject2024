@@ -6,7 +6,7 @@ import { MapContainer, Marker,TileLayer, Popup, useMapEvents } from 'react-leafl
 import "leaflet/dist/leaflet.css";
 import "leaflet-rotatedmarker";
 
-function Reader({mapMarkers})
+function Reader(mapMarkers)
 {
     
     Papa.parse(airport, {
@@ -73,4 +73,4 @@ function Reader({mapMarkers})
   }
 
 }
-export default Reader;
+export {Reader};

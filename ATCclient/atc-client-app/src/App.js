@@ -10,7 +10,7 @@ import "leaflet-rotatedmarker";
 import { useMap } from 'react-leaflet';
 import { PopupBuilder } from './components/PopupBuilder';
 import ChatWindow from './components/ChatWindow';
-import Reader from './components/Reader';
+import {Reader} from './components/Reader';
 import ButtonTray from './components/ButtonTray';
 import useSpeechRecognition from './hooks/useSpeechRecognitionHook';
 
@@ -397,6 +397,7 @@ function App() {
           if (init)
           {
             mapMarkers.addTo(map);
+            Reader(mapMarkers)
             init = false;
           }
         }
@@ -423,7 +424,6 @@ function App() {
           <SelectPlane />
           <RemoveObject />
           </MapContainer>
-          <Reader mapMarkers={mapMarkers}></Reader>
         </div>
         <div>
           <ChatWindow mapID={mapID} text={chatValue} formValue={formValue} api={api} chatValue={chatValue} setFormValue={setFormValue}></ChatWindow>
