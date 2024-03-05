@@ -90,13 +90,10 @@ const SendElements = async (e) =>
     var sign = document.getElementById(("sign"+(index))).value
     if (sign == "")
     {
-      sign = "Default Aircraft" + defaultAircraftNum
+      sign = "Default_Aircraft" + defaultAircraftNum
       defaultAircraftNum += 1;
     }
     element.closePopup();
-    // var angle = parseInt(element.getPopup().getContent().slice(6,9));
-    // var speed = parseInt(element.getPopup().getContent().slice(19,22));
-    // var sign = parseInt(element.getPopup().getContent().slice(19,22));
     const response = await api.post("api/addAircraft",{"xPos":element.getLatLng().lat,"yPos":element.getLatLng().lng,"angle":angle,"speed":speed,"sign":sign,"altitude":altitude,"mapID":mapID});
     if (response.status !== 406)
     {
@@ -183,7 +180,7 @@ function Pause()
 
 function App() {
 
-  useEffect (() => {const interval = setInterval(() => {if(mapID !== null && edit == false && pause == false){Tick();
+  useEffect (() => {const interval = setInterval(() => {if(mapID !== null && edit == false && pause == false && elementsToAdd.length == 0){Tick();
     }},1000); return () => clearInterval(interval);}, []);
 
   const [formValue, setFormValue] = useState("");
