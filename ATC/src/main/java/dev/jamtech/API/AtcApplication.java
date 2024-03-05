@@ -21,11 +21,11 @@ public class AtcApplication {
                 System.out.println(ip);
 	}
         
-        @GetMapping("/root")
+        @GetMapping("/status")
         
         public ResponseEntity<String> apiIndex()
         {
-            return new ResponseEntity<String>("hello",HttpStatus.OK);
+            return new ResponseEntity<String>("Server Online",HttpStatus.OK);
         }
 
 }

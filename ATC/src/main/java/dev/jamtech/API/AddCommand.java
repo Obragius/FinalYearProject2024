@@ -57,8 +57,6 @@ public class AddCommand {
         {
             myCommand = "Command not found";
         }
-//        Queue.getInstance().reset();
-//        Queue myQ = Queue.getInstance();
         Queue myQ = mongoTemplate.find(new Query(Criteria.where("connectedMapID").is(mapID)),Queue.class).get(0);
         System.out.println(myAircraft);
         System.out.println(myCommand);

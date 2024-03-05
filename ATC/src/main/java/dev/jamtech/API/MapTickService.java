@@ -45,8 +45,6 @@ public class MapTickService {
     {
         int mapID = (int)payload.get("mapID");
         GeoMap myMap = mongoTemplate.find(new Query(Criteria.where("mapID").is(mapID)),GeoMap.class).get(0);
-//        Queue.getInstance().reset();
-//        Queue myQ = Queue.getInstance();
         Queue myQ = mongoTemplate.find(new Query(Criteria.where("connectedMapID").is(mapID)),Queue.class).get(0);
         for (MapObject myObject :myMap.getAllObjects())
         {
