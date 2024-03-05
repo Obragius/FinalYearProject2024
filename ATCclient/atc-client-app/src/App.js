@@ -1,17 +1,19 @@
 import './App.css';
 import api from './api/axiosConfig';
 import { useState, useEffect } from 'react';
+import React from 'react';
 
 import { MapContainer, Marker,TileLayer, Popup, useMapEvents } from 'react-leaflet';
 import { Icon, LatLng, latLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-rotatedmarker";
 import { useMap } from 'react-leaflet';
+import { PopupBuilder } from './components/PopupBuilder';
 import ChatWindow from './components/ChatWindow';
+import Reader from './components/Reader';
+import ButtonTray from './components/ButtonTray';
 import useSpeechRecognition from './hooks/useSpeechRecognitionHook';
-import * as Papa from "papaparse";
-import airport from './airports.csv';
-import navaid from './navaids.csv';
+
 
 
 var edit = false;
@@ -58,24 +60,7 @@ function buildAircraft(aircraft)
 
 function ReloadAllElements(aircraft)
 {
-  const airplaneIcon = new Icon({
-    iconUrl: require("./images/GreenPlane.png"),
-    iconSize: [38,38]
-  })
-
-  var markerOptions = {icon:airplaneIcon,rotationAngle:aircraft.angle.value,draggable:false};
-  var newMarker = new L.Marker([aircraft.xPos,aircraft.yPos],markerOptions);
-  var aircraftInfo = buildAircraft(aircraft);
-  var popupOptions = {content:aircraftInfo,interactive:true};
-  var popup = new L.Popup(popupOptions);
-  var toolTipOptions = {content:aircraft.callsign.toString(),permanent:true,opacity:1,className:'myTooltip',direction:"bottom"}
-  var toolTip = new L.Tooltip(toolTipOptions);
-  popup.a = aircraft.id;
-  popup.id = aircraft.callsign;
-  newMarker.setRotationOrigin('center center');
-  newMarker.bindPopup(popup);
-  newMarker.bindTooltip(toolTip);
-  markers.push(newMarker);
+  markers.push(PopupBuilder("Aircraft",[aircraft]))
 } 
 
 const SendElements = async (e) =>
@@ -130,6 +115,7 @@ const SendElements = async (e) =>
         var thisMarker = markers.pop();
         if (index == 0)
         {
+          console.log(thisMarker)
           mapMarkers.addLayer(thisMarker);
         }
       }
@@ -197,7 +183,7 @@ function Pause()
 
 function App() {
 
-  useEffect (() => {const interval = setInterval(() => {if(mapID !== null && edit == false && pause == false){Tick();handleInput();
+  useEffect (() => {const interval = setInterval(() => {if(mapID !== null && edit == false && pause == false){Tick();
     }},1000); return () => clearInterval(interval);}, []);
 
   const [formValue, setFormValue] = useState("");
@@ -208,110 +194,9 @@ function App() {
 
   const [handleCounter,setCounter] = useState(0);
 
-  const ReadFile = async(e) => 
-  {
-    Papa.parse(airport, {
-      download: true,
-      complete: LoadAllAirports
-    });
-
-    Papa.parse(navaid, {
-      download: true,
-      complete: LoadAllNavaids
-    });
-
-
-
-  }
-
-  function LoadAllAirports(data){
-
-    var result = data.data
-    const TriangleIcon = new Icon({
-      iconUrl: require("./images/Airport.png"),
-      iconSize: [10,10]
-    })
-    var num = result.length;
-    for (var index = 1; index < num; index++)
-    {
-      var x = parseFloat(result[index][4]);
-      var y = parseFloat(result[index][5]);
-      var markerOptions = {icon:TriangleIcon,draggable:false};
-      if (((49 < x )&&(x < 52)) && ((-2 < y)&&(y < 2)))
-      {
-        if (result[index][2] == "large_airport")
-        {
-          var toolTipOptions = {content:result[index][1],permanent:true,opacity:1,className:'myTooltip',direction:"bottom"}
-          var toolTip = new L.Tooltip(toolTipOptions);
-          var newMarker = new L.Marker([x,y],markerOptions);
-          newMarker.bindTooltip(toolTip)
-          mapMarkers.addLayer(newMarker)
-        }
-      }
-    }
-  }
-
-  function LoadAllNavaids(data){
-
-    var result = data.data
-    const TriangleIcon = new Icon({
-      iconUrl: require("./images/BlueTriangle.png"),
-      iconSize: [10,10]
-    })
-    var num = result.length;
-    for (var index = 1; index < num; index++)
-    {
-      var x = parseFloat(result[index][6]);
-      var y = parseFloat(result[index][7]);
-      var markerOptions = {icon:TriangleIcon,draggable:false};
-      if (((49 < x )&&(x < 52)) && ((-2 < y)&&(y < 2)))
-      {
-        var toolTipOptions = {content:result[index][2],permanent:true,opacity:1,className:'myTooltip',direction:"bottom"}
-        var toolTip = new L.Tooltip(toolTipOptions);
-        var newMarker = new L.Marker([x,y],markerOptions);
-        newMarker.bindTooltip(toolTip)
-        mapMarkers.addLayer(newMarker)
-      }
-    }
-  }
-
-
-  const sendCommand = async(e) => {
-    e.preventDefault();
-    const response = await api.post("api/addCommand",{"mapID":mapID,"text":formValue});
-    console.log(response.data);
-    var Message = [formValue.toUpperCase(),"Command"];
-    chatValue.push(Message);
-    if (response.data !== "Aircraft not found")
-    { 
-      Message = [response.data.toUpperCase(),"Response"];
-      chatValue.push(Message);
-    }
-    setFormValue('')
-  }
-
   const LockMap = async(e) => {
     const response = await api.post("api/lockmap",{"mapID":mapID});
     console.log(response.data);
-  }
-
-  const handleInput = async(e) =>
-  {
-    if(document.getElementById("input").innerHTML !== "")
-    {
-      var newText = document.getElementById("input").innerHTML;
-      document.getElementById("input").innerHTML = "";
-      const response = await api.post("api/addCommand",{"mapID":mapID,"text":newText});
-      console.log(response.data);
-      var Message = [newText.toUpperCase(),"Command"];
-      chatValue.push(Message);
-      if (response.data !== "Aircraft not found")
-      { 
-        Message = [response.data.toUpperCase(),"Response"];
-        chatValue.push(Message);
-      }
-      setFormValue('')
-    }
   }
 
   const LoadMap = async(e) =>
@@ -525,21 +410,7 @@ function App() {
   return (
     <div>
 
-      <div className='ButtonTray'>
-        <button id={"EditModeButton"} onClick={EditMode}>Edit Mode</button>
-        <button onClick={Elements}>Add Map</button>
-        <button className={"myClass"} id={"Sim"} onClick={Pause}>Simulation Running</button>
-        <button id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
-        <button onClick={LoadMap}>Load Map</button>
-        <button onClick={ReadFile}>Load Points</button>
-        <button onClick={LockMap}>Lock Map</button>
-        {
-          hasRecognitionSupport 
-            ? <button onClick={startListening}>Start listening</button>
-            : <h1>No Voice Support</h1>
-        }
-        <div id={"mapID"}></div>
-      </div>
+      <ButtonTray EditMode={EditMode} Elements={Elements} Pause={Pause} RemoveMode={RemoveMode} LoadMap={LoadMap} LockMap={LockMap} hasRecognitionSupport={hasRecognitionSupport} startListening={startListening}></ButtonTray>
 
       <div className='Container'>
         <div>
@@ -552,13 +423,10 @@ function App() {
           <SelectPlane />
           <RemoveObject />
           </MapContainer>
+          <Reader mapMarkers={mapMarkers}></Reader>
         </div>
         <div>
-          <ChatWindow text={chatValue}></ChatWindow>
-          <form name="myform" onSubmit={sendCommand}>
-            <input className='Input' value={formValue} onChange={(e) => setFormValue(e.target.value)}></input>
-          </form>
-          <p hidden id="input"></p>
+          <ChatWindow mapID={mapID} text={chatValue} formValue={formValue} api={api} chatValue={chatValue} setFormValue={setFormValue}></ChatWindow>
         </div>
       </div>
       
