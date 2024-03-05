@@ -43,6 +43,16 @@ function Reader(mapMarkers)
           var newMarker = new L.Marker([x,y],markerOptions);
           newMarker.bindTooltip(toolTip)
           mapMarkers.addLayer(newMarker)
+
+          // create a vector
+          var directionOne = result[index][8];
+          var polygon = [[x,y],[52.13240603,0.51309916],[52.09697357,0.5810654]]
+          const color = {color: "red", opacity:0.1}
+          if (result[index][1] == "EGSS")
+          {
+            var myPoly = new L.Polygon(polygon,color);
+            mapMarkers.addLayer(myPoly)
+          }
         }
       }
     }
