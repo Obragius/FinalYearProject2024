@@ -5,6 +5,11 @@ import { Icon, LatLng, latLng } from "leaflet";
 import { MapContainer, Marker,TileLayer, Popup, useMapEvents } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import "leaflet-rotatedmarker";
+import api from '.././api/axiosConfig';
+
+var lat = "";
+var lng = "";
+var airportCode = "";
 
 function Reader(mapMarkers)
 {
@@ -46,16 +51,26 @@ function Reader(mapMarkers)
 
           // create a vector
           var directionOne = result[index][8];
-          var polygon = [[x,y],[52.13240603,0.51309916],[52.09697357,0.5810654]]
-          const color = {color: "red", opacity:0.1}
-          if (result[index][1] == "EGSS")
-          {
-            var myPoly = new L.Polygon(polygon,color);
-            mapMarkers.addLayer(myPoly)
-          }
+          lat = x.toString();
+          lng = y.toString();
+          airportCode = result[index][1];
+          getRunway();
         }
       }
     }
+  }
+
+  function LoadILS(polygon)
+  {
+    console.log(polygon.data)
+    const color = {color: "red", opacity:0.1}
+    var myPoly = new L.Polygon(polygon.data,color);
+    mapMarkers.addLayer(myPoly)
+  }
+
+  const getRunway = async(e) =>
+  {
+    const response = await api.post("api/runway",{"airport": airportCode, "lat":lat, "lng":lng}).then(LoadILS);
   }
 
   function LoadAllNavaids(data){

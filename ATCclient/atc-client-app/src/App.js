@@ -13,6 +13,7 @@ import ChatWindow from './components/ChatWindow';
 import {Reader} from './components/Reader';
 import ButtonTray from './components/ButtonTray';
 import useSpeechRecognition from './hooks/useSpeechRecognitionHook';
+import axios from 'axios';
 
 
 
@@ -190,6 +191,12 @@ function App() {
   const {text,setText,startListening,stopListening,isListening,hasRecognitionSupport} = useSpeechRecognition();
 
   const [handleCounter,setCounter] = useState(0);
+
+  const FecthAir = async(e) => 
+  {
+    const response = await api.post("api/runway",{"airport": "EGSS", "lat":"51.8864", "lng":"0.2413"});
+    console.log(response);
+  }
 
   const LockMap = async(e) => {
     const response = await api.post("api/lockmap",{"mapID":mapID});
@@ -408,7 +415,7 @@ function App() {
   return (
     <div>
 
-      <ButtonTray EditMode={EditMode} Elements={Elements} Pause={Pause} RemoveMode={RemoveMode} LoadMap={LoadMap} LockMap={LockMap} hasRecognitionSupport={hasRecognitionSupport} startListening={startListening}></ButtonTray>
+      <ButtonTray FetchAir={FecthAir} EditMode={EditMode} Elements={Elements} Pause={Pause} RemoveMode={RemoveMode} LoadMap={LoadMap} LockMap={LockMap} hasRecognitionSupport={hasRecognitionSupport} startListening={startListening}></ButtonTray>
 
       <div className='Container'>
         <div>

@@ -6,6 +6,7 @@ package dev.jamtech.Model;
 
 import java.util.List;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author Daniels Zazerskis k1801606 <dev.jamtech>
  */
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Document
 public abstract class MotionObjectAbstract extends MapObject implements MotionObject {
     

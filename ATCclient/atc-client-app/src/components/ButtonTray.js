@@ -1,4 +1,4 @@
-function ButtonTray ({EditMode,Elements,Pause,RemoveMode,LoadMap,LockMap,hasRecognitionSupport,startListening})
+function ButtonTray ({FetchAir,EditMode,Elements,Pause,RemoveMode,LoadMap,LockMap,hasRecognitionSupport,startListening})
 {
 
 
@@ -10,6 +10,7 @@ function ButtonTray ({EditMode,Elements,Pause,RemoveMode,LoadMap,LockMap,hasReco
         <button id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
         <button onClick={LoadMap}>Load Map</button>
         <button onClick={LockMap}>Lock Map</button>
+        <button onClick={FetchAir}>Fetch Air</button>
         {
         hasRecognitionSupport 
             ? <button onClick={startListening}>Start listening</button>

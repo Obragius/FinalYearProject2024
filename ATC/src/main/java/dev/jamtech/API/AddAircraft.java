@@ -11,9 +11,7 @@ import dev.jamtech.Model.MotionObjectHeight;
 import dev.jamtech.Model.MotionObjectMove;
 import dev.jamtech.Model.MotionObjectSpeed;
 import dev.jamtech.Model.Queue;
-import java.util.Date;
 import java.util.Map;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -36,12 +34,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/addAircraft")
 @Service
 public class AddAircraft {
-    
-    @Autowired
-    private MapRepository myMapRepository;
-    
-    @Autowired
-    private QueueRepository queueRepository;
     
     @Autowired
     private MongoTemplate mongoTemplate;
