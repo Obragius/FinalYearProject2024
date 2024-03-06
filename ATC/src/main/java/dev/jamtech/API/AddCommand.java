@@ -48,13 +48,13 @@ public class AddCommand {
         String[] splitText = myText.split(" ",2);
         String myAircraft = splitText[0];
         String myCommand;
-        if (myText.length() > 9)
+        if (splitText.length > 1)
         {
             myCommand = splitText[1];
         }
         else
         {
-            myCommand = "Command not found";
+            return new ResponseEntity("Command not found",HttpStatus.NOT_FOUND);
         }
         Queue myQ = mongoTemplate.find(new Query(Criteria.where("connectedMapID").is(mapID)),Queue.class).get(0);
         System.out.println(myAircraft);
@@ -86,7 +86,7 @@ public class AddCommand {
                 }
             }
         }
-        return new ResponseEntity("Aircraft not found",HttpStatus.OK);
+        return new ResponseEntity("Aircraft not found",HttpStatus.NOT_FOUND);
     }
     
 }

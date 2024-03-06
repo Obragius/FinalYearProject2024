@@ -36,11 +36,11 @@ function ChatWindow({api,mapID,text,chatValue,formValue,setFormValue})
         const response = await api.post("api/addCommand",{"mapID":mapID,"text":formValue});
         console.log(response.data);
         var target = formValue.split(" ")[0]
-        var Message = [formValue.toUpperCase(),"Command",key,target];
-        chatValue.push(Message);
-        key += 1;
-        if (response.data !== "Aircraft not found")
+        if (response.status < 300 )
         { 
+          var Message = [formValue.toUpperCase(),"Command",key,target];
+          chatValue.push(Message);
+          key += 1;
           Message = [response.data.toUpperCase(),"Response",key,target];
           chatValue.push(Message);
         }

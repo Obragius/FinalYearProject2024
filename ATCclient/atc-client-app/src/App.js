@@ -434,6 +434,9 @@ function App() {
         </div>
       </div>
       
+      <a href="https://www.flaticon.com/free-icons/airport" title="airport icons">Airport icon</a>
+      <div></div>
+      <a href="https://www.flaticon.com/free-icons/triangle" title="triangle icons">Triangle icon</a>
     </div>
       
   )

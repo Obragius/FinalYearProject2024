@@ -67,7 +67,6 @@ function Reader(mapMarkers)
 
   function LoadILS(polygon)
   {
-    console.log(polygon.data)
     const color = {fillColor:"rgba(255, 0, 0, 0.3)", opacity:0.1}
     var myPoly = new L.Polygon(polygon.data,color);
     mapMarkers.addLayer(myPoly)
