@@ -10,6 +10,7 @@ import api from '.././api/axiosConfig';
 var lat = "";
 var lng = "";
 var airportCode = "";
+var runway = 0;
 
 function Reader(mapMarkers)
 {
@@ -54,7 +55,11 @@ function Reader(mapMarkers)
           lat = x.toString();
           lng = y.toString();
           airportCode = result[index][1];
-          getRunway();
+          for (var index2 = 0; index2 < 2; index2++)
+          {
+            runway = index2.toString();
+            getRunway();
+          }
         }
       }
     }
@@ -63,14 +68,14 @@ function Reader(mapMarkers)
   function LoadILS(polygon)
   {
     console.log(polygon.data)
-    const color = {color: "red", opacity:0.1}
+    const color = {fillColor:"rgba(255, 0, 0, 0.3)", opacity:0.1}
     var myPoly = new L.Polygon(polygon.data,color);
     mapMarkers.addLayer(myPoly)
   }
 
   const getRunway = async(e) =>
   {
-    const response = await api.post("api/runway",{"airport": airportCode, "lat":lat, "lng":lng}).then(LoadILS);
+    const response = await api.post("api/runway",{"airport": airportCode, "lat":lat, "lng":lng, "runway":runway}).then(LoadILS);
   }
 
   function LoadAllNavaids(data){
@@ -86,7 +91,7 @@ function Reader(mapMarkers)
       var x = parseFloat(result[index][6]);
       var y = parseFloat(result[index][7]);
       var markerOptions = {icon:TriangleIcon,draggable:false};
-      if (((49 < x )&&(x < 52)) && ((-2 < y)&&(y < 2)))
+      if (((49 < x )&&(x < 54)) && ((-2 < y)&&(y < 2)))
       {
         var toolTipOptions = {content:result[index][2],permanent:true,opacity:1,className:'myTooltip',direction:"bottom"}
         var toolTip = new L.Tooltip(toolTipOptions);

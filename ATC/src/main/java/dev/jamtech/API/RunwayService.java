@@ -39,6 +39,7 @@ public class RunwayService {
     public ResponseEntity<List> tickMap(@RequestBody Map payload) throws IOException
     {
         String AirportCode = (String)payload.get("airport");
+        int runway = Integer.parseInt((String)payload.get("runway"));
         Document myDoc = Jsoup.connect("https://nats-uk.ead-it.com/cms-nats/opencms/en/Publications/AIP/Current-AIRAC/html/eAIP/EG-AD-2."+AirportCode+"-en-GB.html").get();
         String pattern = "°";
         // Setup regex 
@@ -58,8 +59,8 @@ public class RunwayService {
         double lat = Double.parseDouble((String)payload.get("lat"));
         double lng = Double.parseDouble((String)payload.get("lng"));
         
-        List<Double> offset1 = GeographicalCalculator.coordCalc(lat, lng, 33000.0, Double.parseDouble(myNums.get(0))-5);
-        List<Double> offset2 = GeographicalCalculator.coordCalc(lat, lng, 33000.0, Double.parseDouble(myNums.get(0))+5);
+        List<Double> offset1 = GeographicalCalculator.coordCalc(lat, lng, 33000.0, Double.parseDouble(myNums.get(runway))-5);
+        List<Double> offset2 = GeographicalCalculator.coordCalc(lat, lng, 33000.0, Double.parseDouble(myNums.get(runway))+5);
         List<List<Double>> polygon = Arrays.asList(Arrays.asList(lat,lng),offset1,offset2);
         return new ResponseEntity(polygon,HttpStatus.OK);
     }
