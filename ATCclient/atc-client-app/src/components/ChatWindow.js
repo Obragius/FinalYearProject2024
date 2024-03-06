@@ -10,6 +10,7 @@ function ChatWindow({api,mapID,text,chatValue,formValue,setFormValue})
     function SelectPlane(e)
     {
         setFormValue(e.target.id)
+        document.getElementsByClassName("Input").item(0).focus();
     }
 
     const HandleInput = async(e) =>
