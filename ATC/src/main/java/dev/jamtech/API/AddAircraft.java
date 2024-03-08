@@ -12,6 +12,8 @@ import dev.jamtech.Model.MotionObjectMove;
 import dev.jamtech.Model.MotionObjectSpeed;
 import dev.jamtech.Model.Queue;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -42,6 +44,14 @@ public class AddAircraft {
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<GeoMap> addNewAircraft(@RequestBody Map payload)
     {
+        // Sanitise Aircraft Callsign
+        Pattern myPattern = Pattern.compile("<a.*>", Pattern.CASE_INSENSITIVE);
+        Matcher myMatcher = myPattern.matcher((String)payload.get("sign"));
+        if(myMatcher.find())
+        {
+            return new ResponseEntity("XSS detected",HttpStatus.NOT_ACCEPTABLE);
+        }
+        
         int mapID = (int)payload.get("mapID");
         // Check there is no aircraft with this callsign on the current map
         GeoMap myMap = mongoTemplate.find(new Query(Criteria.where("mapID").is(mapID)),GeoMap.class).get(0);
