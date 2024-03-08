@@ -1,2 +1,0 @@
-- Include command decoder class to change strings into object of clear commands.
-- Couple Speed and Acceleration, Couple VSpeed and Height (Include maximum acceleration)
