@@ -8,7 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  *
@@ -20,6 +24,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class MotionObjectTurn extends CommandObjectAbstract{
     
+    @Autowired
+    private MongoTemplate mongoTemplate;
+    
     public MotionObjectTurn(double value, int direction)
     {
         super(value,direction,5,0.0);
@@ -28,6 +35,26 @@ public class MotionObjectTurn extends CommandObjectAbstract{
     public MotionObjectTurn(double value, int direction, MotionObject target)
     {
         super(value,direction,5,target);
+    }
+    
+    // For calculating turning to a point
+    public MotionObjectTurn(String nav, MotionObject target, Points points)
+    {
+        Aircraft a1 = (Aircraft)target;
+        NavAid found = new NavAid();
+        for (NavAid candidate :points.getAllPoints())
+        {
+            if (candidate.getName().equals(nav))
+            {
+                found = candidate;
+                break;
+            }
+        }
+        double value = GeographicalCalculator.bearingCalc(a1.getPos(),found.getPos());
+        super.setValue(value);
+        super.setDirection(0);
+        super.setInc(5);
+        super.setMotionObject(target);
     }
 
     @Override

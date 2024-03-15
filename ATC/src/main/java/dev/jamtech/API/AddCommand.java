@@ -11,6 +11,7 @@ import dev.jamtech.Model.GeoMap;
 import dev.jamtech.Model.MapObject;
 import dev.jamtech.Model.MotionObject;
 import dev.jamtech.Model.MotionObjectAbstract;
+import dev.jamtech.Model.Points;
 import dev.jamtech.Model.Queue;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
@@ -79,7 +80,8 @@ public class AddCommand {
                 String myId = Integer.toString(myMotion.getId());
                 if (myAircraftID.equals(myId))
                 {
-                    CommandObjectAbstract action = CommandDecoder.decodeAction(myCommand, myMotion);
+                    Points points = mongoTemplate.findAll(Points.class,"NavAids").get(0);
+                    CommandObjectAbstract action = CommandDecoder.decodeAction(myCommand, myMotion,points);
                     myQ.register(action);
                     mongoTemplate.update(Queue.class).matching(Criteria.where("connectedMapID").is(mapID)).apply(new Update().set("observerList",myQ.getObserverList())).first();
                     return new ResponseEntity(myCommand + " " + myAircraft,HttpStatus.OK);

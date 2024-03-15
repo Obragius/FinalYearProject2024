@@ -39,7 +39,7 @@ public class CommandDecoder {
      * @param target The aircraft which is to perform the action given
      * @return CommandObjectAbstract which contains the target of the command and needs to be registered with {@link Queue} object
      */
-    public static CommandObjectAbstract decodeAction(String action, MotionObject target)
+    public static CommandObjectAbstract decodeAction(String action, MotionObject target,Points points)
     {
         System.out.println(action);
         // Setup list of possible commands
@@ -47,7 +47,8 @@ public class CommandDecoder {
                                               "turn right heading",
                                               "climb and maintain",
                                               "descend and maintain",
-                                              "maintain ");
+                                              "maintain ",
+                                              "direct to");
         int match = -1;
         for (int i = 0; i < patterns.size(); i++)
         {
@@ -68,6 +69,7 @@ public class CommandDecoder {
             case 2 -> commandGiven = new MotionObjectVSpeed(Integer.parseInt(action.replace("climb and maintain ", "")),0,target);
             case 3 -> commandGiven = new MotionObjectVSpeed(Integer.parseInt(action.replace("descend and maintain ", "")),1,target);
             case 4 -> commandGiven = new MotionObjectAcceleration(Integer.parseInt(action.replace("maintain ","").replace(" knots",""))/1.94384,-1,target);
+            case 5 -> commandGiven = new MotionObjectTurn(action.replace("direct to ",""),target,points);
             default -> commandGiven = null;
         }
         if (match != -1)

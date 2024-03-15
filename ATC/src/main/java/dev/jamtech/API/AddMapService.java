@@ -6,6 +6,7 @@ package dev.jamtech.API;
 
 import dev.jamtech.Model.GeoMap;
 import dev.jamtech.Model.Queue;
+import java.io.FileNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class AddMapService {
     @Autowired
     private QueueRepository queueRepository;
     
-    public GeoMap createMap() 
+    public GeoMap createMap() throws FileNotFoundException
     {
         GeoMap myMap = new GeoMap();
         mapRepository.insert(myMap);

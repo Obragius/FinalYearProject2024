@@ -5,6 +5,7 @@
 package dev.jamtech.API;
 
 import dev.jamtech.Model.GeoMap;
+import java.io.FileNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +28,7 @@ public class AddMap {
     private AddMapService myMapService;
     
     @PostMapping
-    public ResponseEntity<GeoMap> addNewMap(@RequestBody GeoMap payload)
+    public ResponseEntity<GeoMap> addNewMap(@RequestBody GeoMap payload) throws FileNotFoundException
     {
         GeoMap newMap = myMapService.createMap();
         return new ResponseEntity(newMap,HttpStatus.CREATED);
