@@ -55,8 +55,9 @@ const chatMessages = [];
 function buildAircraft(aircraft)
 {
   var speed = (aircraft.speed*1.94384).toPrecision(5);
+  var heading = (aircraft.angle.value).toPrecision(5);
   var result = "";
-  result += "<table><tr><th>Callsign</th><th>Heading</th><th>Speed</th><th>Altitude</th></tr><tr><td>" + aircraft.callsign + "</td><td>" + aircraft.angle.value + "°</td><td>" + speed + "kts</td><td>FL" + (aircraft.height/100) + "</td></tr></table>"
+  result += "<table><tr><th>Callsign</th><th>Heading</th><th>Speed</th><th>Altitude</th></tr><tr><td>" + aircraft.callsign + "</td><td>" + heading + "°</td><td>" + speed + "kts</td><td>FL" + (aircraft.height/100) + "</td></tr></table>"
   return result;
 }
 
