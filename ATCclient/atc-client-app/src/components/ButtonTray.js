@@ -10,7 +10,6 @@ function ButtonTray ({FetchAir,EditMode,Elements,Pause,RemoveMode,LoadMap,LockMa
         <button id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
         <button onClick={LoadMap}>Load Map</button>
         <button onClick={LockMap}>Lock Map</button>
-        <button onClick={FetchAir}>Fetch Air</button>
         {
         hasRecognitionSupport 
             ? <button onClick={startListening}>Start listening</button>

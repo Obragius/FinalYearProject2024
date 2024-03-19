@@ -35,7 +35,7 @@
 
 .leaflet-container {
   height: 95.5vh;
-  width: 70vi;
+  width: 80vi;
 }
 
 .leaflet-tooltip.myTooltip
@@ -83,17 +83,26 @@ button:hover {
   border:#000000;
   border-width: 2px;
   border-style: solid;
-  width: 29.8vi;
-  height: 88.7vh;
+  width: 18.5vi;
+  height: 66vh;
   font-size: 20px;
   padding: 0px;
+}
+
+.AircraftList
+{
+  border:#000000;
+  border-width: 2px;
+  border-style: solid;
+  width: 18.5vi;
+  height: 26.7vh;
 }
 
 .Input
 {
   padding: 0px;
   margin: 0px;
-  width: 29.8vi;
+  width: 18.5vi;
   height: 6vh;
   font-size: 20px;
 }

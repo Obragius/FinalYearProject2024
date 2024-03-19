@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 
 import { MapContainer, Marker,TileLayer, Popup, useMapEvents } from 'react-leaflet';
-import { Icon, LatLng, latLng } from "leaflet";
+import { Icon, LatLng, latLng, marker } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-rotatedmarker";
 import { useMap } from 'react-leaflet';
@@ -14,6 +14,7 @@ import {Reader} from './components/Reader';
 import ButtonTray from './components/ButtonTray';
 import useSpeechRecognition from './hooks/useSpeechRecognitionHook';
 import axios from 'axios';
+import AircraftList from './components/AircraftList';
 
 
 
@@ -192,15 +193,27 @@ function App() {
 
   const [handleCounter,setCounter] = useState(0);
 
-  const FecthAir = async(e) => 
-  {
-    const response = await api.post("api/runway",{"airport": "EGSS", "lat":"51.8864", "lng":"0.2413"});
-    console.log(response);
-  }
+  const [aircraftList,changeAircraftList] = useState([]);
 
   const LockMap = async(e) => {
     const response = await api.post("api/lockmap",{"mapID":mapID});
     console.log(response.data);
+  }
+
+  function selectPopup(e)
+  {
+    var aircraftId = e.target.id;
+    var markerNum = mapMarkers.getLayers().length;
+    for (var i = 0; i < markerNum; i++)
+    {
+      if (mapMarkers.getLayers()[i].getPopup() != undefined)
+      {
+        if (mapMarkers.getLayers()[i].getPopup().a == aircraftId)
+        {
+          mapMarkers.getLayers()[i].openPopup();
+        }
+      }
+    }
   }
 
   const LoadMap = async(e) =>
@@ -243,6 +256,7 @@ function App() {
     var markerNum = mapMarkers.getLayers().length;
     var allAircraft = response.data.allObjects;
     var myMarkers = mapMarkers.getLayers();
+    changeAircraftList(allAircraft);
     for(let index = 0; index < markerNum; index++) 
     {
       var aircraftNum = allAircraft.length;
@@ -255,7 +269,7 @@ function App() {
             myMarkers[index].setLatLng([allAircraft[i].xPos,allAircraft[i].yPos])
             myMarkers[index].setRotationAngle(allAircraft[i].angle.value);
             var aircraftInfo = buildAircraft(allAircraft[i])
-            myMarkers[index].getPopup().setContent(aircraftInfo);
+            myMarkers[index].getPopup().setContent(aircraftInfo)
           }
           else if (myMarkers[index].getPopup().a == 0)
           {
@@ -415,10 +429,9 @@ function App() {
   return (
     <div>
 
-      <ButtonTray FetchAir={FecthAir} EditMode={EditMode} Elements={Elements} Pause={Pause} RemoveMode={RemoveMode} LoadMap={LoadMap} LockMap={LockMap} hasRecognitionSupport={hasRecognitionSupport} startListening={startListening}></ButtonTray>
-
       <div className='Container'>
-        <div>
+        <div className='Left_Container'>
+          <ButtonTray EditMode={EditMode} Elements={Elements} Pause={Pause} RemoveMode={RemoveMode} LoadMap={LoadMap} LockMap={LockMap} hasRecognitionSupport={hasRecognitionSupport} startListening={startListening}></ButtonTray>
           <MapContainer center={[51.8864,0.2413]} zoom={13}> 
           <TileLayer  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"/>
@@ -430,6 +443,7 @@ function App() {
           </MapContainer>
         </div>
         <div>
+          <AircraftList aircraftList={aircraftList} selectPopup={selectPopup}></AircraftList>
           <ChatWindow mapID={mapID} text={chatValue} formValue={formValue} api={api} chatValue={chatValue} setFormValue={setFormValue}></ChatWindow>
         </div>
       </div>
