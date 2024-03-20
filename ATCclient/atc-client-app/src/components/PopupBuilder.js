@@ -32,7 +32,10 @@ function AirPopup(args)
         iconUrl: require(".././images/GreenPlane.png"),
         iconSize: [38,38]
       })
-
+      if (args[0].angle == undefined)
+      {
+        return
+      }
       var markerOptions = {icon:airplaneIcon,rotationAngle:args[0].angle.value,draggable:false};
       var newMarker = new L.Marker([args[0].xPos,args[0].yPos],markerOptions);
       var aircraftInfo = buildAircraft(args[0]);
