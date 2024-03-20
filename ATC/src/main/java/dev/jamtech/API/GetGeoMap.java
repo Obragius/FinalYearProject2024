@@ -40,7 +40,7 @@ public class GetGeoMap {
     private QueueRepository queueRepository;
     
     @PostMapping
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "https://jamtech.dev")
     public ResponseEntity<GeoMap> getMap(@RequestBody Map payload)
     {
         int mapID = (int)payload.get("mapID");

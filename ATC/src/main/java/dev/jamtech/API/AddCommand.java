@@ -40,7 +40,7 @@ public class AddCommand {
     
     
     @PostMapping
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "https://jamtech.dev")
     public ResponseEntity<String> addCoomand(@RequestBody Map payload)
     {
         int mapID = (int)payload.get("mapID");

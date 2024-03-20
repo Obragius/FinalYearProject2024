@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RunwayService {
     
     @PostMapping
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "https://jamtech.dev")
     public ResponseEntity<List> tickMap(@RequestBody Map payload) throws IOException
     {
         String AirportCode = (String)payload.get("airport");
