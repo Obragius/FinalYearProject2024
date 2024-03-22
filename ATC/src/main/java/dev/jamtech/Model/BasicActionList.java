@@ -4,6 +4,9 @@
  */
 package dev.jamtech.Model;
 
+import java.util.HashMap;
+import java.util.List;
+
 /**
  *
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
@@ -11,6 +14,13 @@ package dev.jamtech.Model;
 public class BasicActionList extends ActionList {
     
     private Algo algorithm;
+    
+    private HashMap<Double,List<Observer>> change;
+    
+    public List<Observer> loadChanges(double time)
+    {
+        return null;
+    }
     
     public void generateActions()
     {

@@ -4,11 +4,6 @@
  */
 package dev.jamtech.Model;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;

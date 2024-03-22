@@ -39,7 +39,7 @@ public class MapTickService {
     private MongoTemplate mongoTemplate;
     
     @PostMapping
-    @CrossOrigin(origins = "https://jamtech.dev")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<GeoMap> tickMap(@RequestBody Map payload)
     {
         int mapID = (int)payload.get("mapID");

@@ -40,8 +40,8 @@ public class GetGeoMap {
     private QueueRepository queueRepository;
     
     @PostMapping
-    @CrossOrigin(origins = "https://jamtech.dev")
-    public ResponseEntity<GeoMap> getMap(@RequestBody Map payload)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<GeoMap> getGeoMap(@RequestBody Map payload)
     {
         int mapID = (int)payload.get("mapID");
         GeoMap myMap = mongoTemplate.find(new Query(Criteria.where("mapID").is(mapID)),GeoMap.class,"LockedMap").get(0);

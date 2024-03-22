@@ -41,7 +41,7 @@ public class AddAircraft {
     private MongoTemplate mongoTemplate;
     
     @PostMapping
-    @CrossOrigin(origins = "https://jamtech.dev")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<GeoMap> addNewAircraft(@RequestBody Map payload)
     {
         // Sanitise Aircraft Callsign

@@ -4,6 +4,7 @@
  */
 package dev.jamtech.Model;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,6 +12,13 @@ import java.util.List;
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
 public class GivenActionList extends ActionList {
+    
+    private HashMap<Double,List<Observer>> change;
+    
+    public List<Observer> loadChanges(double time)
+    {
+        return null;
+    }
     
     public List<Observer> generateActionFromMessage(Message message)
     {

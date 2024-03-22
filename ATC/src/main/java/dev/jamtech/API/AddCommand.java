@@ -40,8 +40,8 @@ public class AddCommand {
     
     
     @PostMapping
-    @CrossOrigin(origins = "https://jamtech.dev")
-    public ResponseEntity<String> addCoomand(@RequestBody Map payload)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<String> addComand(@RequestBody Map payload)
     {
         int mapID = (int)payload.get("mapID");
         GeoMap myMap = mongoTemplate.find(new Query(Criteria.where("mapID").is(mapID)),GeoMap.class).get(0);

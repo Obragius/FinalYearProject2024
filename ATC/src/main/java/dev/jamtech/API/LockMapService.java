@@ -30,14 +30,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class LockMapService {
     
     @Autowired
-    private QueueRepository queueRepository;
-    
-    @Autowired
     private MongoTemplate mongoTemplate;
     
     @PostMapping
-    @CrossOrigin(origins = "https://jamtech.dev")
-    public ResponseEntity<GeoMap> addNewAircraft(@RequestBody Map payload)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<GeoMap> lockMap(@RequestBody Map payload)
     {
         int mapID = (int)payload.get("mapID");
         GeoMap myMap = mongoTemplate.find(new Query(Criteria.where("mapID").is(mapID)),GeoMap.class).get(0);

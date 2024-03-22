@@ -32,11 +32,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/runway")
 @Service
-public class RunwayService {
+public class GetRunwayService {
     
     @PostMapping
-    @CrossOrigin(origins = "https://jamtech.dev")
-    public ResponseEntity<List> tickMap(@RequestBody Map payload) throws IOException
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<List> getRunwayHeadings(@RequestBody Map payload) throws IOException
     {
         String AirportCode = (String)payload.get("airport");
         int runway = Integer.parseInt((String)payload.get("runway"));

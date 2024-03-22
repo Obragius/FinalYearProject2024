@@ -190,7 +190,7 @@ public class AircraftTest {
     @MethodSource("dataProviderActionAngleAircraft")
     public void TestDecoderAngleCommand(double expected, Aircraft a1, String action)
     {
-        CommandObjectAbstract c1 = CommandDecoder.decodeAction(action, a1);
+        CommandObjectAbstract c1 = CommandDecoder.decodeAction(action, a1,null);
         c1.setMotionObject(a1);
         q1.register(c1);
         for (int i = 0; i < 100; i++)

@@ -6,6 +6,7 @@ package dev.jamtech.API;
 
 import dev.jamtech.Model.GeoMap;
 import java.io.FileNotFoundException;
+import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,14 +22,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  */
 @RestController
 @RequestMapping("api/addMap")
-@CrossOrigin(origins = "https://jamtech.dev")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AddMap {
     
     @Autowired
     private AddMapService myMapService;
     
     @PostMapping
-    public ResponseEntity<GeoMap> addNewMap(@RequestBody GeoMap payload) throws FileNotFoundException
+    public ResponseEntity<GeoMap> addNewMap(@RequestBody Map payload) throws FileNotFoundException
     {
         GeoMap newMap = myMapService.createMap();
         return new ResponseEntity(newMap,HttpStatus.CREATED);

@@ -27,17 +27,17 @@ public class FlightPlan {
     public void setDestination(Airfield destination) {
         this.destination = destination;
     }
-
-    public List<STAR> getStars() {
-        return stars;
-    }
-
-    public void setStars(List<STAR> stars) {
-        this.stars = stars;
-    }
     
     private Airfield origin;
     private Airfield destination;
-    private List<STAR> stars;
+    private List<Points> points;
+
+    public List<Points> getPoints() {
+        return points;
+    }
+
+    public void setPoints(List<Points> points) {
+        this.points = points;
+    }
     
 }
