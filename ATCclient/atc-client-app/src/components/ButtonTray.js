@@ -3,21 +3,21 @@ import LoadMapPopup from './LoadMapPopup';
 function ButtonTray ({FetchAir,EditMode,Elements,Pause,RemoveMode,openPopup,setOpenPopup, setMapTo ,LockMap,hasRecognitionSupport,startListening})
 {
 
-
+    // from 0.6 added spans for tooltips to help users understand what the buttons do
 
 
     return (
     <div className='ButtonTray'>
-        <button id={"EditModeButton"} onClick={EditMode}>Edit Mode</button>
-        <button onClick={Elements}>Add Map</button>
-        <button className={"myClass"} id={"Sim"} onClick={Pause}>Simulation Running</button>
-        <button id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
-        <button onClick={() => setOpenPopup(true)}>Load Map</button>
+        <button title="To add new aircraft to the map" id={"EditModeButton"} onClick={EditMode}>Edit Mode</button>
+        <button title="To initilise a new map with a unique id" onClick={Elements}>Add Map</button>
+        <button title="Green if simulation is runing, click to pause" className={"myClass"} id={"Sim"} onClick={Pause}>Simulation Running</button>
+        <button title="Used to remove aircraft in the edit mode" id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
+        <button title="Click to load a map using a Map ID" onClick={() => setOpenPopup(true)}>Load Map</button>
         <LoadMapPopup openPopup={openPopup} setOpenPopup={setOpenPopup} setMapTo={setMapTo} ></LoadMapPopup>
-        <button onClick={LockMap}>Lock Map</button>
+        <button title="Click to save the map in a current state to load it using the Map ID" onClick={LockMap}>Lock Map</button>
         {
         hasRecognitionSupport 
-            ? <button onClick={startListening}>Start listening</button>
+            ? <button title="Voice support currently not working" onClick={startListening}>Start listening</button>
             : <h1>No Voice Support</h1>
         }
         <div id={"mapID"}>
