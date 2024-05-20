@@ -40,7 +40,7 @@ public class GetRunwayService {
     {
         String AirportCode = (String)payload.get("airport");
         int runway = Integer.parseInt((String)payload.get("runway"));
-        Document myDoc = Jsoup.connect("https://nats-uk.ead-it.com/cms-nats/opencms/en/Publications/AIP/Current-AIRAC/html/eAIP/EG-AD-2."+AirportCode+"-en-GB.html").get();
+        Document myDoc = Jsoup.connect("https://www.aurora.nats.co.uk/htmlAIP/Publications/2024-05-16-AIRAC/html/eAIP/EG-AD-2."+AirportCode+"-en-GB.html#AD-2."+AirportCode).get();
         String pattern = "°";
         // Setup regex 
         Pattern myPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);

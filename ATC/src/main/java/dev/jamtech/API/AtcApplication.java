@@ -39,6 +39,7 @@ public class AtcApplication {
         
         public ResponseEntity<String> apiIndex()
         {
+            
             return new ResponseEntity<String>("Server Online",HttpStatus.OK);
         }
         
