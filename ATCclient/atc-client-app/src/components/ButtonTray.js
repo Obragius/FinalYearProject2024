@@ -1,5 +1,9 @@
-function ButtonTray ({FetchAir,EditMode,Elements,Pause,RemoveMode,LoadMap,LockMap,hasRecognitionSupport,startListening})
+import LoadMapPopup from './LoadMapPopup';
+
+function ButtonTray ({FetchAir,EditMode,Elements,Pause,RemoveMode,openPopup,setOpenPopup, setMapTo ,LockMap,hasRecognitionSupport,startListening})
 {
+
+
 
 
     return (
@@ -8,7 +12,8 @@ function ButtonTray ({FetchAir,EditMode,Elements,Pause,RemoveMode,LoadMap,LockMa
         <button onClick={Elements}>Add Map</button>
         <button className={"myClass"} id={"Sim"} onClick={Pause}>Simulation Running</button>
         <button id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
-        <button onClick={LoadMap}>Load Map</button>
+        <button onClick={() => setOpenPopup(true)}>Load Map</button>
+        <LoadMapPopup openPopup={openPopup} setOpenPopup={setOpenPopup} setMapTo={setMapTo} ></LoadMapPopup>
         <button onClick={LockMap}>Lock Map</button>
         {
         hasRecognitionSupport 

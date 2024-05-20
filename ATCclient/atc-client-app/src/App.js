@@ -15,6 +15,7 @@ import ButtonTray from './components/ButtonTray';
 import useSpeechRecognition from './hooks/useSpeechRecognitionHook';
 import axios from 'axios';
 import AircraftList from './components/AircraftList';
+import LoadMapPopup from './components/LoadMapPopup';
 
 
 
@@ -196,6 +197,18 @@ function App() {
 
   const [aircraftList,changeAircraftList] = useState([]);
 
+  // 0.6 Implementation for map loading using a dialog box
+
+  const [openPopup, setOpenPopup] = useState(false);
+
+  const [mapToLoad, setMapTo] = useState(0);
+
+  useEffect (() => {
+    LoadMap();
+  }, [mapToLoad])
+
+  // -----------------------------------------------------
+
   const LockMap = async(e) => {
     const response = await api.post("api/lockmap",{"mapID":mapID});
     console.log(response.data);
@@ -219,7 +232,24 @@ function App() {
 
   const LoadMap = async(e) =>
   {
-    var loadingMap = parseInt(formValue);
+    // 0.5 Loaded map using the command input field
+    // From 0.6+ will use a dialog window to get the value of the map to load
+
+    // var loadingMap = parseInt(formValue);
+
+    // --------- 0.6 Implementation ---------
+    // Uses a new component LoadMapPopup that will populate the id prior to calling this function by using a use effect to wait for the id update
+    // An if is used to ckeck that loaded map will have an id not equal to 0
+    if (mapToLoad == 0)
+      {
+        return;
+      }
+    var loadingMap = mapToLoad;
+    setMapTo(0);
+
+    // --------------------------------------
+
+
     const response = await api.post("api/getgeomap",{"mapID":loadingMap});
     const result = response.data;
     mapID = result.mapID;
@@ -432,7 +462,8 @@ function App() {
 
       <div className='Container'>
         <div className='Left_Container'>
-          <ButtonTray EditMode={EditMode} Elements={Elements} Pause={Pause} RemoveMode={RemoveMode} LoadMap={LoadMap} LockMap={LockMap} hasRecognitionSupport={hasRecognitionSupport} startListening={startListening}></ButtonTray>
+          <ButtonTray EditMode={EditMode} Elements={Elements} Pause={Pause} RemoveMode={RemoveMode} openPopup={openPopup} setOpenPopup={setOpenPopup} setMapTo={setMapTo} LockMap={LockMap} hasRecognitionSupport={hasRecognitionSupport} startListening={startListening}></ButtonTray>
+    
           <MapContainer center={[51.8864,0.2413]} zoom={13}> 
           <TileLayer  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"/>
