@@ -247,6 +247,20 @@ function App() {
     var loadingMap = mapToLoad;
     setMapTo(0);
 
+    // 0.6 Returning the map markers to initial state
+    var markerNum = mapMarkers.getLayers().length;
+    var myMarkers = mapMarkers.getLayers();
+    for(let index = 0; index < markerNum; index++) 
+    {
+      if (myMarkers[index].getPopup() !== undefined)
+      {
+        if (myMarkers[index].getPopup().a != 0)
+        {
+          mapMarkers.removeLayer(myMarkers[index]);
+        }
+      }
+    }
+
     // --------------------------------------
 
 
