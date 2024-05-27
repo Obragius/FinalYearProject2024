@@ -347,7 +347,7 @@ function App() {
           {
             change = 3;
           }
-          var content = 'Angle:<input id = angle'+(elementSelected)+' value='+(document.getElementById(("angle"+(elementSelected))).value)+'></input><br>Speed:<input id = speed'+(elementSelected)+' value='+(document.getElementById(("speed"+(elementSelected))).value)+'></input><br>Callsign:<input id = sign'+(elementSelected)+' value='+(document.getElementById(("sign"+(elementSelected))).value)+'></input><br>Altitude:<input id = alt'+(elementSelected)+' value='+(document.getElementById(("alt"+(elementSelected))).value)+'></input>';
+          var content = 'Heading:<input id = angle'+(elementSelected)+' value='+(document.getElementById(("angle"+(elementSelected))).value)+'></input><br>Speed:<input id = speed'+(elementSelected)+' value='+(document.getElementById(("speed"+(elementSelected))).value)+'></input><br>Callsign:<input id = sign'+(elementSelected)+' value='+(document.getElementById(("sign"+(elementSelected))).value)+'></input><br>Altitude:<input id = alt'+(elementSelected)+' value='+(document.getElementById(("alt"+(elementSelected))).value)+'></input>';
           var focusElement;
           switch (change)
           {
@@ -431,7 +431,7 @@ function App() {
         {
           var markerOptions = {icon:airplaneIcon,rotationAngle:0,draggable:true}
           var newMarker = new L.Marker(e.latlng,markerOptions)
-          var popupOptions = {content:'Angle:<input id = angle'+elementID+' maxlength=3></input><br>Speed:<input id = speed'+elementID+'></input><br>Callsign:<input id = sign'+elementID+'></input><br>Altitude:<input id = alt'+elementID+'></input>',interactive:true};
+          var popupOptions = {content:'Heading:<input id = angle'+elementID+' maxlength=3></input><br>Speed:<input id = speed'+elementID+'></input><br>Callsign:<input id = sign'+elementID+'></input><br>Altitude:<input id = alt'+elementID+'></input>',interactive:true};
           var popup = new L.Popup(popupOptions);
           popup.a = 1;
           popup.id = popupID;
