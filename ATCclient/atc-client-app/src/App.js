@@ -409,13 +409,14 @@ function App() {
           setFormValue(e.popup.id);
         }
       },
-      popupclose(e)
-      {
-        if (e.popup.a != 0 && e.popup.a != 1)
-        {
-          setFormValue("");
-        }
-      }
+      // Removed, to allow to keep the name in the input field
+      //popupclose(e)
+      //{
+        //if (e.popup.a != 0 && e.popup.a != 1)
+        //{
+          //setFormValue("");
+        //}
+      //}
     })
   }
 
