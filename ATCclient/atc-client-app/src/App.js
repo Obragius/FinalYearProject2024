@@ -128,7 +128,9 @@ const Elements = async (e) =>
 {
     const response = await api.post("api/addMap",{map:"newMap"});
     mapID = response.data.mapID;
-    document.getElementById("mapID").innerHTML = "MapID = " + mapID;
+    // v0.7 Change the MapID to Local MapID for less confusion when loading maps
+    document.getElementById("mapID").innerHTML = "Local MapID = " + mapID;
+    // -------------------------------------------------------------------------
     console.log(mapID);
     response.data.allObjects.forEach(ReloadAllElements);
 }
@@ -290,6 +292,7 @@ function App() {
 
     // As of version 0.7 message will display to tell the user if the map has been loaded sucesfully
     alert("Map with mapID:"+loadingMap+" has been loaded sucesfully");
+    // ---------------------------------------------------------------------------------------------
   }
   
 
