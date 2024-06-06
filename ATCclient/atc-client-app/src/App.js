@@ -286,6 +286,10 @@ function App() {
       var thisMarker = markers.pop();
       mapMarkers.addLayer(thisMarker);
     }
+
+
+    // As of version 0.7 message will display to tell the user if the map has been loaded sucesfully
+    alert("Map with mapID:"+loadingMap+" has been loaded sucesfully");
   }
   
 

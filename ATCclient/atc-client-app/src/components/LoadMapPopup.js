@@ -7,7 +7,7 @@ export default function LoadMapPopup(props)
 
     function DialogButton()
     {
-        setMapTo(parseInt(document.getElementById("mapToLoadInputField").value));
+        var mapID = setMapTo(parseInt(document.getElementById("mapToLoadInputField").value));
         setOpenPopup(false);
     }
 
