@@ -209,6 +209,12 @@ function App() {
 
   // -----------------------------------------------------
 
+  // 0.7 Implementation for the app tutorial using a popup message
+
+  const [openTutorial, setOpenTutorial] = useState(true);
+
+  // -------------------------------------------------------------
+
   const LockMap = async(e) => {
     const response = await api.post("api/lockmap",{"mapID":mapID});
     console.log(response.data);
@@ -477,7 +483,7 @@ function App() {
 
       <div className='Container'>
         <div className='Left_Container'>
-          <ButtonTray EditMode={EditMode} Elements={Elements} Pause={Pause} RemoveMode={RemoveMode} openPopup={openPopup} setOpenPopup={setOpenPopup} setMapTo={setMapTo} LockMap={LockMap} hasRecognitionSupport={hasRecognitionSupport} startListening={startListening}></ButtonTray>
+          <ButtonTray EditMode={EditMode} Elements={Elements} Pause={Pause} RemoveMode={RemoveMode} openPopup={openPopup} setOpenPopup={setOpenPopup} openTutorial={openTutorial} setOpenTutorial={setOpenTutorial} setMapTo={setMapTo} LockMap={LockMap} hasRecognitionSupport={hasRecognitionSupport} startListening={startListening}></ButtonTray>
     
           <MapContainer center={[51.8864,0.2413]} zoom={13}> 
           <TileLayer  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'

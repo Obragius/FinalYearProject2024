@@ -1,6 +1,7 @@
 import LoadMapPopup from './LoadMapPopup';
+import LoadTutorialPopup from './LoadTutorialPopup';
 
-function ButtonTray ({FetchAir,EditMode,Elements,Pause,RemoveMode,openPopup,setOpenPopup, setMapTo ,LockMap,hasRecognitionSupport,startListening})
+function ButtonTray ({FetchAir,EditMode,Elements,Pause,RemoveMode,openPopup,setOpenPopup,openTutorial,setOpenTutorial, setMapTo ,LockMap,hasRecognitionSupport,startListening})
 {
 
     // from 0.6 added spans for tooltips to help users understand what the buttons do
@@ -14,6 +15,7 @@ function ButtonTray ({FetchAir,EditMode,Elements,Pause,RemoveMode,openPopup,setO
         <button title="Used to remove aircraft in the edit mode" id={"Remove"} onClick={RemoveMode}>Remove Mode</button>
         <button title="Click to load a map using a Map ID" onClick={() => setOpenPopup(true)}>Load Map</button>
         <LoadMapPopup openPopup={openPopup} setOpenPopup={setOpenPopup} setMapTo={setMapTo} ></LoadMapPopup>
+        <LoadTutorialPopup openTutorial={openTutorial} setOpenTutorial={setOpenTutorial} ></LoadTutorialPopup>
         <button title="Click to save the map in a current state to load it using the Map ID" onClick={LockMap}>Lock Map</button>
         {
         hasRecognitionSupport 
