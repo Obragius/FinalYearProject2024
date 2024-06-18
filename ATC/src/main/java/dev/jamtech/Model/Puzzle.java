@@ -11,45 +11,29 @@ import java.util.List;
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
 public class Puzzle {
-    
-    private PuzzleState puzzleState;
-    private PuzzleState puzzleNotLoaded;
-    private PuzzleState puzzleLoaded;
-    private PuzzleState puzzleStarted;
-    private PuzzleState puzzleHintAvailable;
-    private PuzzleState puzzleFailed;
-    private PuzzleState puzzleFinished;
-    private Hint hint;
-    private Goals goal;
-    
-    public void setPuzzleState(PuzzleState state)
-    {
-        this.puzzleState = state;
+
+    public List<Behavior> getBehaviors() {
+        return behaviors;
+    }
+
+    public void setBehaviors(List<Behavior> behaviors) {
+        this.behaviors = behaviors;
+    }
+
+    public List<Hint> getHints() {
+        return hints;
+    }
+
+    public void setHints(List<Hint> hints) {
+        this.hints = hints;
     }
     
-    public void loadPuzzle(int id)
-    {
-        
-    }
+    private List<Behavior> behaviors;
+    private List<Hint> hints;
     
-    public void restartPuzzle()
+    public boolean isComplete()
     {
-        
-    }
-    
-    public void showHint()
-    {
-        
-    }
-    
-    public void showGoals()
-    {
-        
-    }
-    
-    public List<Observer> getBehavior(double time)
-    {
-        return null;
+        return false;
     }
     
     

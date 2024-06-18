@@ -11,13 +11,17 @@ import java.util.List;
  *
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
-public class Behavior extends ActionList{
+public class Behavior{
     
-    private HashMap<Double,List<Observer>> change;
+    private Condition condition;
+    private MotionObject target;
+    private boolean complete;
     
-    public List<Observer> loadChange(double time)
+    public void isComplete()
     {
-        return null;
+        
     }
+    
+    
     
 }

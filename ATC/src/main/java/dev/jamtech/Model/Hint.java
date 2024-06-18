@@ -8,7 +8,8 @@ package dev.jamtech.Model;
  *
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
-public class Hint {
+public class Hint 
+{
 
     public String getText() {
         return text;
