@@ -124,7 +124,8 @@ const SendElements = async (e) =>
   }
 }
 
-const Elements = async (e) =>
+// from v0.8 the function name changed from Elements to CallInitMap
+const CallInitMap = async (e) =>
 {
     const response = await api.post("api/addMap",{map:"newMap"});
     mapID = response.data.mapID;
@@ -490,7 +491,7 @@ function App() {
 
       <div className='Container'>
         <div className='Left_Container'>
-          <ButtonTray EditMode={EditMode} Elements={Elements} Pause={Pause} RemoveMode={RemoveMode} openPopup={openPopup} setOpenPopup={setOpenPopup} openTutorial={openTutorial} setOpenTutorial={setOpenTutorial} setMapTo={setMapTo} LockMap={LockMap} hasRecognitionSupport={hasRecognitionSupport} startListening={startListening}></ButtonTray>
+          <ButtonTray mapID={mapID} EditMode={EditMode} CallInitMap={CallInitMap} Pause={Pause} RemoveMode={RemoveMode} openPopup={openPopup} setOpenPopup={setOpenPopup} openTutorial={openTutorial} setOpenTutorial={setOpenTutorial} setMapTo={setMapTo} LockMap={LockMap} hasRecognitionSupport={hasRecognitionSupport} startListening={startListening}></ButtonTray>
     
           <MapContainer center={[51.8864,0.2413]} zoom={13}> 
           <TileLayer  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'

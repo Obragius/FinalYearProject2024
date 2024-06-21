@@ -5,11 +5,24 @@
 package dev.jamtech.Model;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
+@Document
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
+// Puzzles added at v0.8
+// These will store connected connectedMapID just like Queue
 public class Puzzle {
 
     public List<Behavior> getBehaviors() {
@@ -30,6 +43,19 @@ public class Puzzle {
     
     private List<Behavior> behaviors;
     private List<Hint> hints;
+    @Id
+    private ObjectId id;
+    private int puzzleID = new ObjectId().getTimestamp();
+    
+    // Puzzle infrastructure built from v0.8
+    private int connectedMapID;
+    
+    public void connectMap(int mapID)
+    {
+        this.connectedMapID = mapID;
+    }
+    
+    // -------------------------------------
     
     public boolean isComplete()
     {

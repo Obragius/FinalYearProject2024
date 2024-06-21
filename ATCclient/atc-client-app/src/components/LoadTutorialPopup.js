@@ -15,7 +15,7 @@ export default function LoadTutorialPopup(props)
     return (
     <Dialog open={openTutorial}>
         <DialogTitle>
-            <div><b>Welcome to Air Traffic Puzzle Simulator v0.7</b></div>
+            <div><b>Welcome to Air Traffic Puzzle Simulator v0.8</b></div>
         </DialogTitle>
         <DialogContent>
             <p>This is a project created as part of Kingston University Final Year Project</p>

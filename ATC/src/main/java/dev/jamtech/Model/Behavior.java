@@ -11,9 +11,26 @@ import java.util.List;
  *
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
-public class Behavior{
+public class Behavior
+{
     
     private Condition condition;
+
+    public Condition getCondition() {
+        return condition;
+    }
+
+    public void setCondition(Condition condition) {
+        this.condition = condition;
+    }
+
+    public MotionObject getTarget() {
+        return target;
+    }
+
+    public void setTarget(MotionObject target) {
+        this.target = target;
+    }
     private MotionObject target;
     private boolean complete;
     
