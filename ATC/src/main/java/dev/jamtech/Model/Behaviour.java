@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Daniels Zazerskis K1801606 <dev.jamtech>
  */
-public class Behavior
+public class Behaviour
 {
     
     private Condition condition;

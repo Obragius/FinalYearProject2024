@@ -5,6 +5,7 @@
 package dev.jamtech.Model;
 
 import java.util.List;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,12 +26,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 // These will store connected connectedMapID just like Queue
 public class Puzzle {
 
-    public List<Behavior> getBehaviors() {
-        return behaviors;
+    public List<Behaviour> getBehaviours() {
+        return behaviours;
     }
 
-    public void setBehaviors(List<Behavior> behaviors) {
-        this.behaviors = behaviors;
+    public void setBehaviours(List<Behaviour> behaviours) {
+        this.behaviours = behaviours;
+    }
+    
+    public void addBehaviour(Behaviour myBehaviour)
+    {
+        this.behaviours.add(myBehaviour);
     }
 
     public List<Hint> getHints() {
@@ -41,7 +47,7 @@ public class Puzzle {
         this.hints = hints;
     }
     
-    private List<Behavior> behaviors;
+    private List<Behaviour> behaviours = new ArrayList();
     private List<Hint> hints;
     @Id
     private ObjectId id;
