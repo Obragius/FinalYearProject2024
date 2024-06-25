@@ -29,5 +29,14 @@ public class Condition
     
     private String attribute;
     private double value;
+
+    public double getSign() {
+        return sign;
+    }
+
+    public void setSign(double sign) {
+        this.sign = sign;
+    }
+    private double sign;
     
 }

@@ -68,5 +68,10 @@ public class Puzzle {
         return false;
     }
     
+    public void checkAllBehaviours(GeoMap givenMap)
+    {
+        
+    }
+    
     
 }

@@ -34,7 +34,7 @@ public class Behaviour
     private MotionObject target;
     private boolean complete;
     
-    public void isComplete()
+    public void isComplete(MotionObjectAbstract target)
     {
         
     }
