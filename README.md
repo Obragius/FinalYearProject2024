@@ -13,12 +13,14 @@ simulate such situation as an air traffic controller resolving any conflicts bet
 
 As the project has been finished, it was decided to continue working on the application and a roadmap with 3 stages and a total of 6 objectives has been devised.
 
+## Project has been paused due to critical deadlines on other projects
+
  - **Stage 1 (20.05.24 - 07.05.24)**
  	- Bug Fixes
  	- UI/UX Enhancment
  	- Documentation Improvements
 
- - **Stage 2 (10.06.24 - 28.06.24) *(Current)***
+ - **Stage 2 (10.06.24 - 28.06.24)**
  	- Puzzle Implementation
  	- Physics Overhaul
 
